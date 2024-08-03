@@ -1,0 +1,18 @@
+<div class="login">
+  <h2 mat-dialog-title>Login</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" type="password">
+    </mat-form-field>
+    <div mat-dialog-actions class="actions">
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-button type="submit" [disabled]="!loginForm.valid">Login</button>
+    </div>
+  </form>
+  <p class="register-link">Not registered? <a (click)="openRegisterModal()">Register</a></p>
+</div>

@@ -1,0 +1,32 @@
+
+
+  .accordion-button {
+    margin-bottom: 0; 
+    padding:0px;
+    padding-left:10px
+  }
+  
+
+  .fas {
+    font-size: 20px; 
+  }
+
+
+  .accordion-button {
+    width: 100%; /*  button  fill its container */
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+  }
+
+  
+  @media (max-width:600px) {
+    .accordion-item {
+        width:40vw;
+       
+  }
+ .accordion-body{
+   padding:4px;
+ }
+}
+  

@@ -1,0 +1,13 @@
+<div class="register-container">
+<h1 mat-dialog-title>Create Folder</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Folder Name</mat-label>
+    <input matInput [(ngModel)]="folderName">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button-red class="btn btn-danger"(click)="onCancel()">Cancel</button>
+  <button mat-button-green class="btn btn-success"(click)="onSave()">Create</button>
+</div>
+</div>

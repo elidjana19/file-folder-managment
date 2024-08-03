@@ -1,0 +1,18 @@
+.delete-container{
+    height:300px;
+    padding:20px
+}
+.delete-container h2{
+    font-size: 30px;
+    text-align: center;
+}
+.dialog-actions{
+    margin-top:60px;
+    display: flex;
+    justify-content: center;
+    gap:10px
+}
+.dialog-actions button{
+    padding:15px 20px;
+    
+}

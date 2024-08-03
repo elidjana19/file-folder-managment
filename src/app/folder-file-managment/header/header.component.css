@@ -1,0 +1,179 @@
+
+.navbar {
+  margin-bottom: 5px;
+  
+}
+.container{
+  width:100%
+}
+.fa-xmark {
+  color: red;
+}
+.fa-magnifying-glass {
+  color: blue;
+}
+
+i {
+  font-size: 20px;
+}
+
+.operation {
+  border-right: 2px solid rgb(238, 238, 238);
+}
+button {
+  justify-content: center;
+}
+
+
+span {
+  display: block;
+  position: relative;
+  left: 28%;
+  color: rgb(189, 189, 189);
+  font-size: 10px;
+}
+
+.fa-user {
+  font-size: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.title {
+  font-size: 15px;
+  color: rgb(189, 189, 189);
+}
+
+.disabled{
+  opacity: 0.5;
+  pointer-events: none; 
+}
+
+
+
+.navigation-container {
+  display: flex;
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 1em;
+  gap: 1em; 
+}
+
+
+.breadcrumb-container {
+  display: flex;
+  align-items: center; 
+  flex-wrap: nowrap; 
+  white-space: nowrap; 
+  font-size: 1em; 
+}
+
+
+.breadcrumb-item {
+  cursor: pointer;
+  color: #007bff; 
+  text-decoration: none; 
+  transition: color 0.3s, font-weight 0.3s; 
+}
+
+.breadcrumb-item:hover {
+  color: #0056b3; 
+}
+
+.breadcrumb-item.active {
+  font-weight: bold; 
+  color: #333; 
+}
+
+
+.breadcrumb-separator {
+  margin: 0 0.5em; 
+  color: #6c757d; 
+  font-size: 1em;
+}
+
+.search {
+  flex-grow: 1; 
+  display: flex;
+  justify-content: flex-end; 
+}
+
+
+.search input[type="search"] {
+  width: 180px;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s, box-shadow 0.3s, width 0.3s ease; 
+}
+
+
+.search input[type="search"]:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+  outline: none;
+  width: 300px; 
+}
+
+
+.search input[type="search"]::placeholder {
+  color: #aaa;
+  font-style: italic;
+  text-align: center;
+}
+
+
+.fa-arrow-left {
+  cursor: pointer;
+  margin-right: 1em; 
+}
+
+.fa-arrow-left.disabled {
+  color: #ccc; 
+  cursor: not-allowed; 
+}
+
+
+@media (max-width: 768px) {
+  .operation {
+      margin: 0;
+      border: none;
+      margin-top: 10px;
+  }
+  span, i {
+      font-size: 15px;
+      float: left;
+      padding: 0px;
+  }
+  .navigation-container{
+    display: flex;
+    flex-direction: column;
+   padding:0px
+  }
+
+  .search input[type="search"] {
+      width: 100%; 
+      margin: 0 auto;
+      margin-bottom:15px;
+      transition: none;
+  }
+
+  .search input[type="search"]:focus {
+      width: 100%; 
+  }
+}
+
+@media (max-width: 400px) {
+  .operation span {
+      display: none;
+  }
+  .operation button {
+      display: flex;
+      flex-direction: column;
+  }
+}
+
+
+

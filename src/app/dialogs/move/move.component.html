@@ -1,0 +1,17 @@
+<div class="move-dialog-container">
+  <h1 mat-dialog-title>Select Destination</h1>
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Select Destination Folder</mat-label>
+      <mat-select #destination (selectionChange)="onMove(destination.value)">
+        <mat-option *ngFor="let folder of folders" [value]="folder.id">
+          {{ folder.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+  </div>
+</div>
+

@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "ngx-toastr/toastr";
+
+.fa-folder {
+  color: rgb(226, 208, 133);
+}
+
+.fa-file {
+  color: rgb(157, 175, 232);
+}
+.fa-file-word {
+  color: rgb(157, 175, 232);
+}
+.fa-file-pdf {
+  color: rgb(245, 33, 33);
+}
+
+.fa-file-powerpoint {
+  color: rgb(218, 118, 52);
+}
+body {
+  overflow-x: hidden;
+  margin: 0px;
+}

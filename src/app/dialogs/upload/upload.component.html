@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Upload File</h2>
+<mat-dialog-content>
+  <input type="file" (change)="onFileSelected($event)"  />
+  <div *ngIf="selectedFile">
+    <h3>Selected File:</h3>
+    <ul>
+      <p> {{ selectedFile.name }}</p>
+    </ul>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onUpload()" >Upload</button>
+</mat-dialog-actions>

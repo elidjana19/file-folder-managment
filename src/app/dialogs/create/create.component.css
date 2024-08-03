@@ -1,0 +1,11 @@
+.register-container h1{
+    text-align: center;
+}
+
+.register-container mat-form-field {
+    width: 100%;               /* Full width for the form field */
+}
+
+.register-container .btn-danger {
+   margin-right:10px
+}
