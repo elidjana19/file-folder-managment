@@ -1,6 +1,7 @@
 
 .rename-container {
     padding: 20px;
+    background-color: white;
   }
   
   .dialog-title {
@@ -34,15 +35,6 @@
     color:white
   }
   
-  .btn-danger {
-    background-color: #f44336;
-    margin-right:10px
-  }
-  
-  .btn-danger:hover {
-    background-color: #d32f2f;
-  }
-  
   .btn-primary {
     background-color: #7787e4;
   }
@@ -52,3 +44,13 @@
   }
   
 
+  .cancel{
+    border:none;
+    background-color: white;
+}
+
+.fa-xmark{
+    color:red;   
+    font-size: 30px;
+    position: relative;
+}

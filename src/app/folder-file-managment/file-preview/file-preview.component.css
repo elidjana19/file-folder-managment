@@ -1,6 +1,11 @@
-mat-dialog-actions button{
-  background-color: red;
+
+.cancel{
   border:none;
-  color:white;
-  border-radius: 5px;
+  background-color: white;
+}
+
+.fa-xmark{
+  color:red;   
+  font-size: 30px;
+  position: relative;
 }

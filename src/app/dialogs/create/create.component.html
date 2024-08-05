@@ -1,4 +1,5 @@
 <div class="register-container">
+<button class="cancel" (click)="onCancel()"><i class="fa-solid fa-xmark"></i></button>
 <h1 mat-dialog-title>Create Folder</h1>
 <div mat-dialog-content>
   <mat-form-field>
@@ -7,7 +8,7 @@
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button-red class="btn btn-danger"(click)="onCancel()">Cancel</button>
-  <button mat-button-green class="btn btn-success"(click)="onSave()">Create</button>
+  <!-- <button mat-button-red class="btn btn-danger"(click)="onCancel()">Cancel</button> -->
+  <button class="success" (click)="onSave()">Create</button>
 </div>
 </div>

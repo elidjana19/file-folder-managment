@@ -73,6 +73,19 @@ export class FolderServiceService {
       );
   }
 
+  renameFile(fileId: number, newName: string):Observable<any>{
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const body = JSON.stringify(newName);
+    return this.http
+      .put(`${this.fileUrl}/rename/${fileId}`, body, { headers })
+      .pipe(
+        tap(() => this.folderChangeSubject.next()),
+        catchError(this.handleError)
+      );
+
+  }
   deleteFolder(folderId: number): Observable<void> {
     const url = `${this.apiUrl}/${folderId}`;
     return this.http.delete<void>(url).pipe(

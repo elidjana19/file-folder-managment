@@ -127,6 +127,7 @@ this.searchSubscription = this.searchSubject.pipe(
   if (this.selectedFolder) {
     this.selectedFolder.childFolders = results.folders;
     this.selectedFolder.files = results.files;
+    console.log(this.selectedFolder.files, "hereee")  //file is here 
     this.cdr.detectChanges();
   }
 });
@@ -280,6 +281,9 @@ this.searchSubscription = this.searchSubject.pipe(
 
   // is OKK
   selectAll() {
+    this.selectedItem=null //diselect the selected item, so i can do select all immediately 
+
+
     if (this.selectedFolder) {
       this.folderService.updateSelection([]);
 
@@ -601,7 +605,7 @@ showVersion() {
     console.log(this.selectedFile.version);
     this.dialog.open(VersionComponent, {
       disableClose: true,
-      data:{id: this.selectedFile.id, version: this.selectedFile.version, path:this.selectedFile.path}
+      data:{id: this.selectedFile.id, version: this.selectedFile.version, path:this.selectedFile}
     });
   } else {
     console.error('No file selected');

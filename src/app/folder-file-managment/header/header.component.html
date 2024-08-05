@@ -14,17 +14,17 @@
         <span>NEW</span>
       </div>
       <div class="col-3 operation">
-        <button class="btn btn-light"  [class.disabled]="!selectedFolder || disableOtherActions()" (click)="openRenameFolderDialog()"  ><i class="fa-solid fa-file-signature"></i>Rename</button>
+        <button class="btn btn-light"  [class.disabled]="(!selectedFolder && !selectedFile) || disableOtherActions()" (click)="openRenameFolderDialog()"  ><i class="fa-solid fa-file-signature"></i>Rename</button>
         <button class="btn btn-light delete"  [class.disabled]="!selectedFolder && !selectedFile" (click)="openDeleteFolderDialog($event)" ><i class="fa-solid fa-xmark "></i> Delete</button>
         <span>Organize</span>
       </div>
       <div class="col-3 operation">
         <button class="btn btn-light" [class.disabled]="!selectedFolder || disableOtherActions()" (click)="openUploadDialog()"><i class="fa-solid fa-upload"></i> Upload</button>
-        <button class="btn btn-light" [class.disabled]="!selectedFile" (click)="downloadFile(selectedFile)"><i class="fa-solid fa-download"></i> Download</button>
+        <button class="btn btn-light" [class.disabled]="!selectedFile || disableOtherActions()" (click)="downloadFile(selectedFile)"><i class="fa-solid fa-download"></i> Download</button>
         <span>Transfer</span>
       </div>
       <div class="col-2 operation">
-        <button class="btn btn-light" [class.disabled]="!selectedFile" (click)="openPreviewDialog()"><i class="fa-solid fa-magnifying-glass" ></i> Preview</button>
+        <button class="btn btn-light" [class.disabled]="!selectedFile || disableOtherActions()" (click)="openPreviewDialog()"><i class="fa-solid fa-magnifying-glass" ></i> Preview</button>
         <span>Open</span>
       </div>
       <!-- <div class="col-2 operation">

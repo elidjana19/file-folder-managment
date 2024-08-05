@@ -116,7 +116,7 @@
 </div> -->
 
 <div class="file-explorer">
-<div class="search">
+<div class="search" *ngIf="this.selectedFolder">
   <button  (click)="selectAll()" class="selectAll">
     <i class="fa-solid fa-border-all"></i> Select all
   </button>

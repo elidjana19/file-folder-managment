@@ -1,10 +1,10 @@
 <div class="delete-container">
-    <h2 mat-dialog-title class="dialog-title">Delete Folder</h2>
+  <button class="cancel" (click)="onCancel()"><i class="fa-solid fa-xmark "></i></button>
     <div mat-dialog-content class="dialog-content">
-      <p>Are you sure you want to delete this folder?</p>
+      <strong>Are you sure you want to delete?</strong>
     </div>
     <div mat-dialog-actions class="dialog-actions">
-      <button mat-button-primary class="btn btn-primary" (click)="onCancel()">Cancel</button>
+      <!-- <button mat-button-primary class="btn btn-primary" (click)="onCancel()">Cancel</button> -->
       <button mat-button-red class="btn btn-danger" (click)="onDelete()">Delete</button>
     </div>
   </div>

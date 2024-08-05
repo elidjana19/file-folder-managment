@@ -1,11 +1,48 @@
+.register-container{
+    /* background-color: white; */
+
+}
 .register-container h1{
     text-align: center;
+    color:green;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .register-container mat-form-field {
-    width: 100%;               /* Full width for the form field */
+    width: 100%;    
+
 }
 
-.register-container .btn-danger {
-   margin-right:10px
+
+input{
+    color:green
+}
+button{
+    background-color: white;
+}
+.register-container .success {
+    border:2px solid green;
+    padding:5px 15px;
+   margin-right:10px;
+   transition: all ease 0.3s;
+   border-radius: 10px;
+}
+
+.success:hover{
+    transform: scale(0.9);
+}
+
+
+.cancel{
+    border:none;
+ 
+}
+
+.fa-xmark{
+    color:red;   
+    font-size: 30px;
+    position: relative;
+    left:10px;
+    top:10px
+
 }

@@ -1,13 +1,13 @@
 <div class="rename-container">
+  <button class="cancel" (click)="onCancel()"><i class="fa-solid fa-xmark "></i></button>
 <h2 mat-dialog-title class="dialog-title">Rename Folder</h2>
 <div mat-dialog-content class="dialog-content">
   <mat-form-field appearance="fill" class="form-field">
     <mat-label>Folder Name</mat-label>
-    <input matInput [(ngModel)]="data.folderName" />
+    <input matInput [(ngModel)]="newName" />
   </mat-form-field>
 </div>
 <div mat-dialog-actions class="dialog-actions">
-  <button mat-button-red class="btn btn-danger" (click)="onCancel()">Cancel</button>
   <button mat-button-success  class="btn btn-success" (click)="onSave()" >Rename</button>
 </div>
 </div>

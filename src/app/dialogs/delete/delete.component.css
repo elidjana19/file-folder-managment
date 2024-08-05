@@ -1,9 +1,9 @@
 .delete-container{
     height:300px;
-    padding:20px
+    padding:20px;
+    background-color: white;
 }
-.delete-container h2{
-    font-size: 30px;
+.delete-container strong{
     text-align: center;
 }
 .dialog-actions{
@@ -15,4 +15,14 @@
 .dialog-actions button{
     padding:15px 20px;
     
+}
+.cancel{
+    border:none;
+    background-color: white;
+}
+
+.fa-xmark{
+    color:red;   
+    font-size: 30px;
+    position: relative;
 }

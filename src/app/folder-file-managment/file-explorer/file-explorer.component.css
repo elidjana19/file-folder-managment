@@ -11,9 +11,9 @@
   text-align: center;
 }
 
-.selected {
-  background-color: #f4f3f3; 
-  border: 1px solid #b1b1b1;
+.selected-item {
+  background-color: #fdfdfd; 
+  border: 1px solid #6d90f0;
 }
 
 .fa-folder,
@@ -25,10 +25,10 @@
   font-size: 80px;
 }
 
-.selected-item {
-  border: 2px solid blue; 
+/* .selected-item {
+  border: 2px solid rgb(62, 62, 248); 
   background-color: #f0f8ff;
-}
+} */
 
 .selectAll {
   border: none;

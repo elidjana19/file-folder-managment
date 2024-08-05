@@ -17,7 +17,6 @@ import { ClickTrackerServiceService } from '../../click-tracker-service.service'
 export class DeleteComponent {
 
   constructor(private dialogRef:MatDialogRef<DeleteComponent>, 
-    @Inject(MAT_DIALOG_DATA) public data: any,
     public clickTrackerService:ClickTrackerServiceService
 
   ){}
