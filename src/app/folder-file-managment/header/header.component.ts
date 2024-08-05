@@ -107,12 +107,13 @@ export class HeaderComponent {
   }
 
   openRenameFolderDialog() {
+    const fileName= this.selectedFile.name.replace(/\.[^.]+$/, '')
     const dialogRef = this.dialog.open(RenameComponent, {
       disableClose: true,
       width: '500px',
       data: {
-        name: this.selectedFolder?.name || this.selectedFile?.name,
-        originalName: this.selectedFolder?.name,
+        name: this.selectedFolder?.name || fileName,
+        originalName: this.selectedFolder?.name || fileName,
         id: this.selectedFolder?.id || this.selectedFile?.id,
         type: this.selectedFolder?.type || this.selectedFile?.type,
       },

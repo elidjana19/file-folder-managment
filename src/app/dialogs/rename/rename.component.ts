@@ -31,7 +31,7 @@ export class RenameComponent {
     private folderService:FolderServiceService, 
     public clickTrackerService:ClickTrackerServiceService
   ){
-    this.originalName = data.originalName;
+    this.originalName = data.originalName 
     this.newName = data.name;
     this.id = data.id;
     this.type = data.type;
@@ -69,13 +69,13 @@ export class RenameComponent {
    // this.dialogRef.close(this.newName)
  // }
   
- 
+
 
  onSave(){
   
     if (this.newName.trim() === '') {
       this.toastr.error('Name cannot be empty') 
-    } else if (this.newName === this.originalName) {
+    } else if (this.newName === this.originalName){
       this.toastr.error('Not the same name') 
     } else {
       if (this.type === 'folder') {
@@ -84,9 +84,11 @@ export class RenameComponent {
           error =>  console.log('Error renaming file')
         );
       } else {
+        
         this.folderService.renameFile(this.id, this.newName).subscribe(
           () => this.dialogRef.close({ newName: this.newName, type: this.type, id: this.id }),
-          error => console.log('Error renaming file')
+          error =>
+          console.log(this.originalName, "org")
         );
       }
     }
