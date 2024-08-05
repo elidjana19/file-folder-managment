@@ -117,24 +117,17 @@ export class HeaderComponent {
         disableClose: true,
         width: '500px',
       });
-
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-           // after rename i make the parent folder as selcted
-           this.folderService.getFolderById(this.selectedFolder.id).subscribe(async res => {
-            this.folderService.getFolderById(res.parentFolderId).subscribe(parent=>{
-              const parentFolder= parent
-              if (parentFolder) {
-                this.folderService.setSelectedFolder(parentFolder);
-              } else {
-                this.folderService.deselectFolder();
-              }
-            }) 
-          });
-          console.log(result, "resultttttttttttt")
-        }
-      });
-    }
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+          //the new name is displayed when i open the rename dialog now
+        this.folderService.getFolderById(this.selectedFolder.id).subscribe(folder => {
+          this.selectedFolder = folder;
+          //i clear the actual path, to make the new because of rename
+          this.folderService.clearPath()
+          this.folderService.buildPathFromFolder(folder)
+        })}
+        });
+      }
   }
 
 

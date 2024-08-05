@@ -45,7 +45,7 @@ export class FileExplorerComponent implements OnInit {
 
   selectedItem: { id: any; type: string } | null = null;
   selectedItems: { id: number, type: string }[] = [];
-
+files:any
 
   constructor(
     private folderService: FolderServiceService,
@@ -61,6 +61,7 @@ export class FileExplorerComponent implements OnInit {
 
 
   ngOnInit(): void {
+
     this.folderService.selectedFolder$.subscribe((folder) => {
       if (this.isSelectingFolder) {
         // only select folder, not update the file-explorer
@@ -71,6 +72,12 @@ export class FileExplorerComponent implements OnInit {
         this.updateFolderContent();
       }
     });
+
+
+    this.folderService.selectedFile$.subscribe(file=>{
+      this.selectedFile=file
+    })
+
 
     this.folderChangesSub = this.folderService.folderChanges$.subscribe(() => {
       if (!this.isSelectingFolder) {
@@ -91,6 +98,7 @@ export class FileExplorerComponent implements OnInit {
       console.log('Selected Items:', this.selectedItems);
     });
     
+   
 
 
 //search: this way offers minimal http calls
@@ -164,8 +172,11 @@ this.searchSubscription = this.searchSubject.pipe(
     this.folderService.setSelectedFile(file);
      this.selectedItem = { id: file.id, type: 'file' };
     
-    this.folderService.getFileById(file.id).subscribe((blob) => {
-      console.log('Blob:', blob);
+    // this.folderService.getFileById(file.id).subscribe((blob) => {
+    //   console.log('Blob:', blob);
+    // });
+    this.folderService.getFile(file.id).subscribe((blob) => {
+      console.log('File:', blob);
     });
   }
 
@@ -533,10 +544,10 @@ onRightClick(event: MouseEvent, item: any, type:string) {
   event.preventDefault(); // Prevent the default context menu
   if (type === 'file') {
     // Show context menu options specific to files
-    this.contextMenuItems = ['Show Version', 'Show Size', 'Move'];
+    this.contextMenuItems = ['Show Version', 'Move'];
   } else {
     // Show context menu options for folders
-    this.contextMenuItems = ['Show Size', 'Move'];
+    this.contextMenuItems = ['Move'];
   }
 
   this.contextMenuPosition = { x: event.clientX, y: event.clientY };
@@ -550,9 +561,6 @@ handleContextMenuAction(action: string): void {
     case 'Show Version':
       this.showVersion();
       break;
-    case 'Show Size':
-      //this.showSize();
-      break;
     case 'Move':
       this.openMoveDialog();
       break;
@@ -560,16 +568,6 @@ handleContextMenuAction(action: string): void {
       console.log('Unknown action:', action);
   }
 }
-
-showVersion() {
-  console.log('Show version for:', this.item);
-  this.dialog.open(VersionComponent,{
-    disableClose:true
-  })
-  this.showContextMenu = false; // Hide context menu
-}
-
-
 
 
 openMoveDialog() {
@@ -589,6 +587,33 @@ openMoveDialog() {
   }
   this.showContextMenu = false;
 }
+
+// active files
+getActive(files:any){
+  return files.filter((file: { isActive: boolean; })=> file.isActive===true)
+
+}
+
+
+showVersion() {
+  console.log('Show version for:', this.item);
+  if (this.selectedFile) {
+    console.log(this.selectedFile.version);
+    this.dialog.open(VersionComponent, {
+      disableClose: true,
+      data:{id: this.selectedFile.id, version: this.selectedFile.version, path:this.selectedFile.path}
+    });
+  } else {
+    console.error('No file selected');
+  }
+  
+  this.showContextMenu = false; // Hide context menu
+
+}
+
+
+
+
 
 
 }

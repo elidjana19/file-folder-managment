@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, HostListener, Inject } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { ToastrService } from 'ngx-toastr';
+import { ClickTrackerServiceService } from '../../click-tracker-service.service';
 
 
 
@@ -24,7 +25,12 @@ export class CreateComponent {
 
   folderName!:string
 
-  constructor(private dialogRef:MatDialogRef<CreateComponent>, private toastr:ToastrService) {}
+  constructor(private dialogRef:MatDialogRef<CreateComponent>, private toastr:ToastrService, public clickTrackerService:ClickTrackerServiceService) {}
+
+  @HostListener('click')
+  onClick() {
+    this.clickTrackerService.setInside(true);
+  }
 
   onCancel(){
     this.dialogRef.close()

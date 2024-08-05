@@ -7,6 +7,7 @@ import {
   map,
   Observable,
   Subject,
+  take,
   tap,
   throwError,
 } from 'rxjs';
@@ -152,7 +153,9 @@ export class FolderServiceService {
    // i set the currently selected folder and push the previous selection onto the folder stack
   setSelectedFolder(folder: any) {
     this.folderStack.push(this.selectedFolderSubject.value);
-    this.selectedFolderSubject.next(folder);
+
+      this.selectedFolderSubject.next(folder)
+    
   }
 
   getSelectedFolder(): Observable<any | null> {
@@ -170,7 +173,8 @@ export class FolderServiceService {
   selectedFile$ = this.selectedFileSubject.asObservable();
 
   setSelectedFile(file: any) {
-    this.selectedFileSubject.next(file);
+      this.selectedFileSubject.next(file)
+   
   }
 
   getSelectedFile(): Observable<any | null> {
@@ -233,6 +237,8 @@ export class FolderServiceService {
 
     this.updatePath([...path]);
   }
+
+  
 
   // batch delete
 
@@ -302,5 +308,16 @@ export class FolderServiceService {
   }
 
 
+  // rollback 
 
+  rollbackFile(fileId: number, targetVersion: number): Observable<any> {
+    const url = `${this.fileUrl}/${fileId}/rollback`;
+    const body = { fileId, targetVersion };
+    return this.http.post<any>(url, body, { responseType: 'text' as 'json' }) .pipe(catchError(this.handleError));
+  }
+
+  getVersions(fileId:number, path:any):Observable<any>{
+    const url= `${this.fileUrl}/${fileId}/versions?filepath=${encodeURIComponent(path)}`
+    return this.http.get<any>(url)
+  }
 }
