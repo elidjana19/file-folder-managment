@@ -3,19 +3,50 @@
     padding:20px;
     background-color: white;
 }
-.delete-container strong{
+.delete-container p{
     text-align: center;
+    position: relative;
+    top:50px
 }
 .dialog-actions{
-    margin-top:60px;
+    margin-top:130px;
     display: flex;
     justify-content: center;
     gap:10px
 }
-.dialog-actions button{
-    padding:15px 20px;
-    
-}
+.btn-danger {
+    background:rgb(222, 82, 66);
+    border: 1px solid #ec0f0f;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 20px;
+    text-align: center;
+    vertical-align: middle;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .btn-danger:hover,
+  .btn-danger:active {
+    background-color: white;
+    color:rgb(222, 82, 66);
+    box-shadow: rgba(232, 165, 154, 0.5) 0 1px 30px;
+  }
+  
+  .btn-danger:active {
+  transform: scale(0.9);
+    opacity: 0.5;
+  }
+  
 .cancel{
     border:none;
     background-color: white;

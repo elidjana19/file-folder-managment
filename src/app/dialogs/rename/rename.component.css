@@ -9,7 +9,7 @@
     font-weight: 600;
     margin-bottom: 20px;
     text-align: center;
-    color: #333;
+    color: rgb(67, 157, 199)
   }
   
   .dialog-content {
@@ -27,20 +27,38 @@
     justify-content: end;
   }
   
-  .btn {
-    padding: 10px 20px;
+
+  .success {
+    background:rgb(27, 143, 206);
+    border: 1px solid #4755f0;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
     font-size: 16px;
-    font-weight: 500;
-    border-radius: 4px;
-    color:white
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 20px;
+    text-align: center;
+    vertical-align: middle;
+    transition: all 0.2s ease-in-out;
   }
   
-  .btn-primary {
-    background-color: #7787e4;
+  .success:hover,
+  .success:active {
+    background-color: white;
+    color:rgb(27, 143, 206);
+    box-shadow: rgba(138, 198, 223, 0.5) 0 1px 30px;
   }
   
-  .btn-primary:hover {
-    background-color: #3a48a9;
+  .success:active {
+  transform: scale(0.9);
+    opacity: 0.5;
   }
   
 

@@ -1,7 +1,8 @@
+
 <div mat-dialog-title class="dialog-title">Version</div>
 <div mat-dialog-content class="dialog-content">
-  <p>Your current file version:</p>
-  <p>{{ data.version }}</p>
+  <p class="current-version">Your current file version:</p>
+  <p class="version-display">{{ data.version }}</p>
   <mat-form-field appearance="fill" class="form-field">
     <mat-label>Update Version:</mat-label>
     <mat-select #selectedVersion (selectionChange)="onSave($event.value)">
@@ -14,4 +15,3 @@
 <div mat-dialog-actions class="dialog-actions">
   <button mat-button class="btn btn-danger" (click)="onCancel()">Cancel</button>
 </div>
-

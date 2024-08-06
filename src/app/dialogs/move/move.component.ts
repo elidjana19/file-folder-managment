@@ -50,7 +50,7 @@ export class MoveComponent {
     if(this.selectedFile){
       if(destinationId === this.selectedFile.folderId){
         console.log(this.selectedFile.folderId)
-        this.toastr.error("File already here")
+        this.toastr.error("Already here")
         this.dialogRef.close()
       }else{
     this.folderService.moveFile(this.selectedFile.id , destinationId).subscribe(res=>{

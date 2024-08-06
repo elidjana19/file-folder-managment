@@ -33,6 +33,7 @@ export class HeaderComponent {
 
   path: any[] = [];
   folderChangesSub: any;
+  selectedItem: any;
 
   constructor(
     public dialog: MatDialog,
@@ -107,7 +108,7 @@ export class HeaderComponent {
   }
 
   openRenameFolderDialog() {
-    const fileName= this.selectedFile.name.replace(/\.[^.]+$/, '')
+    const fileName = this.selectedFile?.name.replace(/\.[^.]+$/, '');
     const dialogRef = this.dialog.open(RenameComponent, {
       disableClose: true,
       width: '500px',
@@ -120,6 +121,7 @@ export class HeaderComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        console.log(result, 'resultt');
         if (this.selectedFolder) {
           // to show the new name in dialog
           this.folderService
@@ -127,8 +129,25 @@ export class HeaderComponent {
             .subscribe((folder) => {
               this.selectedFolder = folder;
               //i clear the actual path, to make the new because of rename
-              this.folderService.clearPath();
-              this.folderService.buildPathFromFolder(folder);
+              // this.folderService.clearPath();
+              // this.folderService.buildPathFromFolder(folder);
+
+
+              // i need to build the new path if the folder is opened not just selected
+              const foundPathItem = this.path.find(
+                (item) => item.id === result.id
+              );
+
+              if (foundPathItem) {
+                console.log('Found item:', foundPathItem);
+                this.folderService
+                  .getFolderById(foundPathItem.id)
+                  .subscribe((item) => {
+                    this.folderService.buildPathFromFolder(item);
+                  });
+              } else {
+                console.log('Item not found');
+              }
             });
         } else if (this.selectedFile) {
           this.folderService.getFile(this.selectedFile.id).subscribe((file) => {
@@ -164,6 +183,9 @@ export class HeaderComponent {
     const fileIds: number[] = [];
     const folderIds: number[] = [];
 
+    let filesDeleted = false;
+    let foldersDeleted = false;
+
     //  batch deletion
     if (this.selectedItems.length > 0) {
       this.selectedItems.forEach((item: { id: number; type: string }) => {
@@ -175,9 +197,12 @@ export class HeaderComponent {
       });
 
       if (fileIds.length > 0) {
+        filesDeleted = true;
         this.folderService.deleteFiles(fileIds).subscribe(
           () => {
-            this.toastr.success('Files deleted successfully');
+            if (filesDeleted && !foldersDeleted) {
+              this.toastr.success('Files deleted successfully');
+            }
           },
           (error) => {
             this.toastr.error('Failed to delete files');
@@ -187,15 +212,21 @@ export class HeaderComponent {
       }
 
       if (folderIds.length > 0) {
+        foldersDeleted = true;
         this.folderService.deleteFolders(folderIds).subscribe(
           () => {
-            this.toastr.success('Folders deleted successfully');
+            if (foldersDeleted && !filesDeleted) {
+              this.toastr.success('Folders deleted successfully');
+            }
           },
           (error) => {
             this.toastr.error('Failed to delete folders');
             console.error('Error deleting folders:', error);
           }
         );
+      }
+      if (foldersDeleted && filesDeleted) {
+        this.toastr.success('Items deleted');
       }
       this.folderService.updateSelection([]);
     } else if (this.selectedFolder) {

@@ -1,8 +1,11 @@
+.container{
+  background-color: white;
+}
 .dialog-title {
     font-size: 1.5rem;
     font-weight: 600;
     text-align: center;
-    color: #3f51b5; /* Customizable color */
+    color: #683fb5; 
   }
   
   .dialog-content {
@@ -14,11 +17,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
   }
   
   .file-upload-label {
     display: inline-block;
-    background-color: #6200ea; /* Material Purple color */
+    background-color: #683fb5;  
     color: white;
     padding: 10px 20px;
     border-radius: 8px;
@@ -28,7 +32,7 @@
   }
   
   .file-upload-label:hover {
-    background-color: #3700b3; /* Darker shade for hover */
+    background-color:rgb(75, 34, 104)
   }
   
   #file-upload {
@@ -62,6 +66,11 @@
     font-size: 0.875rem;
     padding: 8px 16px;
     margin-left: 8px;
+   border:1px solid white;
+    background-color: white;
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+
   }
   
   .cancel-button {
@@ -69,14 +78,18 @@
   }
   
   .cancel-button:hover {
-    background-color: #db8484; 
+    color: #de3737; 
+    border-color:  red;
+    font-weight: 800;
   }
   
   .upload-button {
-    transition: all 0.3s ease;
+    transition: all 0.1s ease;
   }
   
   .upload-button:hover {
-    background-color: #a9deab; 
+    color: #08710c; 
+    border-color:  green;
+    font-weight: 800;
   }
   

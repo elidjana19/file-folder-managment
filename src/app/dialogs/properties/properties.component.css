@@ -1,0 +1,38 @@
+
+.container {
+    padding: 16px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  .header {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  
+
+  .property {
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .size {
+    font-weight: bold;
+    color: #007bff; 
+  }
+
+  .cancel{
+    float:right;
+    border:none;
+    background-color: white;
+}
+
+.fa-xmark{
+    color:red;   
+    font-size: 30px;
+    position: relative;
+}

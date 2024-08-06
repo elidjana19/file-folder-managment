@@ -53,9 +53,7 @@ export class FileTreeComponent {
         this.folderService.setSelectedFolder(folder);
         this.findParent(this.selectedFolder)
 
-        this.folderService.buildPathFromFolder(folder).then(() => {
-          console.log("Path built successfully");
-        });
+        this.folderService.buildPathFromFolder(folder)
       }, error => {
         console.error('Error fetching folder details:', error);
       });
@@ -65,9 +63,7 @@ export class FileTreeComponent {
       this.childFolders = [];
       this.folderService.setSelectedFolder(this.parentFolder)  //on collapse show the parent folder
       console.log("HEREEEE")
-      this.folderService.buildPathFromFolder(this.parentFolder).then(() => {
-        console.log("Path built successfully");
-      });
+      this.folderService.buildPathFromFolder(this.parentFolder)
     } 
   }
 

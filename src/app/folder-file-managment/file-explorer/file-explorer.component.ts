@@ -19,6 +19,7 @@ import { ClickTrackerServiceService } from '../../click-tracker-service.service'
 import { MoveComponent } from '../../dialogs/move/move.component';
 import { MatDialog } from '@angular/material/dialog';
 import { VersionComponent } from '../../dialogs/version/version.component';
+import { PropertiesComponent } from '../../dialogs/properties/properties.component';
 
 @Component({
   selector: 'app-file-explorer',
@@ -548,10 +549,10 @@ onRightClick(event: MouseEvent, item: any, type:string) {
   event.preventDefault(); // Prevent the default context menu
   if (type === 'file') {
     // Show context menu options specific to files
-    this.contextMenuItems = ['Show Version', 'Move'];
+    this.contextMenuItems = ['Change Version', 'Move', 'Properties'];
   } else {
     // Show context menu options for folders
-    this.contextMenuItems = ['Move'];
+    this.contextMenuItems = ['Move', 'Properties'];
   }
 
   this.contextMenuPosition = { x: event.clientX, y: event.clientY };
@@ -562,12 +563,15 @@ onRightClick(event: MouseEvent, item: any, type:string) {
 
 handleContextMenuAction(action: string): void {
   switch (action) {
-    case 'Show Version':
+    case 'Change Version':
       this.showVersion();
       break;
     case 'Move':
       this.openMoveDialog();
       break;
+      case 'Properties':
+        this.openProperties();
+        break;
     default:
       console.log('Unknown action:', action);
   }
@@ -592,6 +596,7 @@ openMoveDialog() {
   this.showContextMenu = false;
 }
 
+
 // active files
 getActive(files:any){
   return files.filter((file: { isActive: boolean; })=> file.isActive===true)
@@ -615,6 +620,58 @@ showVersion() {
 
 }
 
+
+openProperties() {
+  console.log("properties");
+  const item = this.selectedItem
+  console.log(item, "item")
+
+  let data: any = {};
+
+  
+  if (item?.type==='folder') {
+
+   this.folderService.getFolderById(item.id).subscribe(folder=>{
+    console.log(folder)
+    data = {
+      name: folder.name,
+      type: folder.type,
+      date: folder.createdDate,
+    };
+    this.openDialog(data);
+   })
+    
+  } else if (item?.type==='file') {
+    this.folderService.getFile(item.id).subscribe(file=>{
+
+      data = {
+        name: file.name,
+        type: file.type, 
+        size: file.size,
+        date: file.uploadDate,
+        version:file.version
+      };
+      console.log(data)
+      
+      this.openDialog(data);
+    })
+    
+  } else {
+
+    console.log('No file or folder selected');
+    return; 
+  }
+
+  
+}
+
+private openDialog(data: any) {
+  this.dialog.open(PropertiesComponent, {
+    disableClose: true,
+    data: data,
+ 
+  });
+}
 
 
 

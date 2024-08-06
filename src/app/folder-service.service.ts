@@ -222,6 +222,10 @@ export class FolderServiceService {
     
   }
 
+  getPath(): Observable<{ id: number; name: string }[]> {
+    return this.currentPath$.pipe(take(1));
+  }
+
   updatePath(path: { id: number; name: string }[]) {
     this.currentPathSubject.next(path);
   }
