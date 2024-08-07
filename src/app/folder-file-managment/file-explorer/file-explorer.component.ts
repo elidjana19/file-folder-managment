@@ -79,7 +79,7 @@ files:any
       this.selectedFile=file
     })
 
-
+// to immediately display changes on files/folders to file-explorer
     this.folderChangesSub = this.folderService.folderChanges$.subscribe(() => {
       if (!this.isSelectingFolder) {
         this.updateFolderContent();
@@ -88,7 +88,7 @@ files:any
 
     this.fileChangesSub = this.folderService.fileChanges$.subscribe(() => {
       if (!this.isSelectingFolder) {
-        this.updateFolderContent();
+      this.updateFolderContent();
       }
     });
 
@@ -98,9 +98,12 @@ files:any
       this.selectedItems = items;
       console.log('Selected Items:', this.selectedItems);
     });
-    
-   
 
+    this.folderService.selectedItem$.subscribe(item=>{
+      console.log(item, "itemmmmmmm")
+    })
+    
+  
 
 //search: this way offers minimal http calls
 this.searchSubscription = this.searchSubject.pipe(
@@ -112,13 +115,12 @@ this.searchSubscription = this.searchSubject.pipe(
     if (searchQuery === '') {
     //  i display all the content when i delete the query
       return this.folderService.getFolderById(this.selectedFolder.id).pipe(
-        catchError(() => of({ folders: [], files: [] }))
-      ).pipe(
         map(folder => ({ folders: folder.childFolders, files: folder.files }))
       );
     }
     return combineLatest([
-      this.folderService.searchFolder(this.selectedFolder.id, searchQuery).pipe(catchError(() => of([]))),
+
+      this.folderService.searchFolder(this.selectedFolder.id, searchQuery).pipe(catchError(() => of([]))),  //if an error i retun empty array and not crash the search
       this.folderService.searchFile(this.selectedFolder.id, searchQuery).pipe(catchError(() => of([])))
     ]).pipe(
       map(([folders, files]) => ({ folders, files }))
@@ -128,7 +130,7 @@ this.searchSubscription = this.searchSubject.pipe(
   if (this.selectedFolder) {
     this.selectedFolder.childFolders = results.folders;
     this.selectedFolder.files = results.files;
-    console.log(this.selectedFolder.files, "hereee")  //file is here 
+    console.log(this.selectedFolder.files, "hereee")  //file i searched is here 
     this.cdr.detectChanges();
   }
 });
@@ -151,11 +153,14 @@ this.searchSubscription = this.searchSubject.pipe(
     }
   }
 
+
+
   clickFolder(folder: any) {
     // set the folder only as selected
     this.isSelectingFolder = true;
     this.selectedItem = { id: folder.id, type: 'folder' };
     this.folderService.setSelectedFolder(folder);
+    this.folderService.addSelectedItem(this.selectedItem)
   }
 
   doubleClickFolder(folder: any) {
@@ -173,6 +178,7 @@ this.searchSubscription = this.searchSubject.pipe(
     //set the file only as selected
     this.folderService.setSelectedFile(file);
      this.selectedItem = { id: file.id, type: 'file' };
+     this.folderService.addSelectedItem(this.selectedItem)
     
     // this.folderService.getFileById(file.id).subscribe((blob) => {
     //   console.log('Blob:', blob);
@@ -196,7 +202,6 @@ this.searchSubscription = this.searchSubject.pipe(
 
   onDragLeave(event: DragEvent) {
     const target = event.target as HTMLElement;
-    //target.classList.remove('drag-over');
   }
 
   onDragOver(event: DragEvent) {
@@ -207,24 +212,24 @@ this.searchSubscription = this.searchSubject.pipe(
     event.preventDefault();
     if (this.draggedItem) {
       if (this.draggedItem.type === 'file' && targetType === 'folder') {
-        this.folderService.moveFile(this.draggedItem.id, targetId).toPromise();
-        this.updateFolderContent();
-        this.toastr.success('File move done');
+        this.folderService.moveFile(this.draggedItem.id, targetId).subscribe(()=>{
+          this.updateFolderContent();
+          this.toastr.success('File move done');
+        })
       } else if (
         this.draggedItem.type === 'folder' &&
         targetType === 'folder'
       ) {
         this.folderService
-          .moveFolder(this.draggedItem.id, targetId)
-          .toPromise();
-        this.updateFolderContent();
-        this.toastr.success('Folder move done');
+          .moveFolder(this.draggedItem.id, targetId).subscribe(()=>{
+            this.updateFolderContent();
+          this.toastr.success('Folder move done');
+          })
       }
     }
     this.draggedItem = null;
   }
-
-
+  
   getFileIcon(fileName: string): string {
     const extension = fileName.split('.').pop()?.toLowerCase();
     switch (extension) {

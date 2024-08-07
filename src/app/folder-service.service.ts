@@ -34,15 +34,6 @@ export class FolderServiceService {
       .pipe(catchError(this.handleError));
   }
 
-  // getRootFolders(): Observable<any[]> {
-  //   return this.http.get<any[]>(`${this.apiUrl}/root`).pipe(
-  //     catchError(error => {
-  //       console.error('API Error:', error);
-  //       return throwError(error);
-  //     })
-  //   );
-  // }
-
   getAllFolders(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl).pipe(catchError(this.handleError));
   }
@@ -137,16 +128,18 @@ export class FolderServiceService {
 
   moveFolder(folderId: string, destinationFolderId: any): Observable<void> {
     const url = `${this.apiUrl}/move?folderId=${folderId}&destinationFolderId=${destinationFolderId}`;
-    return this.http.post<void>(url, {}).pipe(
+    return this.http.post<void>(url, { responseType: 'text' as 'json' }).pipe(
       tap(() => this.folderChangeSubject.next()),
+      
       catchError(this.handleError)
     );
   }
 
   moveFile(fileId: string, destinationFolderId: any): Observable<void> {
     const url = `${this.fileUrl}/move?fileId=${fileId}&destinationFolderId=${destinationFolderId}`;
-    return this.http.post<void>(url, {}).pipe(
+    return this.http.post<void>(url, { responseType: 'text' as 'json' }).pipe(
       tap(() => this.fileChangeSubject.next()),
+      
       catchError(this.handleError)
     );
   }
@@ -337,4 +330,14 @@ export class FolderServiceService {
     const url= `${this.fileUrl}/${fileId}/versions?filepath=${encodeURIComponent(path)}`
     return this.http.get<any>(url)
   }
+
+
+  private selectedItemSubject = new BehaviorSubject<{ id: number, type: string } | null>(null);
+  selectedItem$ = this.selectedItemSubject.asObservable();
+
+  addSelectedItem(item: { id: number, type: string }) {
+    this.selectedItemSubject.next(item);
+  
+}
+
 }

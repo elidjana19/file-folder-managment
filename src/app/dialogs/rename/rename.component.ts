@@ -58,28 +58,6 @@ export class RenameComponent {
     this.dialogRef.close(false);
   }
 
-  //onSave() {
-  // if (!this.data.folderName) {
-  //   this.toastr.error("Please enter a folder name.");
-  //   return;
-  // } else if (this.data.folderName === this.data.originalName) {
-  //   this.toastr.error("No changes made. Please enter a different folder name.");
-  //   return;
-  // } else {
-  //   this.folderService.renameFolder(this.data.id, this.data.folderName).subscribe(
-  //      () => {
-  //       this.toastr.success("Folder renamed successfully.");
-  //       this.dialogRef.close(this.data.folderName);
-  //     },
-  //     error => {
-  //       this.toastr.error("There is a problem with renaming that folder");
-  //       console.error(error);
-  //     }
-  //   );
-  // }
-  // this.dialogRef.close(this.newName)
-  // }
-
   onSave() {
     if (this.newName.trim() === '') {
       this.toastr.error('Name cannot be empty');

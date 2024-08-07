@@ -31,10 +31,11 @@ export class FileTreeComponent {
       if (this.selectedFolder) {
         this.folderService.getFolderById(this.selectedFolder.id).subscribe(folder => {
           this.childFolders = folder.childFolders || [];
+           this.updateFolderContent()
         });
+        //this.updateFolderContent()
       }
     });
-
 
     //select the first root folder automatically and show in file-explorer its content 
     // if (this.folders.length > 0) {
@@ -81,6 +82,17 @@ export class FileTreeComponent {
     }, error => {
       console.error('Error fetching parent folder details:', error);
     });
+  }
+
+
+  updateFolderContent(): void {
+    if (this.selectedFolder) {
+      this.folderService
+        .getFolderById(this.selectedFolder.id)
+        .subscribe((folder) => {
+          this.selectedFolder = folder;
+        });
+    }
   }
 
 }

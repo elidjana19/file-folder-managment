@@ -1,67 +1,42 @@
-.register-container{
-    /* background-color: white; */
-
+.register-container {
+  /* background-color: white; */
 }
-.register-container h1{
-    text-align: center;
-    color:green;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+.register-container h1 {
+  text-align: center;
+  color: green;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
 .register-container mat-form-field {
-    width: 100%;    
-
+  width: 100%;
 }
 
-button{
-    background-color: white;
+button {
+  background-color: white;
 }
 
- /* .success {
-    border:2px solid green;
-    background-color: rgb(102, 176, 102);
-    color:white;
-
-    padding:10px 20px;
-   margin-right:10px;
-   transition: all ease 0.3s;
-   border-radius: 10px;
+.cancel {
+  border: none;
 }
 
-.success:hover{
-    transform: scale(0.9);
-} */
-
-
-.cancel{
-    border:none;
- 
+.fa-xmark {
+  color: red;
+  font-size: 30px;
+  position: relative;
+  left: 10px;
+  top: 10px;
 }
-
-.fa-xmark{
-    color:red;   
-    font-size: 30px;
-    position: relative;
-    left:10px;
-    top:10px
-
-}
-
-
-
-
-
 
 .success {
-  background:green;
+  background: green;
   border: 1px solid #03651d;
   border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
   box-sizing: border-box;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
   display: inline-block;
-  font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+  font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
   font-size: 16px;
   font-weight: 800;
   line-height: 16px;
@@ -81,8 +56,6 @@ button{
 }
 
 .success:active {
-transform: scale(0.9);
+  transform: scale(0.9);
   opacity: 0.5;
 }
-
-

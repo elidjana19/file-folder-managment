@@ -25,12 +25,15 @@ export class MoveComponent {
   selectedFolder:any
   selectedFile:any
 
+  selectedItem:any
+
   constructor(
     public dialogRef: MatDialogRef<MoveComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { itemId: string },
     private folderService: FolderServiceService, private toastr:ToastrService,
     private cdr: ChangeDetectorRef, 
     public clickTrackerService:ClickTrackerServiceService
+
   ) {}
 
   ngOnInit() {
@@ -38,23 +41,45 @@ export class MoveComponent {
 
     this.folderService.getSelectedFolder().subscribe(folder => {
         this.selectedFolder = folder;
+      
       });
 
       this.folderService.getSelectedFile().subscribe(file=>{
         this.selectedFile=file
+       
       })
-  }
 
+      this.folderService.folderChanges$.subscribe(() => {
+        this.updateFolderContent(); 
+        console.log("change")
+      });
+  
+      // Subscribe to file changes
+      this.folderService.fileChanges$.subscribe(() => {
+        this.updateFolderContent(); 
+        
+      });
+
+      
+    this.folderService.selectedItem$.subscribe(item=>{
+      this.selectedItem=item
+      console.log(item, "itemmmmmmm")
+    })
+
+    }
+  
+
+// lastSelected = 
 
   onMove(destinationId: number) {
-    if(this.selectedFile){
+    if(this.selectedItem.type==='file'){
       if(destinationId === this.selectedFile.folderId){
         console.log(this.selectedFile.folderId)
         this.toastr.error("Already here")
         this.dialogRef.close()
       }else{
     this.folderService.moveFile(this.selectedFile.id , destinationId).subscribe(res=>{
-      //this.updateFolderContent()
+      this.cdr.detectChanges();
     })
     console.log(destinationId)
     console.log(this.selectedFile)
@@ -66,7 +91,7 @@ export class MoveComponent {
     this.dialogRef.close()
     this.toastr.success("File Move done")
   }}
-  else if (this.selectedFolder && !this.selectedFile){
+  else if (this.selectedItem.type==='folder'){
     if(destinationId===this.selectedFolder.id ){
       this.toastr.error("It is the same folder ")
       this.dialogRef.close()
@@ -80,7 +105,7 @@ export class MoveComponent {
     }
     else{
     this.folderService.moveFolder(this.selectedFolder.id , destinationId).subscribe(res=>{
-     // this.updateFolderContent()
+      this.cdr.detectChanges();
     })
     console.log(destinationId)
     console.log(this.selectedFolder)
@@ -114,6 +139,8 @@ updateFolderContent(): void {
         });
     }
   }
+
+
 
   
   @HostListener('click')
