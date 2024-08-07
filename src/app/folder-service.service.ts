@@ -281,6 +281,15 @@ export class FolderServiceService {
   }
 
 
+//   //selected item
+//   private selectedItemSubject = new BehaviorSubject<{ id: number, type: string } | null>(null);
+//   selectedItem$ = this.selectedItemSubject.asObservable();
+
+//   addSelectedItem(item: { id: number, type: string }) {
+//     this.selectedItemSubject.next(item);
+  
+// }
+
   // search
   // searchFolder(parentId:number, name:string):Observable<any>{
   //   const url = `${this.apiUrl}/search/${parentId}?name=${name}`
@@ -330,14 +339,5 @@ export class FolderServiceService {
     const url= `${this.fileUrl}/${fileId}/versions?filepath=${encodeURIComponent(path)}`
     return this.http.get<any>(url)
   }
-
-
-  private selectedItemSubject = new BehaviorSubject<{ id: number, type: string } | null>(null);
-  selectedItem$ = this.selectedItemSubject.asObservable();
-
-  addSelectedItem(item: { id: number, type: string }) {
-    this.selectedItemSubject.next(item);
-  
-}
 
 }

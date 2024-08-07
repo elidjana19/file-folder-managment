@@ -47,15 +47,16 @@ export class VersionComponent {
     if (selectedVersion === this.data.version) {
       this.toastr.error('its the same version');
       return;
-    } 
-      this.folderService.rollbackFile(this.data.id, selectedVersion).subscribe(
-        (res) => {
-          this.toastr.success('Rollback successful'); // Update message as needed
-          this.onCancel(); // Close dialog after success
-        },
-        (error) => {
-          this.toastr.error('Error during rollback');
-        })
+    }
+    this.folderService.rollbackFile(this.data.id, selectedVersion).subscribe(
+      (res) => {
+        this.toastr.success('Rollback successful'); // Update message as needed
+        this.onCancel(); // Close dialog after success
+      },
+      (error) => {
+        this.toastr.error('Error during rollback');
+      }
+    );
   }
 
   getVersions(): void {
