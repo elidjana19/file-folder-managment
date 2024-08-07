@@ -168,6 +168,7 @@ export class FileExplorerComponent implements OnInit {
   }
 
   doubleClickFolder(folder: any) {
+    this.selectedItem=null  //so when i open i folder, i dont go to parent if a click in blank page
     // open the folder content
     this.isSelectingFolder = false;
     this.folderService.getFolderById(folder.id).subscribe((folderData) => {
@@ -424,7 +425,7 @@ export class FileExplorerComponent implements OnInit {
     // Check if the click target is inside the FileExplorerComponent or HeaderComponent and delete button in delete dialog
     if (
       !this.elRef.nativeElement.contains(target) &&
-      !this.clickTrackerService.isInside()
+      !this.clickTrackerService.isInside() 
     ) {
       this.deselectItems();
       this.showContextMenu = false;

@@ -44,6 +44,7 @@ export class MoveComponent {
     private cdr: ChangeDetectorRef,
     public clickTrackerService: ClickTrackerServiceService
   ) {
+    // i get the item i have to move 
     this.item=data.item,
     this.type=data.type
   }
@@ -52,8 +53,6 @@ export class MoveComponent {
     this.folderService
       .getAllFolders()
       .subscribe((folders) => (this.folders = folders));
-
-   
   }
 
   onMove(destinationId: number) {
