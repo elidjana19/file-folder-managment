@@ -59,7 +59,9 @@ export class RenameComponent {
   }
 
   onSave() {
-    if (this.newName.trim() === '') {
+    if (this.newName === '') {
+      console.log(this.newName, "newname")
+      console.log(this.originalName, "original")
       this.toastr.error('Name cannot be empty');
     } else if (this.newName === this.originalName) {
       this.toastr.error('Not the same name');

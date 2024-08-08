@@ -25,11 +25,6 @@
   font-size: 80px;
 }
 
-/* .selected-item {
-  border: 2px solid rgb(62, 62, 248); 
-  background-color: #f0f8ff;
-} */
-
 .selectAll {
   border: none;
   font-size: 10px;
@@ -54,6 +49,7 @@
   display: flex;
   justify-content: space-between; 
   align-items: center;
+  margin-right:10px
 }
 
 
@@ -112,14 +108,49 @@
   .fa-file,
   .fa-file-pdf,
   .fa-file-word,
-  .fa-file-powerpoint {
+  .fa-file-powerpoint , 
+  .fa-image{
     font-size: 50px;
+  }
+  .container{
+  gap:5px
+  }
+  .file{
+    width:70px
   }
   h3 {
     font-size: 20px;
     text-align: center;
   }
-  .container {
-    width: 50vw;
+ .file-explorer{
+  margin-left:30px;
+  width:60vw;
+  
+ }
+  .search{
+    display:flex;
+    flex-direction: column;
+   
   }
+  .search input[type="search"] {
+    width: 100%;
+  }
+
+}
+
+
+@media (max-width:400px) {
+.accordion-item {
+    width:30vw;
+   
+}
+.accordion-body{
+padding:0px;
+}
+.search input[type="search"] {
+  width: 100%; 
+}
+.search input[type="search"]:focus {
+  width: 100%; 
+}
 }

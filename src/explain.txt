@@ -1,0 +1,189 @@
+FRONT-END 
+Header permban butonat per veprimet kryesore
+Sidebar+ file-tree mundesojne tree-view per folders 
+File-explorer shfaq permbajten e nje folder (childFolders dhe file)
+Dialogs: dialog-e per te kryer veprimet 
+
+Projektin e kam menduar qe ne UI te shfaq headerin, ku do jene butonat per te realizuar veprimet kryesore, 
+file-tree qe do mbaje root-folders dhe child-folders ne tree-like view dhe file-explorer ku do te shfaqet permbajtja e 
+nje folderi te selektuar nga file-tree.
+
+Sidebar file-tree
+Ne sidebar une marr gjithe root folders duke perdorur metoden getRootFolders() ku une bej get request dhe bej subscribe 
+per te marre rezultatin. Nese ka nje response apo rezultat do te thirret callback next() nese ka ndodhur nje error gjate
+ get request do thirret error() ku kapet errori dhe une e shfaq mesazhin ne console ne menyre qe te bej debugge. Nese kam 
+ marr te dhena I ruaj ato the rootFolders dhe I kaloj ato tek file-tree qe eshte child component, duke perdorur @Input.
+Ne file-tree, root folders qe marr nga sidebar, I afishoj duke perdorur accordion nga bootstrap. Ne accordion une shfaq vetem 
+foldera, pra ne klikim te nje root folder hapet accordion dhe liston gjithe childFolders, nese keto childFolders kane childFolders
+ edhe vete, ne klikim te folderit parent do te afishohen femijet.
+Accordion e kam menduar qe te lejoje vetem 1 root folder te hapur ne nje moment, qe edhe pamja/struktura te jete sa me e organizuar. 
+Prandaj kam krijuar onFolderClick() qe kontrollon nese folderi I klikuar eshte ai selected, nese jo folderin e klikuar e vendos 
+e vendos si selectedFolder duke perdorur setSelectedFolder, gjithashtu kete folder e ruaj tek variabli selectedFolder dhe femijet
+ e tij tel childFolders qe te mund ti shfaqe ne hmtl. Therras metoden buildPath(this.folder) ne menyre qe te ndertoj pathin duke 
+ nisur nga folderi ku une kam naviguar, pasi metoden buildPath e kam menduar te till, nese navigoj nga root/child/grand therass 
+ buildPathFromFolder(grand) qe ne nje vektor vendos grand gjen prindin nese ka dhe e shton ne fillim e keshtu derisa pathi I formuar 
+ te jete [root, child, grand].
+Bej subscribe folderChanges$ qe ben emit nje event nese ka ndodhur ndryshim si krijim, fshirje, rename etj tek folderat dhe therras 
+metoden updateContent() qe me merr te dhenat me te fundit te folderit te seleketuar, ne kete menyre nese ka ndodhur nje ndryshim,
+ psh nje krijim folder Brenda root, foleri child do te me afishihet direct ne file-tree pa patur nevoje per refresh pasi une marr
+  te dhenat me te fundit te root folder nese ndodh ndryshimi sic ishte krijim I nje folderi.
+Ne service tek metodat qe shkaktojne ndryshime tek folders/file psh si create kam perdorur this.folderChangeSubject.next(), pra
+ bej emit nje ‘sinjal’ qe nje ndryshim ka ndodhur tek folders, ne kete menyre njoftoj subscribers qe ka ndodhur ndryshimi dhe me 
+ duhet te bej updateContent te folderit ku ndryshimi ka ndodhur qe ai te afishohet ne real-time pa patur nevoje per refresh.
+
+
+File-explorer
+Pasi klikohet nje folder ai ruhet si selected ne service, dhe per te kuptuar se cili eshte folderi aktiv nga komponentet e tjera une
+ kam perdorur Behaviour Subject kur disa subscribers mund te bejne subscribe dhe te marrin vleren aktuale. Ne kete menyre ne 
+ file-explorer une bej subscribe selectedFolder$ dhe per kete folder une afishoj childFolders dhe files ne fileExplorer.
+Ne file-explorer une kam realizuar selektimin, deselektimin e elementeve, pra ne klikim ne nje elementi ai selektohet, 
+nese perdor ctrl+click une mund te selektoj disa elemente ne menyre qe ti fshij ata njekohesisht ose mund ti selektoj te gjithe elementet
+ duke perdorur butonin select all.
+Nese klikoj ne white/blank page elementi/elementet e selektuar deselektohen, per kete kam ndertuar metoden deselectItems() qe kontrollon
+ nese kam 1 element te selektuar apo disa. Dhe ne baze te tyre une kam ndertuar metodat respective qe elementi te mos jete me 
+ I selektuar.
+Nese kam vetem nje element te selektuar te cilin e ruaj tek selectedItem, e evendos kete ne null, nese kam disa elemente une I ruaj ato
+ ne nje Subject dhe si vlere I vendos nje vector bosh. Kur deselektoj nje element, parentFolderin e vendos si selectedFolder.
+Gjithashtu kam realizuar edhe right-click per files/folders qe ndodhen ne file-exporer duke perdorur contentMenu. Dhe perseri kontrolloj
+ nese elementi qe po bej right-click eshet file apo folder ne menyre qe te shfaq edhe opsionet ne varesi te llojit.
+Nje veprim I rendesishem tek right click eshte change version of a file. Nese ngarkoj nje file me emer ‘test.txt’ dhe me pas I bej ketij
+ file ndryshime dhe dua ta ngarkoj perseri, perderisa ka te njejtin emer ai ngarkohet por jo si nje file I dyte, dmth file ‘test.txt’
+  qe kam ne file-explorer eshte ai I updetuari. Kete e shoh duke I bej file-t preview. Nese klikoj change version pasi kam selektuar 
+  nje file una shfaq versionin actual dhe liston versionet e tij te mundshme. Nese zgjedh nje prej tyre therras metoden nga service 
+  per rrollback dhe file me kthet ne version tjeter, nese zgjedh te njejtin version afishoj error. Message qe versioni eshte I njejte.
+Per te pare nese po klikoj ne blank page une kam perdorur HostListener. Klikimet ne header apo tek butonat cancel/save te dialogs
+ nuk I kam marre parasysh per shkak se me hiqnin selektimin nga elementi pa kryer veprimin. 
+Nje funksionalitet tjeter qe kam kryer ne file-explorer eshte edhe search. Searchin e kam menduar pa button por duke vendosur 
+useri nje query ne serach une te bej kerkimin dhe menjehere te shfaq rezultatin. Per te shmanguar sasine e larte te HTTP requests
+ une kam perdorur Subject edhe per serach ne kete menyre nepemjet pipe() une mund te realizoj disa operacione: si debounceTime 
+ qe pret 300ms userin per input dhe me pas dergon http call. Switchmap qe ndalon nje search query te kaluar nese nje query e re vendoset, ne kete menyre vetem query me e fundit do te procesohet. Dhe gjithashtu CombineLatest qe ben te mundur kombinim e rezultateve nga 2 observable si search Folder dhe File, kjo sepse une me te njejtin emer mund te kem edhe nje file edhe nje folder dhe do me duhet ti afishoj te dyja. Per te marr rezulatin nga backendi bej subcribe dhe nese kam result une bej update childFodlers dhe files te folderit prind qe po bej kerkimin ne menyre qe te shfaq ate childFodler apo file qe po kerkoja. 
+Drag and drop eshte gjithashtu nje funksionalitet tjeter. Ne html folderave dhe file u vendos attibutin draggable true dhe
+ per eventet dragstart dragover dragleave dhe drop therras metodat perkatese nga ts.
+DragStart thirret ur usei fillon te bej drag 1 element. Ketij elementi I marr id dhe e ruaj si draggedItem.
+DragOver lejon realizomin e drop duke bparandaluar sjellje default.
+On drop eshte metoda qe ben levizjen, fillimisht shoh nese kam draggItem dhe shoh tipin e tij nese eshte file dhe target
+ eshte folder therras metoden moveFile() nga service. Nese draggedItem eshte folder therras metoden tjeter moveFolder() nga service.
+  Ne fund vendos draggItem ne null. Nese re
+
+Header
+Kete komponente e kam menduar si nje navbar I cili mban butonat per veprimet  kryesore mbi folders dhe files. Ne klikim te ketyre
+ butonave une kam menduar te hap nje dialog qe perfaqesohet nga nje komponente tjeter. 
+Butonat ne header jane : Create folder, Rename folder, Delete : buton I cili fshin elementin e selektuar ose elementet e selektuar,
+ Upload , Download dhe preview file.
+Qe keta butona te jene enable une kam vendosur kushte kontrolli, pra per arsye se bejme rename vetem nje folder, kur nje file te jete
+ I selektuar rename nuk kam pse te jete aktiv si buton. Ne kete menyre eshte me e thjeshte edhe per perdoruesin te doje se cfare 
+ veprimesh I lejohen te kryeje me elementin qe ka selektuar. 
+Pra butoni create eshte aktiv gjate gjithe kohes, sepse nese nuk kemi selektuar nje folder folder qe do krijojme do marre si parentId 
+null dhe do te krijohet si root folder, ndersa nese une klikoj nje folder dhe me pas klikoj create une jam duke krijuar nje 
+child folder Brenda folderit te selektuar. Ne klikim te create, hapet Create Dialog qe kerkon emrin e folderit.
+Butoni Rename eshte enable nese ka folder te selektuar, ne mneyre qe ketij folder ti bejme rename.
+Butoni delete eshte enable nese ka folder, file , ose disa elemente te selektuar se bashku, pasi ne realizojme fshirjen e 
+nje folder, te nje file ose te disa elementeve.
+Upload eshte enable nese une kemi selektuar nej folder, pasi file qe do ngakrojme duhet te jete pjese e nje folderi.
+Download duhet te jete enable nese elementi I selektuar eshte file, njesoj edhe per preview.
+Gjithashtu kam menduar qe te shfaq edhe pathin, pra ne klimim te folderave une ndertoj nje path I cili shfaq emrin e folderave. 
+
+Funksionalitet
+Pasi klikoj nje folder qofte ai nga sidebar ose nga file-explorer ate e vendos si selecetdFolder, ne menyre qe edhe kur 
+komponetet e tjera te bejne subscribe te kuptojne kush eshte folder aktiv. 
+Njesoj edhe per file. Duke kuptuar cili eshte elementi I selektuar edhe butonat jane enable/disable.
+Pasi selektoj nje folder apo file dhe klikoj nje nga butonat enable te headerit, ne varesi te butonit me hapet edhe dialogu perkates. 
+Nese klikoj create dhe nuk kam selektuar asnje folder folder qe do krijoj do me krijohet si root pasi si parentId I jap null,
+ Nese kam klikuar njej folder dhe me pas klikoj create folder I ri do me krijohet si childFolder I folderit ku ndodhem, 
+ duke I dhene si parentId id e folderit te selektuar.
+Delete me fshin folderin ose file e selektuar, por edhe elementet e selektuar qe mund te jene file/foldera. Duke kontrolluar
+ se cfare kam selektuar therras edhe metoden respesktive nga service.
+Rename gjithashtu ka nevoje per folder/file te selektuar ne menyre qe te marr  id e tij dhe inputin e userit qe une te therras
+ metoden rename(id, newname). Per rename kontrolloj nese inputi eshte bosh dhe afishoj mesazh ‘qe kerkohet emri per rename’ , 
+ kontrolloj nese emri eshte I njejte me aktualin dhe perseri shfaq nje error message si ‘nuk ka ndryshim ne emer’ nese emri
+  eshte I ri une tharras metoden respective bazuar ne elementin e selektuar nese eshte file renameFile dhe nese folder renameFolder.
+Nese kam  selektuar nje folder, une mund te bej upload file ne te, duke klikuar upload button tek header qe hap dialogun qe te 
+lejon te ngarkosh file nga laptopi/pc jote. Therras uploadFile() metode e cila realizon post request ne server objektin FormData.
+ Perdor FormData pasi eshte menyra me e mire per te menaxhuar filet.
+Nese kam selektuar nje file mund ti bej atij download, fillimisht e marr filennga serveri si Blob ne varesi te tipit te filet te 
+cilit marr nga serveri krijoj url. Krijoj linkun <a> te cilin e klikoj/trigeroj per te kryer downloadimin e filet. Duke krijuar 
+Blob object une menaxhoj te dhenat e filet ne menyre binare, kjo me lejoj qe te konvertoj kete te dhena ne format te download-ueshem.
+Gjithashtu nje file te selektuar mund ti bej edhe preview per te shfaqur permbajtjen e tij, ne kemi suportuar preview per imazhet,
+ text files dhe pdf. Fillimisht une per filen e selektuar therras metoden preview() nga service qe me jep filen ne base64. 
+ Pra per filen e selektuar nga kjo metode une marr contentType dhe base 64. Keto ia kaloj preview dialof, ku do te bej edhe
+  logjiken e preview.
+Nese eshte imazh base64 ia klaoj src dhe imazhi me behet preview. Nese eshet text-file base64 duhet ta dekodoj duke perdorur 
+funksionin e gatshem atob(). Tekstin e dekoduar e ruaj ne nje variebel dhe nepermjet property binding a afishoj ne html {{decodedText}}.
+Per te bere preview nje pdf ka me shume hapa si fillim duhet te dekoj base64 code, me pas krijoj Blob object qe mban te dhenat binare.
+ Krijoj url per filen ne menyre qe ta shoh ose bej download, dhe ia kaloj vleren [src] tek iframe. Qe url te jete me e sigurt
+  duhet te perdor sanitizer. Ne kete menyre file pdf eshte I sigurt dhe mund te downlodohet kur ai behet preview.
+
+Service
+FolderService eshte nje service qe e kam dizenjuar per te menaxhuar folderat dhe filet ne kete projekt. Ky service mundeson 
+nje shumellojshmeri funksionalitetesh si CRUD operations, menaxhimi I path, ruajtja e gjendjes, dhe kerkimi.
+Per te realizuar veprimet crud une kam perdorur apis nga backend. Prandaj kam perdorur HttpClient per te realizuat http requests.
+Metodat e ketij service mund ti grupoj si:
+Menaxhimi I foldera-ve:
+getRootFolders() getAllFolders() getFolderById()
+createFolder() renameFolder()deleteFolder()
+moveFolder()
+Menaxhimi I fila-ve:
+uploadFile()deleteFile()
+downloadFile()getFileById()getFile() 
+moveFile() rollbackFile()  preview()
+preview()
+Menaxhimi I path:
+ currentPath$ updatePath()
+buildPathFromFolder() 
+Batch operations:
+deleteFolders()deleteFiles()
+Kerkimi:
+searchFolder()searchFile()
+Menaxhimi i gjendjes:
+Kam perdorur BehaviorSubject dhe Subject për të menaxhuar dhe emetuar ndryshimet e gjendjes per folderat dhe filet.
+SelectedFolder$, SelectedFile$, SelectedItems$ jane Observables per te gjurmuar elementet/elementin e zgjedhur apo aktiv.
+folderChangeSubject dhe fileChangeSubject bejne emit perditesime, per te njoftuar subscribers per ndryshimet ne folder dhe file.
+
+Subject dhe Behaviour Subject jane tipe te vecanta Observable nga libraria rxjs. Por sigurisht midis tyre ka dallime.
+Observable: Stream te dhenash qe duhet tu besh subscribe per ti aksesuar. Pra nje observable perfaqeson nje sekuence me 
+te dhena/vlera me kalimin e kohes.
+Observables cilesohen si cold, sepse ai jep (emit)  vlera kur ne bejme subscribe dhe cdo subscriber merr te dhena te pavaruara. 
+Shembull HTTP requests.
+Subject: tip I vecante Observable qe lejon te dhenat te shperndahen ne disa subscribers (multicast). 
+Behaviour Subject: eshte nje tip Subject qe kerkon nje vlere fillestare dhe kthen gjithmone vleren aktuale tek subscriber-i. 
+Perdoren per te mbajtur gjendjen dhe per tu siguruar qe subscribers te marrin vleren me te fundit. Prandaj edhe une per te mabjtur
+ folderin/filen aktiv/selektuar kam perdorur Behaviour Subject.
+private selectedFolderSubject = new BehaviorSubject<any>(null);
+krijoj nje ‘BehaviourSubject’ 
+Initial value: null, pra fillimisht nuk ka nje folder te selektuar
+selectedFolder$ = this.selectedFolderSubject.asObservable();
+ selectedFolder$ eshte observable
+  Komponentet  duhet ti bejne subscribe selectedFolder$ per te marre ndryshimet 
+
+selectFolder(folder: any) {
+  this.selectedFolderSubject.next(folder);
+}
+ Ketu une perditesoj folderin e selektuar
+
+Kur therras selectFolder(folder), nepermjet next() method te  BehaviorSubject behet emit folder I ri (folder).
+Nese nje folder eshte selektuar, next(folder) updeton observable dhe njofton gjithe subscribers per vleren e re
+this.fileService.selectedFolder$.subscribe(folder => { this.selectedFolder = folder;
+       this.files = folder ? folder.children || [] : []; });
+Ketu une bej subscribe selectedFolder$ observable per te marre ndryshimet tek folderi I selektuar
+
+Ne service une kam ndertuar metodat te cilat I perdor neper komponente te ndryshme. Gjithashtu ketu kam edhe Subject/Behaviour 
+Subject qe kam zgjedhur per te ruajtur gjendjen e folderave, filave.
+Duke qene se une bej HttpCalls ne backend per secilin funksionalitet si create, delete, rename, move, upload, download, get une
+ kam perdorur Observable. 
+Observable jane struktura te dhenash qe perfaqesojne data stream asinkrone, te cilat bejne emit te dhena , errore apo sinjale 
+kompletimi gjate kohes. 
+Per te ‘konsumuar’ te dhenat nga Observable perdoren Observer qe eshte object I cili nepmjet 3 callback functions definon se si 
+do menaxhohen te dhenat qe lirohen nga 1 observable, erroret, apo sinjalet e perfundimit.
+
+Pervec operacione crud, ne service kam ndertuar edhe logjiken se si do te afishoj path-in nderkohe qe kaloje neper foldera.
+Folderat kane nje strukture peme
+Root - child 1  - grand child 1    //pathi: root / child 1 /grand child 1
+                        -grand child 2
+           -child2  - grand 1
+                         -grand 2             //pathi: root/ child 2/ grand 2
+
+Pra nese une navigoj deri tek grand2 therras metoden buildPathFromFolder(grand2)
+Qe ne nje vector shton veten, me pas me unshift shton ne fillim te vektorit prindin e vet child 2 dhe
+ me pas gjej prindin e grand 2 : root dhe e shtoj ne vector ne fillim [root, child2, grand2]
+Dhe kete vektor qe perfaqeson pathin e shtoj tek subject path qe ruan pathin aktual.
+

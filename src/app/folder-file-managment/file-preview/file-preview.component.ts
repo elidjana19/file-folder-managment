@@ -16,6 +16,7 @@ export class FilePreviewComponent {
   decodedText:any
   safePdfUrl!: SafeResourceUrl;
   pdfSrc:any
+  name!:string
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef:MatDialogRef<FilePreviewComponent>, private sanitizer: DomSanitizer) { 
@@ -23,6 +24,8 @@ export class FilePreviewComponent {
     if (data.contentType === 'application/pdf') {
       this.createPdfUrl(data.base64Data);
     }
+
+    this.name=data.name
    
   }
 
@@ -47,7 +50,7 @@ export class FilePreviewComponent {
   // }
 
   createPdfUrl(base64Data: string): void {
-    try {
+   
       const cleanBase64Data = this.stripDataUrlPrefix(base64Data);
       const binaryString = window.atob(cleanBase64Data);
       const len = binaryString.length;
@@ -63,9 +66,7 @@ export class FilePreviewComponent {
       console.log('Object URL created:', objectUrl);
 
       this.safePdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(objectUrl);
-    } catch (e) {
-      console.error('Error creating PDF URL:', e);
-    }
+    
   }
 
   private stripDataUrlPrefix(dataUrl: string): string {
@@ -75,6 +76,7 @@ export class FilePreviewComponent {
     }
     return dataUrl;
   }
+
 
   ngOnInit(): void {}
 

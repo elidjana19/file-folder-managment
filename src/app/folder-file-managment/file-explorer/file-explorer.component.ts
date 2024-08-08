@@ -61,7 +61,6 @@ export class FileExplorerComponent implements OnInit {
     private toastr: ToastrService,
     private cdr: ChangeDetectorRef,
     private elRef: ElementRef,
-    private renderer: Renderer2,
     public clickTrackerService: ClickTrackerServiceService,
     public dialog: MatDialog
   ) {}
@@ -105,8 +104,9 @@ export class FileExplorerComponent implements OnInit {
     //   console.log(item, 'itemmmmmmm');
     // });
 
+
     //search: this way offers minimal http calls
-    this.searchSubscription = this.searchSubject
+    this.searchSubject
       .pipe(
         debounceTime(300),
         switchMap((searchQuery) => {
@@ -143,6 +143,7 @@ export class FileExplorerComponent implements OnInit {
         }
       });
   }
+
   search(): void {
     this.searchSubject.next(this.searchQuery);
   }
@@ -201,7 +202,7 @@ export class FileExplorerComponent implements OnInit {
   // drag and drop
   onDragStart(event: DragEvent, id: string, type: string) {
     this.draggedItem = { id, type };
-    event.dataTransfer?.setData('text/plain', id);
+   // event.dataTransfer?.setData('text/plain', id);
   }
 
   onDragLeave(event: DragEvent) {
@@ -338,85 +339,6 @@ export class FileExplorerComponent implements OnInit {
     );
   }
 
-  //   deleteSelectedItems() {
-  //   const fileIds: number[] = [];
-  //   const folderIds: number[] = [];
-
-  //   this.selectedItems.forEach((item: { id: number; type: string }) => {
-  //     if (item.type === 'file') {
-  //       fileIds.push(item.id);
-  //     } else if (item.type === 'folder') {
-  //       folderIds.push(item.id);
-  //     }
-  //   });
-
-  //   if (fileIds.length > 0) {
-  //     this.folderService.deleteFiles(fileIds).subscribe(
-  //       (response) => {
-  //         this.toastr.success('Items deleted successfully');
-  //       },
-  //       (error) => {
-  //         this.toastr.error('Failed to delete');
-  //         console.error('Error deleting :', error);
-  //       }
-  //     );
-  //   }
-
-  //   if (folderIds.length > 0) {
-  //     this.folderService.deleteFolders(folderIds).subscribe(
-  //       (response) => {
-  //         this.toastr.success('Items deleted successfully');
-
-  //       },
-  //       (error) => {
-  //         this.toastr.error('Failed to delete ');
-  //         console.error('Error deleting :', error);
-  //       }
-  //     );
-  //   }
-  //   this.selectedItems.clear();
-  // }
-
-  // simplier way but many http calls
-  //search
-
-  // searchQuery!: string;
-  // filteredFolders: any;
-  // filteredFiles: any;
-
-  // search(): void {
-  //   if (this.selectedFolder) {
-  //     this.searchQuery = this.searchQuery.toLowerCase().trim();
-  //     console.log(this.searchQuery);
-
-  //     if (this.searchQuery) {
-  //       // Search for folders
-  //       this.folderService.searchFolder(this.selectedFolder.id, this.searchQuery).subscribe(
-  //         (folders) => {
-  //           this.filteredFolders = folders || [];
-  //           console.log(this.filteredFolders);
-  //         },
-  //         (error) => {
-  //           console.error('Error fetching folders:', error);
-  //         }
-  //       );
-
-  //       // Search for files
-  //       this.folderService.searchFile(this.selectedFolder.id, this.searchQuery).subscribe(
-  //         (files) => {
-  //           this.filteredFiles = files || [];
-  //           console.log(this.filteredFiles);
-  //         },
-  //         (error) => {
-  //           console.error('Error fetching files:', error);
-  //         }
-  //       );
-  //     } else {
-  //       // Clear search query and revert to the full folder content
-  //       this.updateFolderContent();
-  //     }
-  //   }
-  // }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
@@ -579,22 +501,6 @@ export class FileExplorerComponent implements OnInit {
     }
   }
 
-  // openMoveDialog() {
-  //   if (this.selectedFolder) {
-  //     const dialogRef = this.dialog.open(MoveComponent, {
-  //       disableClose: true,
-  //       width: '400px',
-  //       data: { itemId: this.selectedFolder.id },
-  //     });
-  //   } else if (this.selectedFile) {
-  //     const dialogRef = this.dialog.open(MoveComponent, {
-  //       disableClose: true,
-  //       width: '400px',
-  //       data: { itemId: this.selectedFile.id },
-  //     });
-  //   }
-  //   this.showContextMenu = false;
-  // }
 
   openMoveDialog() {
     if (this.selectedItem) {

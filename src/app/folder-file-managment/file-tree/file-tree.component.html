@@ -1,34 +1,35 @@
 
-<div class="accordion" id="nestedAccordion-{{ parentId }}">
-  <ng-container *ngFor="let folder of folders">
-    <div class="accordion-item">
-      <h2 class="accordion-header" [id]="'heading-' + folder.id">
-        <button
-          class="accordion-button"
-          type="button"
-          [attr.data-bs-toggle]="'collapse'"
-          [attr.data-bs-target]="'#collapse-' + folder.id"
-          [class.collapsed]="selectedFolder?.id !== folder.id"
-          aria-expanded="false"
-          [attr.aria-controls]="'collapse-' + folder.id"
-          (click)="onFolderClick(folder)"
+  <div class="accordion" id="nestedAccordion-{{ parentId }}">
+    <ng-container *ngFor="let folder of folders">
+      <div class="accordion-item">
+        <h2 class="accordion-header" [id]="'heading-' + folder.id">
+          <button
+            class="accordion-button"
+            type="button"
+            [attr.data-bs-toggle]="'collapse'"
+            [attr.data-bs-target]="'#collapse-' + folder.id"
+            [class.collapsed]="selectedFolder?.id !== folder.id"
+            aria-expanded="false"
+            [attr.aria-controls]="'collapse-' + folder.id"
+            (click)="onFolderClick(folder)"
+          >
+            <i class="fas fa-folder"></i>{{ folder.name }}
+          </button>
+        </h2>
+        <div
+          [id]="'collapse-' + folder.id"
+          class="accordion-collapse collapse"
+          [class.show]="selectedFolder?.id === folder.id"
+          [attr.aria-labelledby]="'heading-' + folder.id"
         >
-          <i class="fas fa-folder"></i> {{ folder.name }}
-        </button>
-      </h2>
-      <div
-        [id]="'collapse-' + folder.id"
-        class="accordion-collapse collapse"
-        [class.show]="selectedFolder?.id === folder.id"
-        [attr.aria-labelledby]="'heading-' + folder.id"
-      >
-        <div class="accordion-body">
-          <app-file-tree
-            [folders]="childFolders"
-            [parentId]="folder.id"
-          ></app-file-tree>
+          <div class="accordion-body">
+            <app-file-tree
+              [folders]="childFolders"
+              [parentId]="folder.id"
+            ></app-file-tree>
+          </div>
         </div>
       </div>
-    </div>
-  </ng-container>
-</div>
+    </ng-container>
+  </div>
+  

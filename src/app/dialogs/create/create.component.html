@@ -1,14 +1,16 @@
-<div class="register-container">
-<button class="cancel" (click)="onCancel()"><i class="fa-solid fa-xmark"></i></button>
-<h1 mat-dialog-title>Create Folder</h1>
-<div mat-dialog-content>
-  <mat-form-field>
-    <mat-label>Folder Name</mat-label>
-    <input matInput [(ngModel)]="folderName">
-  </mat-form-field>
-</div>
-<div mat-dialog-actions>
-  <!-- <button mat-button-red class="btn btn-danger"(click)="onCancel()">Cancel</button> -->
-  <button class="success" (click)="onSave()">Create</button>
-</div>
-</div>
+
+  <div class="register-container">
+    <button class="cancel" (click)="onCancel()"><i class="fa-solid fa-xmark"></i></button>
+    <h1 mat-dialog-title class="dialog-title">Create Folder</h1>
+    <div mat-dialog-content class="dialog-content">
+      <mat-form-field  appearance="fill" class="form-field">
+        <mat-label>Folder Name</mat-label>
+        <input matInput [(ngModel)]="folderName">
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions class="dialog-actions">
+      <!-- <button mat-button-red class="btn btn-danger"(click)="onCancel()">Cancel</button> -->
+      <button class="success" (click)="onSave()">Create</button>
+    </div>
+    </div>
+

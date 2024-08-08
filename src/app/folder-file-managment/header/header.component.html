@@ -1,11 +1,9 @@
+
 <nav class="navbar navbar-light bg-light" >
   <div class="container">
     <div class="row w-100 first" >
       <div class="col ">
         <p class="title">File Managment Application</p>
-      </div>
-      <div class="col-1">
-        <i class="fa-regular fa-user" (click)="logout()">Logout</i>
       </div>
     </div>
     <div class="row w-100 justify-content-between">
@@ -37,7 +35,7 @@
 
 <div class="navigation-container">
   <div class="breadcrumb-container ">
-    <i class="fa-solid fa-arrow-left"  [class.disabled]="isDisabled()" (click)="goBack()" ></i>
+    <!-- <i class="fa-solid fa-arrow-left"  [class.disabled]="isDisabled()" (click)="goBack()" ></i> -->
     <ng-container *ngFor="let segment of path; let i = index">
       <span
         class="breadcrumb-item"
@@ -53,7 +51,6 @@
 
 
 </div>
-
 
 
 

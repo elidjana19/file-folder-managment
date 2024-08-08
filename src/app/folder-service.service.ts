@@ -187,19 +187,54 @@ export class FolderServiceService {
     return this.selectedFile$;
   }
 
+  // goBack() {
+  //   if (this.folderStack.length > 0) {
+  //     const parentFolder = this.folderStack.pop();
+  //     this.selectedFolderSubject.next(parentFolder);
+  //     if (parentFolder) {
+  //       this.buildPathFromFolder(parentFolder).then(() => {
+  //         console.log('Path built successfully');
+  //       });
+  //     }else{
+  //       this.clearPath()  //for root folders
+  //     }
+  //   }
+  // }
+
   goBack() {
-    if (this.folderStack.length > 0) {
-      const parentFolder = this.folderStack.pop();
-      this.selectedFolderSubject.next(parentFolder);
-      if (parentFolder) {
-        this.buildPathFromFolder(parentFolder).then(() => {
-          console.log('Path built successfully');
-        });
-      }else{
-        this.clearPath()  //for root folders
-      }
+  if (this.folderStack.length > 0) {
+    const parentFolder = this.folderStack.pop();
+
+    if (parentFolder) {
+      this.getFolderById(parentFolder.id).subscribe(
+        (folder) => {
+          if (folder) {
+            this.buildPathFromFolder(folder)
+              .then(() => {
+                console.log('Path built successfully');
+                this.selectedFolderSubject.next(parentFolder);
+              })
+              .catch((error) => {
+                console.error('Error building path:', error);
+              });
+          } else {
+            console.error('Folder not found');
+          }
+        },
+        (error) => {
+          console.error('Error fetching folder:', error);
+        }
+      );
     }
+    
+  } else if(this.folderStack.length === 0) {
+    console.log('No more folders to go back to');
+    this.clearPath(); 
+    this.selectedFolderSubject.next(null);
+
   }
+}
+
 
   getStackLength() {
     // console.log(this.folderStack.length)
@@ -332,7 +367,9 @@ export class FolderServiceService {
   rollbackFile(fileId: number, targetVersion: number): Observable<any> {
     const url = `${this.fileUrl}/${fileId}/rollback`;
     const body = { fileId, targetVersion };
-    return this.http.post<any>(url, body, { responseType: 'text' as 'json' }) .pipe(catchError(this.handleError));
+    return this.http.post<any>(url, body, { responseType: 'text' as 'json' }) .pipe(
+      tap(() => this.folderChangeSubject.next()),
+      catchError(this.handleError));
   }
 
   getVersions(fileId:number, path:any):Observable<any>{

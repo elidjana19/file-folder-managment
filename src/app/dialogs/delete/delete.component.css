@@ -1,15 +1,17 @@
 .delete-container{
-    height:300px;
+    height:250px;
     padding:20px;
     background-color: white;
 }
-.delete-container p{
+.delete-container h6{
     text-align: center;
     position: relative;
-    top:50px
+    top:50px;
+    padding:0px 60px;
+    font-weight: 800;
 }
 .dialog-actions{
-    margin-top:130px;
+    margin-top:90px;
     display: flex;
     justify-content: center;
     gap:10px
@@ -50,10 +52,12 @@
 .cancel{
     border:none;
     background-color: white;
+    position: absolute; 
+     top: 10px;
+     right: 10px;
 }
 
 .fa-xmark{
     color:red;   
     font-size: 30px;
-    position: relative;
 }

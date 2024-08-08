@@ -77,7 +77,7 @@ export class HeaderComponent {
   // create is OK
   openCreateFolderDialog() {
     const dialogRef = this.dialog.open(CreateComponent, {
-      width: '500px',
+      width: '400px',
       disableClose: true,
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -111,7 +111,7 @@ export class HeaderComponent {
     const fileName = this.selectedFile?.name.replace(/\.[^.]+$/, '');
     const dialogRef = this.dialog.open(RenameComponent, {
       disableClose: true,
-      width: '500px',
+      width: '400px',
       data: {
         name: this.selectedFolder?.name || fileName,
         originalName: this.selectedFolder?.name || fileName,
@@ -128,11 +128,6 @@ export class HeaderComponent {
             .getFolderById(this.selectedFolder.id)
             .subscribe((folder) => {
               this.selectedFolder = folder;
-              //i clear the actual path, to make the new because of rename
-              // this.folderService.clearPath();
-              // this.folderService.buildPathFromFolder(folder);
-
-
               // i need to build the new path if the folder is opened not just selected
               const foundPathItem = this.path.find(
                 (item) => item.id === result.id
@@ -164,7 +159,7 @@ export class HeaderComponent {
     event.preventDefault();
     if (this.selectedFolder || this.selectedFile) {
       const dialogRef = this.dialog.open(DeleteComponent, {
-        width: '250px',
+        width: '400px',
       });
 
       dialogRef.afterClosed().subscribe((result) => {
@@ -271,11 +266,6 @@ export class HeaderComponent {
     }
   }
 
-  logout() {
-    this.router.navigate(['']);
-    console.log('out');
-  }
-
   openPreviewDialog() {
     if (this.selectedFile) {
       this.folderService.preview(this.selectedFile.id).subscribe((response) => {
@@ -283,6 +273,7 @@ export class HeaderComponent {
         console.log(base64Data);
         this.dialog.open(FilePreviewComponent, {
           data: {
+            name: this.selectedFile.name,
             contentType: response.contentType,
             base64Data: base64Data,
           },
@@ -359,24 +350,9 @@ export class HeaderComponent {
     );
   }
 
-  openMoveDialog() {
-    if (this.selectedFolder) {
-      const dialogRef = this.dialog.open(MoveComponent, {
-        disableClose: true,
-        width: '400px',
-        data: { itemId: this.selectedFolder.id },
-      });
-    } else if (this.selectedFile) {
-      const dialogRef = this.dialog.open(MoveComponent, {
-        disableClose: true,
-        width: '400px',
-        data: { itemId: this.selectedFile.id },
-      });
-    }
-  }
 
   onPathClick(index: number): void {
-    // Get the path segments up to and including the clicked segment
+    // array that contains from the start of path to the clicked folder
     const newPath = this.path.slice(0, index + 1);
 
     if (newPath.length > 0) {

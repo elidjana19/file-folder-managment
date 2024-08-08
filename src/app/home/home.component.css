@@ -13,6 +13,7 @@
     font-size: 3rem;
     font-weight: bold;
     margin-bottom: 20px;
+    color:rgb(88, 88, 240)
   }
   
   .homepage-description {
@@ -33,10 +34,7 @@
     border-radius: 8px;
     transition: background-color 0.3s ease, transform 0.2s ease;
   }
-  
-  .btn-primary {
-    background-color: #0050a5;
-}
+
 
 .btn-danger {
     background-color: #e73710; 

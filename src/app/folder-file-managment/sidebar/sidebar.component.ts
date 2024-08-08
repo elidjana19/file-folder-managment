@@ -30,16 +30,12 @@ export class SidebarComponent {
 
   getRootFolders() {
     this.folderService.getRootFolders().subscribe({
-      next: (folders) => {
+      next: (folders) => {  //handle successful data
         this.rootFolders = folders;
       },
-      error: (error) => {
+      error: (error) => {  //handle errors
         console.error('Error fetching root folders:', error);
       },
     });
   }
-
-  // Handling Data: The next callback handles successful data retrieval by updating the rootFolders property. This allows the component to use this data in its view.
-
-  // Error Handling: The error callback manages any errors that occur during the data fetching process, allowing for logging or displaying error messages to the user.
 }

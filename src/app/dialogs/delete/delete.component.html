@@ -1,11 +1,12 @@
-<div class="delete-container">
-  <button class="cancel" (click)="onCancel()"><i class="fa-solid fa-xmark "></i></button>
+
+  <div class="delete-container">
+    <button class="cancel" (click)="onCancel()"><i class="fa-solid fa-xmark"></i></button>
     <div mat-dialog-content class="dialog-content">
-      <p><strong>Are you sure you want to delete?</strong></p>
+      <h6>Are you sure you want to delete ?</h6>
     </div>
     <div mat-dialog-actions class="dialog-actions">
       <!-- <button mat-button-primary class="btn btn-primary" (click)="onCancel()">Cancel</button> -->
-      <button class="btn btn-danger" (click)="onDelete()">Delete  <i class="fa-solid fa-trash"></i></button>
+      <button class="btn btn-danger" (click)="onDelete()">Delete <i class="fa-solid fa-trash"></i></button>
     </div>
   </div>
   

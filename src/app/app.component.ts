@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {  RouterOutlet } from '@angular/router';
+import { FileManagerComponent } from './file-manager/file-manager.component';
 
 @Component({
   selector: 'app-root',

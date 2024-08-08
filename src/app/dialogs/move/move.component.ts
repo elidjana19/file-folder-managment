@@ -68,7 +68,7 @@ export class MoveComponent {
           },
           (error) => {
             console.error("Error moving file:", error);
-            this.toastr.error("Cannot move here because you are here");
+            this.toastr.error("Cannot move this way");
             this.dialogRef.close()
           }
         );
@@ -87,7 +87,7 @@ export class MoveComponent {
           },
           (error) => {
             console.error("Error moving folder:", error);
-            this.toastr.error("Cannot move here because you are here");
+            this.toastr.error("Cannot move this way");
             this.dialogRef.close()
           }
         );
