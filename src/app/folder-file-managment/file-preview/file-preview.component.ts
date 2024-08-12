@@ -52,9 +52,9 @@ export class FilePreviewComponent {
   createPdfUrl(base64Data: string): void {
    
       const cleanBase64Data = this.stripDataUrlPrefix(base64Data);
-      const binaryString = window.atob(cleanBase64Data);
+      const binaryString = window.atob(cleanBase64Data);  //atob() : base64 => binary data
       const len = binaryString.length;
-      const bytes = new Uint8Array(len);
+      const bytes = new Uint8Array(len); //nr of bytes
       for (let i = 0; i < len; i++) {
         bytes[i] = binaryString.charCodeAt(i);
       }

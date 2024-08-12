@@ -65,8 +65,20 @@ export class RenameComponent {
       this.toastr.error('Name cannot be empty');
     } else if (this.newName === this.originalName) {
       this.toastr.error('Not the same name');
-    } else {
-      if (this.type === 'folder') {
+    }
+    else if (this.type=== 'file'){
+      this.folderService.renameFile(this.id, this.newName).subscribe(
+        () => {
+          this.dialogRef.close({
+            newName: this.newName,
+            type: this.type,
+            id: this.id,
+          });
+          this.toastr.success('Done');
+        },
+        (error) => console.log(this.originalName, 'org')
+      );
+    } else if (this.type=== 'folder') {
         this.folderService.renameFolder(this.id, this.newName).subscribe(
           () => {
             this.dialogRef.close({
@@ -78,19 +90,11 @@ export class RenameComponent {
           },
           (error) => console.log('Error renaming file')
         );
-      } else {
-        this.folderService.renameFile(this.id, this.newName).subscribe(
-          () => {
-            this.dialogRef.close({
-              newName: this.newName,
-              type: this.type,
-              id: this.id,
-            });
-            this.toastr.success('Done');
-          },
-          (error) => console.log(this.originalName, 'org')
-        );
-      }
+      } 
+
+    else{
+      this.toastr.error('Error happened while renaming');
     }
+     
   }
 }

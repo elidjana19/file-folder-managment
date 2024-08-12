@@ -14,13 +14,17 @@ import { Router } from '@angular/router';
 import { FilePreviewComponent } from '../file-preview/file-preview.component';
 import { UploadComponent } from '../../dialogs/upload/upload.component';
 import { FolderServiceService } from '../../folder-service.service';
-import { ToastrService } from 'ngx-toastr';
-import { MoveComponent } from '../../dialogs/move/move.component';
+import { ToastrService } from 'ngx-toastr'
 import { ClickTrackerServiceService } from '../../click-tracker-service.service';
+
+import { FormsModule } from '@angular/forms';
+import { catchError, combineLatest, debounceTime, map, of, Subject, Subscription, switchMap } from 'rxjs';
+
+
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatDialogModule, CommonModule],
+  imports: [MatDialogModule, CommonModule, FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
@@ -34,6 +38,9 @@ export class HeaderComponent {
   path: any[] = [];
   folderChangesSub: any;
   selectedItem: any;
+
+ 
+  searchQuery:any
 
   constructor(
     public dialog: MatDialog,
@@ -72,6 +79,11 @@ export class HeaderComponent {
       this.selectedItems = items;
       console.log('Selected Items:', this.selectedItems);
     });
+
+    this.folderService.selectedItem$.subscribe((item)=>{
+      this.selectedItem=item
+      console.log('Selected Item:', this.selectedItem);
+    })
   }
 
   // create is OK
@@ -97,12 +109,12 @@ export class HeaderComponent {
   createFolder(folderName: string) {
     const parentId = this.selectedFolder ? this.selectedFolder.id : null;
     console.log(parentId, 'parent iddddd');
-    this.folderService.createFolder(folderName, parentId).subscribe(
+    this.folderService.createFolder(folderName, parentId, 'folder').subscribe(
       (res) => {
         this.toastr.success('Folder created successfully');
       },
       (error) => {
-        this.toastr.error('Cannot create a folder with the same name');
+        this.toastr.error(error.message);
       }
     );
   }
@@ -381,4 +393,7 @@ export class HeaderComponent {
   disableOtherActions() {
     return this.selectedItems.length > 1;
   }
+
+  ///////////////////////////////////////////////////////////////////////////////////////
+
 }

@@ -1,5 +1,5 @@
 
-<app-file-tree [folders]="rootFolders"></app-file-tree>
+<app-file-tree *ngIf="rootFolders && rootFolders.length" [folders]="rootFolders"></app-file-tree>
 
 
   

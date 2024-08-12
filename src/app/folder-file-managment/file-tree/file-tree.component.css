@@ -1,39 +1,12 @@
-
-  .accordion-button {
-    margin-bottom: 0; 
-    padding:0px 10px;
-    font-size: 20px;
-  }
-  
-  .fas {
-    font-size: 25px; 
-    margin-right:5px
-  }
-
-  .accordion-button {
-    width: 100%; /*  button  fill its container */
-    white-space: nowrap; 
-    overflow: hidden; 
-  }
-
-  
-  @media (max-width:600px) {
-    .accordion-item {
-        width:40vw;
-       
-  }
- .accordion-body{
-   padding:4px;
- }
+ul{
+  list-style: none;
 }
 
-  
-@media (max-width:590px) {
-  .accordion-item {
-      width:30vw;
-     
+summary{
+  margin-bottom:10px;
+  padding:5px 10px;
+  border-radius: 20px;
 }
-.accordion-body{
- padding:0px;
-}
+.fa-folder{
+  color:black
 }

@@ -43,8 +43,8 @@ export class FolderServiceService {
     return this.http.get<any>(url).pipe(catchError(this.handleError));
   }
 
-  createFolder(folderName: string, parentId: number): Observable<any> {
-    const body = { name: folderName, parentFolderId: parentId };
+  createFolder(folderName: string, parentId: number, type:string): Observable<any> {
+    const body = { name: folderName, parentFolderId: parentId , type:'folder'};
     return this.http.post<any>(this.apiUrl, body).pipe(
       tap(() => this.folderChangeSubject.next()),
       catchError(this.handleError)
@@ -316,14 +316,14 @@ export class FolderServiceService {
   }
 
 
-//   //selected item
-//   private selectedItemSubject = new BehaviorSubject<{ id: number, type: string } | null>(null);
-//   selectedItem$ = this.selectedItemSubject.asObservable();
+  //   //selected item
+  private selectedItemSubject = new BehaviorSubject<{ id: number, type: string, name:string } | null>(null);
+  selectedItem$ = this.selectedItemSubject.asObservable();
 
-//   addSelectedItem(item: { id: number, type: string }) {
-//     this.selectedItemSubject.next(item);
+  addSelectedItem(item:{ id: number, type: string, name:string }) {
+    this.selectedItemSubject.next(item);
   
-// }
+}
 
   // search
   // searchFolder(parentId:number, name:string):Observable<any>{
@@ -342,19 +342,23 @@ export class FolderServiceService {
   //   return this.http.get<any>(url, {headers})
   // }
 
-
-  searchFolder(parentId:number, name:string):Observable<any>{
-    const url = `${this.apiUrl}/search/${parentId}?name=${name}`
-    return this.http.get<any>(url)
+  searchFolder(name: string, parentId?: number): Observable<any> {
+    let url = `${this.apiUrl}/search?name=${name}`;
+    if (parentId !== undefined && parentId !== null) {
+      url += `&parentId=${parentId}`;
+    }
+    return this.http.get<any>(url);
   }
-
-  searchFile(parentId:number, name:string):Observable<any>{
-    const url = `${this.fileUrl}/files/searchByName/${parentId}?name=${name}`
-    return this.http.get<any>(url)
+  
+  searchFile(name: string, parentId?: number): Observable<any> {
+    let url = `${this.fileUrl}/search?name=${name}`;
+    if (parentId !== undefined && parentId !== null) {
+      url += `&parentId=${parentId}`;
+    }
+    return this.http.get<any>(url);
   }
-
-
-
+  
+  
   // preview
   preview(fileId:number):Observable<any>{
     const url = `${this.fileUrl}/${fileId}/preview-base64`
@@ -376,5 +380,10 @@ export class FolderServiceService {
     const url= `${this.fileUrl}/${fileId}/versions?filepath=${encodeURIComponent(path)}`
     return this.http.get<any>(url)
   }
+
+
+  
+ 
+
 
 }

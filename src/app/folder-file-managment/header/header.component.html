@@ -1,4 +1,4 @@
-
+<!-- 
 <nav class="navbar navbar-light bg-light" >
   <div class="container">
     <div class="row w-100 first" >
@@ -25,17 +25,14 @@
         <button class="btn btn-light" [class.disabled]="!selectedFile || disableOtherActions()" (click)="openPreviewDialog()"><i class="fa-solid fa-magnifying-glass" ></i> Preview</button>
         <span>Open</span>
       </div>
-      <!-- <div class="col-2 operation">
-        <button class="btn btn-light" [class.disabled]="(!selectedFolder && !selectedFile) ||  disableOtherActions()" (click)="openMoveDialog()" ><i class="fa-solid fa-up-down-left-right"></i> Move</button>
-        <span>Move</span>
-      </div> -->
+
     </div>
   </div>
 </nav>
 
 <div class="navigation-container">
   <div class="breadcrumb-container ">
-    <!-- <i class="fa-solid fa-arrow-left"  [class.disabled]="isDisabled()" (click)="goBack()" ></i> -->
+
     <ng-container *ngFor="let segment of path; let i = index">
       <span
         class="breadcrumb-item"
@@ -48,9 +45,24 @@
       </ng-container>
     </ng-container>
   </div>
-
-
-</div>
+</div>-->
 
 
 
+ <header>
+  <div class="header">
+    <div class="icon">
+      <i class="fa-solid fa-folder-open"> <span> FileFolderManager</span></i>
+    </div>
+  </div>
+    <div class="all-actions" >
+      <button class="create" (click)="openCreateFolderDialog()"><i class="fa-solid fa-plus"></i>Create folder </button> 
+      <div class="actions" *ngIf="selectedFolder || selectedFile" >
+        <button [class.disabled]="(!selectedFolder && !selectedFile) || disableOtherActions()" (click)="openRenameFolderDialog()"><i class="fa-solid fa-file-signature"></i></button>
+          <button [class.disabled]="!selectedFolder || disableOtherActions()"  (click)="openUploadDialog()"><i class="fa-solid fa-upload"></i></button>
+          <button [class.disabled]="!selectedFile || disableOtherActions()" (click)="downloadFile(selectedFile)"><i class="fa-solid fa-download"></i></button>
+        <button  [class.disabled]="!selectedFile || disableOtherActions()"  (click)="openPreviewDialog()"><i class="fa-solid fa-magnifying-glass"></i></button>
+          <button [class.disabled]="!selectedFolder && !selectedFile" (click)="openDeleteFolderDialog($event)" ><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+  </header>

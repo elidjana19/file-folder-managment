@@ -22,20 +22,44 @@ export class SidebarComponent {
   ngOnInit(): void {
     // immediate changes of root folders in sidebar
     this.folderService.folderChanges$.subscribe(() => {
-      this.getRootFolders();
+  
+       this.getAllFolders()
     });
 
-     this.getRootFolders();
+
+     this.getAllFolders()
   }
 
-  getRootFolders() {
-    this.folderService.getRootFolders().subscribe({
-      next: (folders) => {  //handle successful data
-        this.rootFolders = folders;
-      },
-      error: (error) => {  //handle errors
-        console.error('Error fetching root folders:', error);
-      },
+
+  getAllFolders() {
+    this.folderService.getAllFolders().subscribe(folders => {
+      console.log(folders, "all");
+      this.rootFolders = this.buildHierarchy(folders)
+  })
+  }
+
+
+  buildHierarchy(folders: any[]): any[] {
+    const map = new Map<number, any>();
+    const roots: any[] = [];
+
+    folders.forEach(folder => {
+      folder.childFolders = [];
+      map.set(folder.id, folder);
     });
+
+    folders.forEach(folder => {
+      if (folder.parentFolderId === 0) {
+        roots.push(folder); 
+      } else {
+        const parent = map.get(folder.parentFolderId); 
+        if (parent) {
+          parent.childFolders!.push(folder); //if folder has a parent folder, i add that folder to 'childFolders[]' of parent
+        }
+      }
+    });
+    return roots;
   }
 }
+  
+

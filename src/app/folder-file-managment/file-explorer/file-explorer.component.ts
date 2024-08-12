@@ -52,9 +52,19 @@ export class FileExplorerComponent implements OnInit {
   private searchSubscription!: Subscription;
   searchQuery!: string;
 
-  selectedItem: { id: any; type: string } | null = null;
+ // selectedItem: { id: any; type: string } | null = null;
   selectedItems: { id: number; type: string }[] = [];
   files: any;
+  path:any
+  selectedItem:any
+
+
+
+  private searchQuery$ = new Subject<string>()
+  private subscription: any;
+  allFiles: any;
+  fileExplorerData: any;
+  allFolders:any
 
   constructor(
     private folderService: FolderServiceService,
@@ -100,23 +110,27 @@ export class FileExplorerComponent implements OnInit {
       console.log('Selected Items:', this.selectedItems);
     });
 
-    // this.folderService.selectedItem$.subscribe((item) => {
-    //   console.log(item, 'itemmmmmmm');
-    // });
+    this.folderService.selectedItem$.subscribe((item) => {
+      this.selectedItem=item
+      console.log(item, 'itemmmmmmm');
+    });
 
+
+       // folder navigation PATH
+       this.folderService.currentPath$.subscribe((path) => {
+        this.path = path;
+        console.log(this.path);
+      });
 
     //search: this way offers minimal http calls
     this.searchSubject
       .pipe(
         debounceTime(300),
         switchMap((searchQuery) => {
-          if (!this.selectedFolder) {
-            return of({ folders: [], files: [] });
-          }
-          if (searchQuery === '') {
+          if (searchQuery === '' && this.selectedFolder) {
             //  i display all the content when i delete the query
             return this.folderService
-              .getFolderById(this.selectedFolder.id)
+              .getFolderById(this.selectedFolder?.id)
               .pipe(
                 map((folder) => ({
                   folders: folder.childFolders,
@@ -126,24 +140,72 @@ export class FileExplorerComponent implements OnInit {
           }
           return combineLatest([
             this.folderService
-              .searchFolder(this.selectedFolder.id, searchQuery)
+              .searchFolder(searchQuery, this.selectedFolder?.id)
               .pipe(catchError(() => of([]))), //if an error i retun empty array and not crash the search
             this.folderService
-              .searchFile(this.selectedFolder.id, searchQuery)
+              .searchFile(searchQuery, this.selectedFolder?.id)
               .pipe(catchError(() => of([]))),
           ]).pipe(map(([folders, files]) => ({ folders, files })));
         })
       )
-      .subscribe((results) => {
-        if (this.selectedFolder) {
-          this.selectedFolder.childFolders = results.folders;
-          this.selectedFolder.files = results.files;
-          console.log(this.selectedFolder.files, 'hereee'); //file i searched is here
-          this.cdr.detectChanges();
-        }
+          .subscribe((results) => {
+        console.log(results , "serach here ")
+        // if (this.selectedFolder) {
+        //   this.selectedFolder.childFolders = results.folders;
+        //   this.selectedFolder.files = results.files;
+        //   console.log(this.selectedFolder.files, 'hereee'); //file i searched is here
+        //   this.cdr.detectChanges();
+        // }
+        this.displayResults(results);
       });
-  }
 
+    // this.subscription = this.folderService.search$.pipe(
+    //   debounceTime(300),
+    //   switchMap((searchQuery) => {
+    //     if (searchQuery === '') {
+    //       // Fetch all content if query is empty
+    //       return this.folderService.getFolderById(this.selectedFolder?.id).pipe(
+    //         map((folder) => ({
+    //           folders: folder.childFolders,
+    //           files: folder.files,
+    //         }))
+    //       );
+    //     }
+
+    //     return combineLatest([
+    //       this.folderService.searchFolder(this.selectedFolder?.id, searchQuery).pipe(
+    //         catchError(() => of([])) // Return empty array on error
+    //       ),
+    //       this.folderService.searchFile(this.selectedFolder?.id, searchQuery).pipe(
+    //         catchError(() => of([])) // Return empty array on error
+    //       ),
+    //     ]).pipe(map(([folders, files]) => ({ folders, files })));
+    //   })
+    // ).subscribe((results) => {
+    //   if (this.selectedFolder) {
+    //     this.selectedFolder.childFolders = results.folders;
+    //     this.selectedFolder.files = results.files;
+    //     console.log(this.selectedFolder.files, 'hereee');
+    //     this.cdr.detectChanges();
+    //   }
+    // });
+
+    }
+
+
+    displayResults(results: { folders: any[]; files: any[] }) {
+      this.fileExplorerData = results; 
+    
+      if (this.selectedFolder) {
+        this.selectedFolder.childFolders = results.folders;
+        this.selectedFolder.files = results.files;
+      } else {
+        this.allFolders = results.folders; 
+        this.allFiles = results.files; 
+      }
+      this.cdr.detectChanges();
+    }
+    
   search(): void {
     this.searchSubject.next(this.searchQuery);
   }
@@ -163,9 +225,10 @@ export class FileExplorerComponent implements OnInit {
   clickFolder(folder: any) {
     // set the folder only as selected
     this.isSelectingFolder = true;
-    this.selectedItem = { id: folder.id, type: 'folder' };
-    this.folderService.setSelectedFolder(folder);
-    // this.folderService.addSelectedItem(this.selectedItem);
+   this.folderService.getFolderById(folder.id).subscribe((folderData) => {
+    this.folderService.setSelectedFolder(folderData);
+    this.folderService.addSelectedItem(folderData);
+   })
   }
 
   doubleClickFolder(folder: any) {
@@ -183,8 +246,7 @@ export class FileExplorerComponent implements OnInit {
   getFile(file: any) {
     //set the file only as selected
     this.folderService.setSelectedFile(file);
-    this.selectedItem = { id: file.id, type: 'file' };
-    // this.folderService.addSelectedItem(this.selectedItem);
+     this.folderService.addSelectedItem(file);
 
     // this.folderService.getFileById(file.id).subscribe((blob) => {
     //   console.log('Blob:', blob);
@@ -329,7 +391,7 @@ export class FileExplorerComponent implements OnInit {
     if (this.selectedItem) {
       return (
         this.selectedItem.id === item.id && this.selectedItem.type === type
-      ); //if 'item' match the selecetdItem
+      ); //if 'item' match the selectedItem
     }
     const itemKey = { id: item.id, type };
     return this.selectedItems.some(
@@ -413,6 +475,7 @@ export class FileExplorerComponent implements OnInit {
 
     // Clear the selected item after processing
     this.selectedItem = null;
+   //this.folderService.addSelectedItem(null)
   }
 
   handleSelectedFiles(files: any[]) {
@@ -581,4 +644,35 @@ export class FileExplorerComponent implements OnInit {
       data: data,
     });
   }
+
+
+  ///////////////////////////////////////////
+  onPathClick(index: number): void {
+    // array that contains from the start of path to the clicked folder
+    const newPath = this.path.slice(0, index + 1);
+
+    if (newPath.length > 0) {
+      // Get the ID of the clicked folder
+      const clickedFolder = newPath[newPath.length - 1];
+
+      if (clickedFolder && clickedFolder.id) {
+        this.folderService.getFolderById(clickedFolder.id).subscribe(
+          (folder) => {
+            console.log(folder);
+            this.folderService.setSelectedFolder(folder);
+            this.folderService.updatePath(newPath); // Update the path if needed
+          },
+          (error) => {
+            console.error('Error getting folder:', error);
+          }
+        );
+      } else {
+        console.error('Clicked folder not defined');
+      }
+    } else {
+      console.error(' path empty.');
+    }
+  }
 }
+
+

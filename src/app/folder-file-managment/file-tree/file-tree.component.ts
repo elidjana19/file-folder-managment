@@ -30,7 +30,7 @@ export class FileTreeComponent {
     this.folderService.folderChanges$.subscribe(() => {
       if (this.selectedFolder) {
         this.folderService.getFolderById(this.selectedFolder.id).subscribe(folder => {
-          this.childFolders = folder.childFolders || [];
+        // this.childFolders = folder.childFolders || [];
            this.updateFolderContent()
         });
         //this.updateFolderContent()
@@ -62,10 +62,14 @@ export class FileTreeComponent {
       this.folderService.clearPath()   //for the root folder 
       this.selectedFolder = null;
       this.childFolders = [];
-      this.folderService.setSelectedFolder(this.parentFolder)  //on collapse show the parent folder
+     this.folderService.setSelectedFolder(this.parentFolder)  //on collapse show the parent folder
       console.log("HEREEEE")
       this.folderService.buildPathFromFolder(this.parentFolder)
     } 
+
+    // this.folderService.setSelectedFolder(folder)
+    // this.folderService.buildPathFromFolder(folder)
+    // console.log(folder.childFolders, "children")
   }
 
   // Find parent folder

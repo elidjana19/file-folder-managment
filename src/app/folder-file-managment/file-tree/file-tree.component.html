@@ -1,4 +1,4 @@
-
+<!-- 
   <div class="accordion" id="nestedAccordion-{{ parentId }}">
     <ng-container *ngFor="let folder of folders">
       <div class="accordion-item">
@@ -32,4 +32,19 @@
       </div>
     </ng-container>
   </div>
+   -->
+
+   <ul>
+    <ng-container *ngFor="let folder of folders">
+      <li>
+        <details>
+          <summary>
+            <i class="fa-solid fa-folder" (click)="onFolderClick(folder)"></i> {{folder.name}}
+          </summary>
+          <!-- Recursively display child folders -->
+          <app-file-tree *ngIf="folder.childFolders  && folder.childFolders.length" [folders]="folder.childFolders"></app-file-tree>
+        </details>
+      </li>
+    </ng-container>
+  </ul>
   
