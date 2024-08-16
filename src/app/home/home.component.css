@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(to bottom right, #2b81e3, #d4dfed);
+    background: linear-gradient(to bottom right, #2b78d0, #d4dfed);
     color: #fff;
     text-align: center;
   }
@@ -13,13 +13,14 @@
     font-size: 3rem;
     font-weight: bold;
     margin-bottom: 20px;
-    color:rgb(88, 88, 240)
+    color:rgb(56, 56, 249)
   }
   
   .homepage-description {
     font-size: 1.2rem;
     margin-bottom: 40px;
     max-width: 600px;
+    font-style: italic;
   }
   
   .button-group {
@@ -28,23 +29,48 @@
     justify-content: center;
   }
   
+.btn {
+  background-color: #0078d0;
+  border: 0;
+  border-radius: 56px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: system-ui,-apple-system,system-ui,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  outline: 0;
+  padding: 16px 21px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: all .3s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.btn:before {
+  background-color: initial;
+  background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+  border-radius: 125px;
+  content: "";
+  height: 50%;
+  left: 4%;
+  opacity: .5;
+  position: absolute;
+  top: 0;
+  transition: all .3s;
+  width: 92%;
+}
+
+.btn:hover {
+  box-shadow: rgba(255, 255, 255, .2) 0 3px 15px inset, rgba(0, 0, 0, .1) 0 3px 5px, rgba(0, 0, 0, .1) 0 10px 13px;
+  transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
   .btn {
-    font-size: 1.2rem;
-    padding: 10px 20px;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    padding: 16px 48px;
   }
-
-
-.btn-danger {
-    background-color: #e73710; 
-}
-  
-  .btn:hover {
-    opacity: 0.9;
-    transform: translateY(-2px); /*  lift btn */
-}
-
-.btn:active {
-    transform: scale(0.95); 
 }

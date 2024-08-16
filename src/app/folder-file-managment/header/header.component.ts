@@ -18,8 +18,9 @@ import { ToastrService } from 'ngx-toastr'
 import { ClickTrackerServiceService } from '../../click-tracker-service.service';
 
 import { FormsModule } from '@angular/forms';
-import { catchError, combineLatest, debounceTime, map, of, Subject, Subscription, switchMap } from 'rxjs';
-
+import { AuthenticationService } from '../../authentication.service';
+import { RegisterComponent } from '../../authentication/register/register.component';
+import { LogoutConfirmComponent } from '../../dialogs/logout-confirm/logout-confirm.component';
 
 @Component({
   selector: 'app-header',
@@ -42,14 +43,17 @@ export class HeaderComponent {
  
   searchQuery:any
 
+  isAdmin!:boolean
+
+  logged:any
+
   constructor(
     public dialog: MatDialog,
-    private router: Router,
     private folderService: FolderServiceService,
     private toastr: ToastrService,
-    private cdr: ChangeDetectorRef,
     public elRef: ElementRef,
-    private clickTrackerService: ClickTrackerServiceService
+    private clickTrackerService: ClickTrackerServiceService, 
+    private service: AuthenticationService
   ) {}
 
   ngOnInit() {
@@ -84,6 +88,15 @@ export class HeaderComponent {
       this.selectedItem=item
       console.log('Selected Item:', this.selectedItem);
     })
+
+    // this.isAdmin = this.service.isAdmin();
+    // console.log(this.isAdmin)
+   
+
+    // the logged user
+    this.logged= this.service.getData()
+    console.log(this.logged, "logged")
+
   }
 
   // create is OK
@@ -295,9 +308,6 @@ export class HeaderComponent {
     }
   }
 
-  goBack() {
-    this.folderService.goBack();
-  }
 
   isDisabled() {
     return this.folderService.getStackLength() === 0;
@@ -394,6 +404,46 @@ export class HeaderComponent {
     return this.selectedItems.length > 1;
   }
 
-  ///////////////////////////////////////////////////////////////////////////////////////
+  isZip(){
+    return this.selectedItem?.type === 'zipfolder'
+  }
 
+
+  logout(){
+    this.service.logout()
+    console.log("here")
+
+  }
+
+  openLogout(){
+    const dialogRef=this.dialog.open(LogoutConfirmComponent,{
+      disableClose:true, 
+      data:{name: this.logged.unique_name}
+    })
+    
+    dialogRef.afterClosed().subscribe(res=>{
+      if(res){
+        this.logout()
+      }
+    })
+
+  }
+
+  selectAll() {
+    this.selectedItem=null //diselect the selected item, so i can do select all immediately
+
+    if (this.selectedFolder) {
+      this.folderService.updateSelection([]);
+
+      this.selectedFolder.childFolders.forEach((folder: any) => {
+        this.selectedItems.push({ id: folder.id, type: 'folder' });
+      });
+
+      this.selectedFolder.files.forEach((file: any) => {
+        this.selectedItems.push({ id: file.id, type: 'file' });
+      });
+      console.log('All items selected:', this.selectedItems);
+      this.folderService.updateSelection(this.selectedItems);
+    }
+  }
 }

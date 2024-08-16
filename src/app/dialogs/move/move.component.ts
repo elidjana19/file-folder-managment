@@ -72,7 +72,7 @@ export class MoveComponent {
             this.dialogRef.close()
           }
         );
-    } else if (this.type === 'folder') {
+    } else if (this.type === 'folder' || this.type==='zipfolder') {
       console.log(destinationId, "dest")
       console.log(this.item, "folder to move")
       if (destinationId === this.item.id) {

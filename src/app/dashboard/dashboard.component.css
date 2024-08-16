@@ -1,0 +1,192 @@
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #fff;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+  transform: scale(0.94);
+}
+
+.create {
+  border: 2px solid #007bff;
+  color: #007bff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+}
+
+.warning {
+  border: 2px solid #ffbf00;
+  color: #ffbf00;
+}
+
+.success {
+  border: 2px solid green;
+  color: green;
+}
+.dashboard-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-section,
+.admin-section {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-list,
+.admin-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user-item,
+.admin-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.user-item:last-child,
+.admin-item:last-child {
+  border-bottom: none;
+}
+
+.username {
+  flex: 1;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.dropdown {
+  margin: 5px 0;
+}
+
+.password-change {
+  display: flex;
+  gap: 10px;
+  margin: 5px 0;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-main {
+    grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-header h1 {
+    font-size: 20px;
+  }
+
+  .dashboard-container {
+    padding: 10px;
+  }
+
+  .dashboard-main {
+    grid-template-columns: 1fr;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .user-item,
+  .admin-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .username {
+    margin-bottom: 5px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+ 
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboard-header h1 {
+    font-size: 18px;
+  }
+
+  .btn {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+  .dashboard-header h1{
+    font-size:15px
+  }
+
+  h4{
+    font-size: 15px;
+  }
+}

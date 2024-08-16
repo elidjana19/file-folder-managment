@@ -1,5 +1,5 @@
 header{
-  margin:10px 20px 40px 20px;
+  margin:26px 20px 40px 20px;
 }
 
 .header {
@@ -10,7 +10,7 @@ header{
   margin-bottom:20px;
   gap:340px;
 
- i, span{
+ .fa-folder-open, span{
     color: #007bff;
   }
   span{
@@ -38,7 +38,7 @@ header{
 .all-actions{
   display: flex;
   align-items: center;
-  gap:200px;
+  gap:320px;
   margin-top:40px
   
 }
@@ -75,4 +75,38 @@ header{
   border: 1px solid #c0c0c0; 
   cursor: not-allowed;      
   pointer-events: none;      
+}
+
+.logout{
+  position: absolute;
+  right:20px;
+  top:5px;
+  align-items: center;
+  background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 48px;
+  padding-left: 16px;
+  padding-right: 16px;
+  transition: box-shadow .15s,transform .15s;
+  font-size: 18px;
+}
+
+.logout:focus {
+  box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+}
+
+.logout:hover {
+  box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.logout:active {
+  box-shadow: #3c4fe0 0 3px 7px inset;
+  transform: translateY(2px);
+}
+
+.logout .fa-user{
+  color:white;
 }

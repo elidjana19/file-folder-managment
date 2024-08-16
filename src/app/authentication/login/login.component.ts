@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ToastrModule } from 'ngx-toastr';
+import { AuthenticationService } from '../../authentication.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -21,7 +22,8 @@ export class LoginComponent {
   loginForm!:FormGroup
 
   constructor(private dialog:MatDialog, private dialogRef:MatDialogRef<LoginComponent>,
-    private fb:FormBuilder, private router:Router, private toastr:ToastrService
+    private fb:FormBuilder, private router:Router, private toastr:ToastrService, 
+    public service:AuthenticationService
   ){}
 
   ngOnInit(){
@@ -31,29 +33,36 @@ export class LoginComponent {
     })
   }
 
-  openRegisterModal(){
-    this.dialogRef.close()
-    this.dialog.open(RegisterComponent,{
-      disableClose:true
-    })
-  }
 
 
   onCancel(){
     this.dialogRef.close()
   }
 
-  onSubmit(){
-    // GET METHOD HERE
-    if(this.loginForm.valid){
-      const loginData= this.loginForm.value
-      console.log(loginData)
-
-      this.toastr.success('Successfull Login');
-        this.loginForm.reset()
-        this.dialogRef.close();  //i close the login modal
-         this.router.navigate(['/myFiles']);
+  onSubmit(): void {
+    if (this.loginForm.valid) {
+      const { username, password } = this.loginForm.value;
+      this.service.login(username, password).subscribe({
+        next: () => {
+          this.toastr.success("Successful loggin")
+          const role = this.service.getRole();
+          console.log(role, "roleeee")
+          if (role === 'Admin') {
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.router.navigate(['/myFiles']); 
+          }
+          this.dialogRef.close()
+        },
+        error: err => {
+          this.toastr.error('Username or password is wrong!')
+          console.error('Login failed', err);
+        }
+      });  
     }
   }
+
+  
+  
 
 }

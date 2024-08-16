@@ -58,7 +58,10 @@ export class FileTreeComponent {
       }, error => {
         console.error('Error fetching folder details:', error);
       });
-    } else { 
+    } 
+
+    //dont close the seleted folder from sidebar
+    else { 
       this.folderService.clearPath()   //for the root folder 
       this.selectedFolder = null;
       this.childFolders = [];

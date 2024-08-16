@@ -2,14 +2,6 @@
 <h2 mat-dialog-title>Register</h2>
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <mat-form-field>
-    <mat-label>Firstname</mat-label>
-    <input matInput formControlName="firstname">
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Lastname</mat-label>
-    <input matInput formControlName="lastname">
-  </mat-form-field>
-  <mat-form-field>
     <mat-label>Username</mat-label>
     <input matInput formControlName="username">
   </mat-form-field>
@@ -23,10 +15,17 @@
         Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character. Minimum 8 characters allowed!
       </mat-error>
   </mat-form-field>
+  <mat-form-field>
+    <mat-label>Role</mat-label>
+    <mat-select formControlName="role">
+      <mat-option value="Admin">Admin</mat-option>
+      <mat-option value="User">User</mat-option>
+    </mat-select>
+  </mat-form-field>
   <div mat-dialog-actions class="actions">
     <button mat-button (click)="onCancel()">Cancel</button>
     <button mat-button type="submit" [disabled]="!registerForm.valid">Register</button>
   </div>
 </form>
-<p class="login-link">Already registered? <a (click)="openLoginModal()">Login</a></p>
+<!-- <p class="login-link">Already registered? <a (click)="openLoginModal()">Login</a></p> -->
 </div>

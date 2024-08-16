@@ -3,10 +3,9 @@
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import "ngx-toastr/toastr";
 
-.fa-folder {
+.fa-folder, .fa-file-zipper {
   color: rgb(226, 208, 133);
 }
-
 .fa-file {
   color: rgb(157, 175, 232);
 }

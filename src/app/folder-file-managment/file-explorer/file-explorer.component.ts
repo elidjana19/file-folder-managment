@@ -202,6 +202,7 @@ export class FileExplorerComponent implements OnInit {
       } else {
         this.allFolders = results.folders; 
         this.allFiles = results.files; 
+        this.folderService.setSelectedFolder(null)
       }
       this.cdr.detectChanges();
     }
@@ -232,7 +233,7 @@ export class FileExplorerComponent implements OnInit {
   }
 
   doubleClickFolder(folder: any) {
-    this.selectedItem=null  //so when i open i folder, i dont go to parent if a click in blank page
+   
     // open the folder content
     this.isSelectingFolder = false;
     this.folderService.getFolderById(folder.id).subscribe((folderData) => {
@@ -318,16 +319,25 @@ export class FileExplorerComponent implements OnInit {
     }
   }
 
-  // Batch selection and deletion
+  // Batch selection 
+
+  private lastSelectedItem: any = null;
 
   // i used Set to store the selected items: folder/ files
   handleClick(item: any, type: string, event: MouseEvent): void {
     if (event.ctrlKey) {
       // Ctrl + Click for batch selection
       this.toggleSelection({ id: item.id, type });
-    } else {
+      this.lastSelectedItem = item;
+    }  else if(event.shiftKey){
+      if (this.lastSelectedItem) {
+        // Shift + Click 
+       
+      }
+    }
+    else {
       // Regular click for single selection
-      if (type === 'folder') {
+      if (type === 'folder' || type=== 'zipfolder') {
         this.clickFolder(item);
       } else if (type === 'file') {
         this.getFile(item);
@@ -335,7 +345,25 @@ export class FileExplorerComponent implements OnInit {
     }
   }
 
+   shift(start:any, end:any, item:any) {
+
+    // const selection:any[]=[]
+
+    // let from, to 
+    // if(start<end ){
+    //   [from, to]=[start, end]
+    // }else{
+    //   [from,to] = [end, start]
+    // }
+    // for (let i = from; i <= to; i++) { {
+    //   selection.push({ id: item.id, type: item.type });
+    //   }
+    // }
+    // this.folderService.updateSelection(selection);
+  }
+
   toggleSelection(item: { id: number; type: string }): void {
+
     const currentSelection = [...this.selectedItems]; // Copy of the current selection
     const index = currentSelection.findIndex(
       (selectedItem) =>
@@ -355,23 +383,23 @@ export class FileExplorerComponent implements OnInit {
   }
 
   // is OKK
-  selectAll() {
-    this.selectedItem = null; //diselect the selected item, so i can do select all immediately
+  // selectAll() {
+  //   this.selectedItem=null //diselect the selected item, so i can do select all immediately
 
-    if (this.selectedFolder) {
-      this.folderService.updateSelection([]);
+  //   if (this.selectedFolder) {
+  //     this.folderService.updateSelection([]);
 
-      this.selectedFolder.childFolders.forEach((folder: any) => {
-        this.selectedItems.push({ id: folder.id, type: 'folder' });
-      });
+  //     this.selectedFolder.childFolders.forEach((folder: any) => {
+  //       this.selectedItems.push({ id: folder.id, type: 'folder' });
+  //     });
 
-      this.selectedFolder.files.forEach((file: any) => {
-        this.selectedItems.push({ id: file.id, type: 'file' });
-      });
-      console.log('All items selected:', this.selectedItems);
-      this.folderService.updateSelection(this.selectedItems);
-    }
-  }
+  //     this.selectedFolder.files.forEach((file: any) => {
+  //       this.selectedItems.push({ id: file.id, type: 'file' });
+  //     });
+  //     console.log('All items selected:', this.selectedItems);
+  //     this.folderService.updateSelection(this.selectedItems);
+  //   }
+  // }
 
   // isSelected(item: any, type: string) {
   //   //for selected Item
@@ -427,7 +455,7 @@ export class FileExplorerComponent implements OnInit {
 
   deselectItems() {
     if (this.selectedItem) {
-      this.handleSingleItem(this.selectedItem);
+     this.handleSingleItem(this.selectedItem);
     } else if (this.selectedItems.length > 0) {
       if (this.selectedItems.every((item) => item.type === 'file')) {
         this.handleSelectedFiles(this.selectedItems);
@@ -439,7 +467,7 @@ export class FileExplorerComponent implements OnInit {
   }
 
   handleSingleItem(item: any) {
-    if (item.type === 'folder') {
+    if (item.type === 'folder' && this.isSelectingFolder) {
       this.folderService.getFolderById(item.id).subscribe(
         (folder) => {
           if (folder.parentFolderId) {
@@ -474,7 +502,7 @@ export class FileExplorerComponent implements OnInit {
     }
 
     // Clear the selected item after processing
-    this.selectedItem = null;
+    this.folderService.addSelectedItem(null)
    //this.folderService.addSelectedItem(null)
   }
 
@@ -537,9 +565,12 @@ export class FileExplorerComponent implements OnInit {
     if (type === 'file') {
       // Show context menu options specific to files
       this.contextMenuItems = ['Change Version', 'Move', 'Properties'];
-    } else {
+    } else if(type === 'folder') {
       // Show context menu options for folders
-      this.contextMenuItems = ['Move', 'Properties'];
+      this.contextMenuItems = ['Move', 'Properties', 'Zip'];
+    }
+    else if(type === 'zipfolder'){
+      this.contextMenuItems = ['Move', 'Unzip'];
     }
 
     this.contextMenuPosition = { x: event.clientX, y: event.clientY };
@@ -559,6 +590,12 @@ export class FileExplorerComponent implements OnInit {
       case 'Properties':
         this.openProperties();
         break;
+        case 'Zip':
+        this.zip(this.selectedItem.id);
+        break;
+        case 'Unzip':
+          this.unzipFolder(this.selectedItem.id);
+          break
       default:
         console.log('Unknown action:', action);
     }
@@ -643,6 +680,37 @@ export class FileExplorerComponent implements OnInit {
       disableClose: true,
       data: data,
     });
+  }
+
+
+  zip(folderId:number){
+    this.showContextMenu = false;
+    this.folderService.zip(folderId).subscribe(
+      response=>{
+        console.log(response)
+      },
+      error=>{
+        console.log(error)
+      }
+    )
+     
+  }
+
+  unzipFolder(folderId: number): void {
+    this.showContextMenu = false;
+    this.folderService.unzip(folderId).subscribe(
+      response => {
+        console.log(response) 
+      },
+      error => {
+        console.error('Unzip failed', error);
+      }
+    );
+  }
+
+
+  hasZipExtension(name: string): boolean {
+    return name.toLowerCase().endsWith('.zip');
   }
 
 

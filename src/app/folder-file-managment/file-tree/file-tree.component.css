@@ -1,3 +1,4 @@
+
 ul{
   list-style: none;
 }
@@ -6,7 +7,8 @@ summary{
   margin-bottom:10px;
   padding:5px 10px;
   border-radius: 20px;
+  color:rgb(65, 65, 65)
 }
 .fa-folder{
-  color:black
+  color:rgb(65, 65, 65)
 }

@@ -78,7 +78,7 @@ export class RenameComponent {
         },
         (error) => console.log(this.originalName, 'org')
       );
-    } else if (this.type=== 'folder') {
+    } else if (this.type=== 'folder' || this.type==='zipfolder') {
         this.folderService.renameFolder(this.id, this.newName).subscribe(
           () => {
             this.dialogRef.close({

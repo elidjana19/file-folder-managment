@@ -1,0 +1,17 @@
+<div class="role-container">
+<h6 class="dialog-title"mat-dialog-title>Change Role</h6>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Select Role</mat-label>
+    <mat-select [(value)]="selectedRole">
+      <mat-option *ngFor="let role of roles" [value]="role">
+        {{ role }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="btns">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onSave()">Save</button>
+</div>
+</div>

@@ -1,0 +1,7 @@
+.row{
+    margin-top:60px
+}
+.col-9{
+    display:flex;
+    justify-content: start;
+}

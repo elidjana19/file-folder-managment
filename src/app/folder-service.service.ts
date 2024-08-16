@@ -12,6 +12,9 @@ import {
   throwError,
 } from 'rxjs';
 
+import { Folder } from './interfaces/folder';
+import { Filee } from './interfaces/filee';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -23,41 +26,46 @@ export class FolderServiceService {
 
   constructor(private http: HttpClient) {}
 
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    console.log('Token:', token);
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+  
   private handleError(error: any) {
     console.error('API Error: ', error);
     return throwError(error);
   }
 
-  getRootFolders(): Observable<any[]> {
-    return this.http
-      .get<any[]>(`${this.apiUrl}/root`)
-      .pipe(catchError(this.handleError));
-  }
-
   getAllFolders(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl).pipe(catchError(this.handleError));
+    return this.http.get<Folder[]>(this.apiUrl,  {
+      headers: this.getAuthHeaders()
+    }).pipe(catchError(this.handleError));
   }
 
   getFolderById(folderId: number): Observable<any> {
     const url = `${this.apiUrl}/${folderId}`;
-    return this.http.get<any>(url).pipe(catchError(this.handleError));
+    return this.http.get<Folder>(url, {
+      headers: this.getAuthHeaders()
+    }).pipe(catchError(this.handleError));
   }
 
   createFolder(folderName: string, parentId: number, type:string): Observable<any> {
     const body = { name: folderName, parentFolderId: parentId , type:'folder'};
-    return this.http.post<any>(this.apiUrl, body).pipe(
+    return this.http.post<Folder>(this.apiUrl, body,  {
+      headers: this.getAuthHeaders()
+    }).pipe(
       tap(() => this.folderChangeSubject.next()),
       catchError(this.handleError)
     );
   }
 
   renameFolder(folderId: number, newName: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
+    const headers = this.getAuthHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify(newName);
     return this.http
-      .put(`${this.apiUrl}/rename/${folderId}`, body, { headers })
+      .put(`${this.apiUrl}/rename/${folderId}`, body, { headers })  //noo 
       .pipe(
         tap(() => this.folderChangeSubject.next()),
         catchError(this.handleError)
@@ -65,9 +73,8 @@ export class FolderServiceService {
   }
 
   renameFile(fileId: number, newName: string):Observable<any>{
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
+    
+    const headers = this.getAuthHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify(newName);
     return this.http
       .put(`${this.fileUrl}/rename/${fileId}`, body, { headers })
@@ -79,7 +86,9 @@ export class FolderServiceService {
   }
   deleteFolder(folderId: number): Observable<void> {
     const url = `${this.apiUrl}/${folderId}`;
-    return this.http.delete<void>(url).pipe(
+    return this.http.delete<void>(url, {
+      headers: this.getAuthHeaders()
+    }).pipe(
       tap(() => this.folderChangeSubject.next()),
       catchError(this.handleError)
     );
@@ -87,7 +96,9 @@ export class FolderServiceService {
 
   deleteFile(fileId:number):Observable<void>{
     const url= `${this.fileUrl}/${fileId}`
-    return this.http.delete<void>(url).pipe(
+    return this.http.delete<void>(url, {
+      headers: this.getAuthHeaders()
+    }).pipe(
       tap(()=>this.fileChangeSubject.next()),
       catchError(this.handleError)
     )
@@ -99,7 +110,9 @@ export class FolderServiceService {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
 
-    return this.http.post<any>(url, formData).pipe(
+    return this.http.post<any>(url, formData, {
+      headers: this.getAuthHeaders()
+    }).pipe(
       tap((response) => this.fileChangeSubject.next()),
       catchError(this.handleError)
     );
@@ -109,6 +122,7 @@ export class FolderServiceService {
     return this.http
       .get<Blob>(`${this.fileUrl}/${fileId}/download`, {
         responseType: 'blob' as 'json',
+        headers: this.getAuthHeaders(),
       })
       .pipe(
         tap(() => this.folderChangeSubject.next()),
@@ -119,31 +133,41 @@ export class FolderServiceService {
   getFileById(fileId: number): Observable<Blob> {
     return this.http.get<Blob>(`${this.fileUrl}/${fileId}`, {
       responseType: 'blob' as 'json',
+      headers: this.getAuthHeaders(),
     });
   }
 
   getFile(fileId: number): Observable<any> {
-    return this.http.get<any>(`${this.fileUrl}/${fileId}`);
+    return this.http.get<Filee>(`${this.fileUrl}/${fileId}`, {headers: this.getAuthHeaders()});
   }
 
   moveFolder(folderId: string, destinationFolderId: any): Observable<void> {
     const url = `${this.apiUrl}/move?folderId=${folderId}&destinationFolderId=${destinationFolderId}`;
-    return this.http.post<void>(url, { responseType: 'text' as 'json' }).pipe(
+    const options = {
+      headers: this.getAuthHeaders(),
+      responseType: 'text' as 'json'
+    };
+  
+    return this.http.post<void>(url, {}, options).pipe(
       tap(() => this.folderChangeSubject.next()),
-      
       catchError(this.handleError)
     );
   }
-
+  
   moveFile(fileId: string, destinationFolderId: any): Observable<void> {
     const url = `${this.fileUrl}/move?fileId=${fileId}&destinationFolderId=${destinationFolderId}`;
-    return this.http.post<void>(url, { responseType: 'text' as 'json' }).pipe(
+  
+    const options = {
+      headers: this.getAuthHeaders(),
+      responseType: 'text' as 'json'
+    };
+  
+    return this.http.post<void>(url, {}, options).pipe(
       tap(() => this.fileChangeSubject.next()),
-      
       catchError(this.handleError)
     );
   }
-
+  
 // to see folder/file changes
   folderChangeSubject = new Subject<void>();
   folderChanges$ = this.folderChangeSubject.asObservable();
@@ -187,53 +211,6 @@ export class FolderServiceService {
     return this.selectedFile$;
   }
 
-  // goBack() {
-  //   if (this.folderStack.length > 0) {
-  //     const parentFolder = this.folderStack.pop();
-  //     this.selectedFolderSubject.next(parentFolder);
-  //     if (parentFolder) {
-  //       this.buildPathFromFolder(parentFolder).then(() => {
-  //         console.log('Path built successfully');
-  //       });
-  //     }else{
-  //       this.clearPath()  //for root folders
-  //     }
-  //   }
-  // }
-
-  goBack() {
-  if (this.folderStack.length > 0) {
-    const parentFolder = this.folderStack.pop();
-
-    if (parentFolder) {
-      this.getFolderById(parentFolder.id).subscribe(
-        (folder) => {
-          if (folder) {
-            this.buildPathFromFolder(folder)
-              .then(() => {
-                console.log('Path built successfully');
-                this.selectedFolderSubject.next(parentFolder);
-              })
-              .catch((error) => {
-                console.error('Error building path:', error);
-              });
-          } else {
-            console.error('Folder not found');
-          }
-        },
-        (error) => {
-          console.error('Error fetching folder:', error);
-        }
-      );
-    }
-    
-  } else if(this.folderStack.length === 0) {
-    console.log('No more folders to go back to');
-    this.clearPath(); 
-    this.selectedFolderSubject.next(null);
-
-  }
-}
 
 
   getStackLength() {
@@ -289,7 +266,7 @@ export class FolderServiceService {
 
   deleteFolders(folderIds:number[]):Observable<any>{
     const url= `${this.apiUrl}/delete-folders`
-    return this.http.post(url, folderIds, { responseType: 'text' }).pipe(
+    return this.http.post(url, folderIds, { responseType: 'text' ,   headers: this.getAuthHeaders()}).pipe(
       tap(() => this.folderChangeSubject.next()),
       catchError(this.handleError)
     );
@@ -297,7 +274,7 @@ export class FolderServiceService {
 
   deleteFiles(fileIds:number[]):Observable<any> {
     const url = `${this.fileUrl}/delete-files`
-    return this.http.post(url, fileIds, { responseType: 'text' }).pipe(
+    return this.http.post(url, fileIds, { responseType: 'text',   headers: this.getAuthHeaders() }).pipe(
       tap(() => this.fileChangeSubject.next()),
       catchError(this.handleError)
     );
@@ -320,9 +297,12 @@ export class FolderServiceService {
   private selectedItemSubject = new BehaviorSubject<{ id: number, type: string, name:string } | null>(null);
   selectedItem$ = this.selectedItemSubject.asObservable();
 
-  addSelectedItem(item:{ id: number, type: string, name:string }) {
+  addSelectedItem(item:any ) {
     this.selectedItemSubject.next(item);
-  
+
+}
+clearSelectedItem(): void {
+  this.selectedItemSubject.next(null);
 }
 
   // search
@@ -347,7 +327,9 @@ export class FolderServiceService {
     if (parentId !== undefined && parentId !== null) {
       url += `&parentId=${parentId}`;
     }
-    return this.http.get<any>(url);
+    return this.http.get<Folder>(url, {
+      headers: this.getAuthHeaders()
+    });
   }
   
   searchFile(name: string, parentId?: number): Observable<any> {
@@ -355,14 +337,18 @@ export class FolderServiceService {
     if (parentId !== undefined && parentId !== null) {
       url += `&parentId=${parentId}`;
     }
-    return this.http.get<any>(url);
+    return this.http.get<Filee>(url, {
+      headers: this.getAuthHeaders()
+    });
   }
   
   
   // preview
   preview(fileId:number):Observable<any>{
     const url = `${this.fileUrl}/${fileId}/preview-base64`
-    return this.http.get<any>(url)
+    return this.http.get<Filee>(url, {
+      headers: this.getAuthHeaders()
+    })
   }
 
 
@@ -371,18 +357,37 @@ export class FolderServiceService {
   rollbackFile(fileId: number, targetVersion: number): Observable<any> {
     const url = `${this.fileUrl}/${fileId}/rollback`;
     const body = { fileId, targetVersion };
-    return this.http.post<any>(url, body, { responseType: 'text' as 'json' }) .pipe(
+    return this.http.post<Filee>(url, body, { responseType: 'text' as 'json',   headers: this.getAuthHeaders(), }) .pipe(
       tap(() => this.folderChangeSubject.next()),
       catchError(this.handleError));
   }
 
   getVersions(fileId:number, path:any):Observable<any>{
     const url= `${this.fileUrl}/${fileId}/versions?filepath=${encodeURIComponent(path)}`
-    return this.http.get<any>(url)
+    return this.http.get<Filee>(url, {
+      headers: this.getAuthHeaders()
+    })
   }
 
 
   
+  //zip unzip
+
+  zip(folderId:number):Observable<Blob>{
+    return this.http.post(`${this.apiUrl}/${folderId}/zip`, {}, {
+      responseType: 'blob',   headers: this.getAuthHeaders(),
+    }).pipe(
+      tap(() => this.folderChangeSubject.next()),
+      catchError(this.handleError));
+  }
+
+  unzip(folderId:number){
+    return this.http.post(`${this.apiUrl}/unzip/${folderId}`, {}, {
+      responseType: 'text',   headers: this.getAuthHeaders(),
+    }).pipe(
+      tap(() => this.folderChangeSubject.next()),
+      catchError(this.handleError));
+  }
  
 
 
