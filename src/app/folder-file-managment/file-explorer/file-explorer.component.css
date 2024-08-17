@@ -15,10 +15,13 @@
   text-align: center;
 }
 
+.file:hover{
+  background-color: rgb(229, 229, 229);
+}
+
 .selected-item {
-  background-color: white; 
+  background-color: rgb(240, 253, 255); 
   border: 1px solid #6d90f0;
-  /* padding: 5px 0px */
 }
 
 .fa-folder,
@@ -27,7 +30,7 @@
 .fa-file-word,
 .fa-file-powerpoint,
 .fa-image, 
-.fa-file-zipper {
+ .fa-file-zipper {
   font-size: 80px;
 }
 
@@ -57,6 +60,7 @@
 
 /* right click */
 .context-menu {
+  width:200px;
   position: absolute;
   background-color: #fff;
   border: 1px solid #ccc;
@@ -88,11 +92,9 @@
 
 .navigation-container{
 display:flex;
-justify-content: space-between;
 align-items: top;
-gap:200px
-
 }
+
 span{
   font-size: 30px;
   color:rgb(59, 59, 59);
@@ -100,6 +102,7 @@ span{
 }
 
 .breadcrumb-item:hover{
+  justify-content: start;
   background-color: rgb(212, 212, 212);
   cursor: pointer;
   border-radius: 20px;
@@ -114,7 +117,7 @@ span{
 position:absolute;
 top:15px;
 left:26%;
-margin-top:15px
+
 }
 
 
@@ -132,15 +135,81 @@ margin-top:15px
   border-color: #007bff;
   box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
   outline: none;
-  width: 900px; 
+  width: 700px; 
 }
 
 
 .search input[type="search"]::placeholder {
   color: #aaa;
   font-style: italic;
-  text-align: center;
+  padding-left:10px;
+
 }
+
+
+.display{
+  position: absolute;
+  right:30px
+}
+
+.btn1{
+  border-radius: 13px 0px 0px 13px;
+ }
+.btn2{
+  border-radius: 0px 13px 13px 0px;
+  
+}
+.display button{
+  border:1px solid gray;
+  padding:5px 15px;
+  background-color: white;
+}
+
+.display button:hover{
+  background-color:  rgb(229, 229, 229);
+}
+.display button.active{
+  background-color:  rgb(222, 233, 248);
+}
+.fol{
+  display: flex;
+
+}
+
+.list-view .container{
+  justify-content: start;
+}
+.list-view .file {
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  padding:5px;
+  display: flex;
+  width: 900px;
+  border-bottom: 1px solid #ddd;
+}
+.list-view .file-info {
+  display: grid;
+  grid-template-columns: 300px 250px 250px;
+  gap:30px;
+  overflow: hidden;
+}
+.list-view .file i, .list-view span, .list-view .file img{
+  font-size:20px;
+}
+
+/* if name too long i hide it */
+.list-view .file-info  .name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.list-view .file:hover{
+  background-color: rgb(229, 229, 229);
+}
+
+
 
 @media (max-width: 600px) {
   .fa-folder,

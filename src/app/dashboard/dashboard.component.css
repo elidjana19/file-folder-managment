@@ -179,14 +179,15 @@
   }
 
   .btn {
-    font-size: 12px;
-    padding: 6px 12px;
+    font-size: 10px;
+    padding: 3px 10px;
   }
   .dashboard-header h1{
-    font-size:15px
+    font-size:10px
   }
 
   h4{
     font-size: 15px;
   }
+
 }

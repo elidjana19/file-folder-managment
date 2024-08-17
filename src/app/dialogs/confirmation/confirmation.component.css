@@ -8,20 +8,19 @@ h4{
     margin-bottom: 20px;
 }
 p{
-    margin-bottom: 40px;
+    margin-bottom: 60px;
 }
 button{
     border:none;
     border-radius: 10px;
-    padding:15px;
+    padding:13px;
     color:white
 }
 
 .btns{
+    padding:0px 20px;
     display:flex;
     justify-content: space-around;
-    align-items: center;
-    gap: 15px;
 }
 
 .cancel{
@@ -31,8 +30,8 @@ button{
     background-color: rgb(255, 17, 17);
 }
 .confirm{
-    background-color: rgb(43, 171, 43)
+    background-color: rgb(63, 139, 63)
 }
 .confirm:hover{
-    background-color: rgb(19, 143, 19)
+    background-color: rgb(51, 174, 51)
 }

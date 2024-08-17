@@ -5,9 +5,17 @@ ul{
 
 summary{
   margin-bottom:10px;
-  padding:5px 10px;
+  padding:5px 0px 5px 7px;
   border-radius: 20px;
-  color:rgb(65, 65, 65)
+  color:rgb(65, 65, 65);
+  width:70%
+}
+summary:hover{
+  background-color: rgb(229, 229, 229);
+
+}
+summary.active{
+  background-color: rgb(222, 233, 248);
 }
 .fa-folder{
   color:rgb(65, 65, 65)

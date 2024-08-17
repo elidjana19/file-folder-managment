@@ -1,5 +1,5 @@
 header{
-  margin:26px 20px 40px 20px;
+  margin:10px 20px 40px 20px;
 }
 
 .header {
@@ -38,7 +38,7 @@ header{
 .all-actions{
   display: flex;
   align-items: center;
-  gap:320px;
+  gap:210px;
   margin-top:40px
   
 }
@@ -79,7 +79,7 @@ header{
 
 .logout{
   position: absolute;
-  right:20px;
+  right:10px;
   top:5px;
   align-items: center;
   background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);

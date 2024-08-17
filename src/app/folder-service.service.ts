@@ -369,8 +369,6 @@ clearSelectedItem(): void {
     })
   }
 
-
-  
   //zip unzip
 
   zip(folderId:number):Observable<Blob>{

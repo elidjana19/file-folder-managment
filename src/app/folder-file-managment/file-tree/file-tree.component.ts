@@ -27,13 +27,18 @@ export class FileTreeComponent {
 
   ngOnInit(): void {
     // Subscribe to folder changes
+    this.folderService.getSelectedFolder().subscribe((folder) => {
+      this.selectedFolder = folder;
+      console.log(this.selectedFolder);
+    });
+
+
     this.folderService.folderChanges$.subscribe(() => {
       if (this.selectedFolder) {
         this.folderService.getFolderById(this.selectedFolder.id).subscribe(folder => {
-        // this.childFolders = folder.childFolders || [];
            this.updateFolderContent()
         });
-        //this.updateFolderContent()
+       
       }
     });
 
@@ -100,5 +105,11 @@ export class FileTreeComponent {
           this.selectedFolder = folder;
         });
     }
+  }
+
+  isFolderActive(folder: any): boolean {
+    //console.log(this.selectedFolder)
+    return this.selectedFolder && this.selectedFolder.id === folder.id;
+  
   }
 }

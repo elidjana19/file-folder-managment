@@ -1,20 +1,19 @@
-
 <div class="search">
   <input
-  type="search"
-  [(ngModel)]="searchQuery"
-  (ngModelChange)="search()"
-  placeholder="Search folders and files"
-/>
+    type="search"
+    [(ngModel)]="searchQuery"
+    (ngModelChange)="search()"
+    placeholder="Search folders and files"
+  />
 </div>
 <div class="navigation-container">
-  <div class="breadcrumb-container ">
-
+  <div class="breadcrumb-container">
     <ng-container *ngFor="let segment of path; let i = index">
       <span
         class="breadcrumb-item"
         (click)="onPathClick(i)"
-        [class.active]="i === path.length - 1">
+        [class.active]="i === path.length - 1"
+      >
         {{ segment.name }}
       </span>
       <ng-container *ngIf="i < path.length - 1">
@@ -22,23 +21,120 @@
       </ng-container>
     </ng-container>
   </div>
-  <!-- <div class="selectAllDiv" *ngIf="this.selectedFolder">
-    <button  (click)="selectAll()" class="selectAll">
-      <i class="fa-solid fa-border-all"></i> Select all
-    </button>
-  </div> -->
+  <div class="display" *ngIf="selectedFolder">
+    <button class="btn1" [ngClass]="{'active': viewMode === 'grid'}"(click)="setViewMode('grid')"><i class="fa-solid fa-border-none"></i></button>
+    <button class="btn2" [ngClass]="{'active': viewMode === 'list'}" (click)="setViewMode('list')"><i class="fa-solid fa-list"></i></button>
+  </div>
 </div>
 
 <div class="file-explorer">
+  <div [ngClass]="{'container': viewMode === 'grid', 'list-view': viewMode === 'list'}">
+  <div *ngIf="selectedFolder">
+    <div class="container">
+      <!-- folders -->
+      <div
+        *ngFor="let child of selectedFolder.childFolders"
+        class="file"
+        [ngClass]="{ 'selected-item': isSelected(child, child.type) }"
+        [attr.draggable]="true"
+        (dragstart)="onDragStart($event, child.id, child.type)"
+        (dragover)="onDragOver($event)"
+        (drop)="onDrop($event, child.id, child.type)"
+        (dragleave)="onDragLeave($event)"
+        (contextmenu)="onRightClick($event, child, child.type)"
+      >
+        <i
+          *ngIf="!hasZipExtension(child.name)"
+          class="fas fa-folder"
+          (click)="handleClick(child, child.type, $event)"
+          (dblclick)="doubleClickFolder(child)"
+        ></i>
+        <i
+          *ngIf="hasZipExtension(child.name)"
+          class="fa-solid fa-file-zipper"
+          (click)="handleClick(child, child.type, $event)"
+        ></i>
+        <ng-container *ngIf="viewMode === 'list'">
+          <div class="file-info">
+            <span class="">  {{ child.name }}</span>
+            <span class="details">Owner: {{ logged.unique_name }}</span>
+            <span class="details">Size: -</span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="viewMode === 'grid'">
+          {{ child.name }}
+        </ng-container>
 
-<div *ngIf="selectedFolder">
+      </div>
 
-<div class="container">
-  <!-- folders -->
+      <!--  files -->
+      <div
+        *ngFor="let file of getActive(selectedFolder.files)"
+        class="file"
+        [ngClass]="{ 'selected-item': isSelected(file, file.type) }"
+        [attr.draggable]="true"
+        (dragstart)="onDragStart($event, file.id, file.type)"
+        (dragover)="onDragOver($event)"
+        (drop)="onDrop($event, file.id, file.type)"
+        (dragleave)="onDragLeave($event)"
+        (contextmenu)="onRightClick($event, file, file.type)"
+      >
+        <ng-container *ngIf="isImage(file.name); else fileIcon">
+          <img
+            [src]="file.url"
+            [class]="getFileIcon(file.name)"
+            (click)="handleClick(file, file.type, $event)"
+          />
+        </ng-container>
+        <ng-template #fileIcon>
+          <i
+            [class]="getFileIcon(file.name)"
+            (click)="handleClick(file, file.type, $event)"
+          ></i>
+        </ng-template>
+        <ng-container *ngIf="viewMode === 'list'">
+          <div class="file-info">
+            <span class="name">{{ file.name }}</span>
+            <span class="details">Owner: {{ logged.unique_name  }}</span>
+            <span class="details">Size: {{ file.size }}</span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="viewMode === 'grid'">
+          {{ file.name }}
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div
+  class="context-menu"
+  *ngIf="showContextMenu"
+  [ngStyle]="{
+    left: contextMenuPosition.x + 'px',
+    top: contextMenuPosition.y + 'px'
+  }"
+>
+  <ul>
+    <li
+      *ngFor="let item of contextMenuItems"
+      (click)="handleContextMenuAction(item)"
+    >
+      <i class="{{ getIconClass(item) }}"></i>
+      {{ item }}
+    </li>
+  </ul>
+</div>
+
+
+<!-- for search since root -->
+<div *ngIf="!selectedFolder" class="container">
   <div
-    *ngFor="let child of selectedFolder.childFolders"
+    *ngFor="let child of allFolders"
     class="file"
     [ngClass]="{ 'selected-item': isSelected(child, child.type) }"
+
     [attr.draggable]="true"
     (dragstart)="onDragStart($event, child.id, child.type)"
     (dragover)="onDragOver($event)"
@@ -46,79 +142,18 @@
     (dragleave)="onDragLeave($event)"
     (contextmenu)="onRightClick($event, child, child.type)"
   >
-  <i *ngIf="!hasZipExtension(child.name)"
+    <i
+      *ngIf="!hasZipExtension(child.name)"
       class="fas fa-folder"
       (click)="handleClick(child, child.type, $event)"
       (dblclick)="doubleClickFolder(child)"
     ></i>
-    <i *ngIf="hasZipExtension(child.name)"
-    class="fa-solid fa-file-zipper"
+    <i
+      *ngIf="hasZipExtension(child.name)"
+      class="fa-solid fa-file-zipper"
       (click)="handleClick(child, child.type, $event)"
     ></i>
     {{ child.name }}
-  </div>
-
-  <!--  files -->
-  <div
-    *ngFor="let file of getActive(selectedFolder.files)"
-    class="file"
-    [ngClass]="{ 'selected-item': isSelected(file, file.type) }"
-    [attr.draggable]="true"
-    (dragstart)="onDragStart($event, file.id, file.type)"
-    (dragover)="onDragOver($event)"
-    (drop)="onDrop($event, file.id, file.type)"
-    (dragleave)="onDragLeave($event)"
-    (contextmenu)="onRightClick($event, file, file.type)"
-  >
-  <ng-container *ngIf="isImage(file.name); else fileIcon">
-    <img [src]="file.url" [class]="getFileIcon(file.name)" (click)="handleClick(file, file.type, $event)" />
-  </ng-container>
-    <ng-template #fileIcon>
-      <i [class]="getFileIcon(file.name)" (click)="handleClick(file, file.type, $event)"></i>
-    </ng-template>
-    {{ file.name }}
-  </div>
-</div>
-</div>
-
-<div 
-  class="context-menu" 
-  *ngIf="showContextMenu" 
-  [ngStyle]="{ left: contextMenuPosition.x + 'px', top: contextMenuPosition.y + 'px' }">
-    <ul>
-      <li *ngFor="let item of contextMenuItems" (click)="handleContextMenuAction(item)">
-        {{ item }}
-      </li>
-  </ul>
-</div>
-
-
-<!-- for search since root -->
-
-
-<div *ngIf="!selectedFolder" class="container">
-  <div
-  *ngFor="let child of allFolders"
-  class="file"
-  [ngClass]="{ 'selected-item': isSelected(child, child.type) }"
-  [attr.draggable]="true"
-  (dragstart)="onDragStart($event, child.id, child.type)"
-  (dragover)="onDragOver($event)"
-  (drop)="onDrop($event, child.id, child.type)"
-  (dragleave)="onDragLeave($event)"
-  (contextmenu)="onRightClick($event, child, child.type)"
->
-<i *ngIf="!hasZipExtension(child.name)"
-      class="fas fa-folder"
-      (click)="handleClick(child, child.type , $event)"
-      (dblclick)="doubleClickFolder(child)"
-    ></i>
-    <i *ngIf="hasZipExtension(child.name)"
-    class="fa-solid fa-file-zipper"
-      (click)="handleClick(child, child.type, $event)"
-    ></i>
-    {{ child.name }}
-    
   </div>
   <div
     *ngFor="let file of allFiles"
@@ -130,17 +165,20 @@
     (drop)="onDrop($event, file.id, file.type)"
     (dragleave)="onDragLeave($event)"
     (contextmenu)="onRightClick($event, file, file.type)"
-  ><ng-container *ngIf="isImage(file.name); else fileIcon">
-    <img [src]="file.url" [class]="getFileIcon(file.name)" (click)="handleClick(file, file.type, $event)" />
-  </ng-container>
+  >
+    <ng-container *ngIf="isImage(file.name); else fileIcon">
+      <img
+        [src]="file.url"
+        [class]="getFileIcon(file.name)"
+        (click)="handleClick(file, file.type, $event)"
+      />
+    </ng-container>
     <ng-template #fileIcon>
-      <i [class]="getFileIcon(file.name)" (click)="handleClick(file, file.type, $event)"></i>
+      <i
+        [class]="getFileIcon(file.name)"
+        (click)="handleClick(file, file.type, $event)"
+      ></i>
     </ng-template>
     {{ file.name }}
+  </div>
 </div>
-</div>
-
-
-
-
-

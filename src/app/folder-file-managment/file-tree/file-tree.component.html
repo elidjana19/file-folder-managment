@@ -38,7 +38,7 @@
     <ng-container *ngFor="let folder of folders">
       <li>
         <details>
-          <summary>
+          <summary [class.active]="isFolderActive(folder)">
             <i class="fa-solid fa-folder" (click)="onFolderClick(folder)"></i> {{folder.name}}
           </summary>
           <!-- Recursively display child folders -->

@@ -187,3 +187,6 @@ Qe ne nje vector shton veten, me pas me unshift shton ne fillim te vektorit prin
  me pas gjej prindin e grand 2 : root dhe e shtoj ne vector ne fillim [root, child2, grand2]
 Dhe kete vektor qe perfaqeson pathin e shtoj tek subject path qe ruan pathin aktual.
 
+Kam krijuar nje service te ri authentication.ts per metodat e nevojshme per login/register. Perderisa logjika eshte qe admini
+mund te regjistroje usera, tu ndryshoje atyre rolet apo ti fshije ata une kam ktijuar nje admin dashboard ku afishoj userat dhe adminet.
+Admini aktual pra ai qe eshte i loguar nuk mund ti ndryshohet roli dhe nese fhsihet une bej logout pasi nuk mund te jem me ne dashboard.

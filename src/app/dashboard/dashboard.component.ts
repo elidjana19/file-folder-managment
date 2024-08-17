@@ -21,7 +21,6 @@ import { User } from '../interfaces/user';
 export class DashboardComponent {
 
   isAdmin!: boolean;
-  editingUserId: number | null = null;
   currentLoggedIn: any;
   newPassword: any;
   
@@ -104,10 +103,6 @@ export class DashboardComponent {
   }
 
 
-  showRoleDropdown(userId: number) {
-    this.editingUserId = userId;
-  }
-
   updateRole(id: number, newRole: string) {
     //  the loggedin admin cant change its role 
     if (Number(this.currentLoggedIn.nameid) !== id) {
@@ -152,10 +147,6 @@ export class DashboardComponent {
     }
   }
   
-
-  new(userId: number) {
-    this.editingUserId = userId;
-  }
 
   changePassword(id: number, pass: string) {
     this.service.changePassword(id, pass).subscribe(response => {

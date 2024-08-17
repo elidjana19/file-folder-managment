@@ -1,39 +1,56 @@
-
+/* Container */
 .container {
-    padding: 16px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-
-  .header {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 16px;
-  }
-  
-
-  .property {
-    margin-bottom: 8px;
-    font-size: 16px;
-    color: #333;
-  }
-
-  .size {
-    font-weight: bold;
-    color: #007bff; 
-  }
-
-  .cancel{
-    float:right;
-    border:none;
-    background-color: white;
-    
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  max-width: 400px;
+  margin: auto;
+  position: relative;
+  font-family: Arial, sans-serif;
 }
 
-.fa-xmark{
-    color:red;   
-    font-size: 30px;
-    position: relative;
+/* Header */
+.header {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #444;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+/* Property Details */
+.property {
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: #555;
+  line-height: 1.4;
+}
+
+.property span {
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Cancel Button */
+.cancel {
+  border: none;
+  background-color: transparent;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  padding: 5px;
+  transition: transform 0.2s ease;
+}
+
+.cancel:hover {
+  transform: scale(1.2);
+}
+
+.fa-xmark {
+  color: #e74c3c;
+  font-size: 20px;
 }

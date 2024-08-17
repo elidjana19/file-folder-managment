@@ -1,6 +1,15 @@
 <div class="container">
-    <button class="cancel" (click)="onCancel()"><i class="fa-solid fa-xmark "></i></button>
-    <p class="greeting">Do you want to logout {{name}} ?</p>
-    <button class="logout-button" (click)="onConfirm()">Logout</button>
+  <button class="cancel" (click)="onCancel()">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+
+  <div class="user-avatar">
+    <span>{{ name[0] | uppercase }}</span>
   </div>
-  
+  <h3>Hi, {{ name }} !</h3>
+  <span class="role">{{ role }}</span>
+
+  <button class="logout-button" (click)="onConfirm()">
+    <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign out
+  </button>
+</div>

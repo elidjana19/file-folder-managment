@@ -29,6 +29,8 @@ import { MoveComponent } from '../../dialogs/move/move.component';
 import { MatDialog } from '@angular/material/dialog';
 import { VersionComponent } from '../../dialogs/version/version.component';
 import { PropertiesComponent } from '../../dialogs/properties/properties.component';
+import { AuthenticationService } from '../../authentication.service';
+import { Folder } from '../../interfaces/folder';
 
 @Component({
   selector: 'app-file-explorer',
@@ -65,6 +67,7 @@ export class FileExplorerComponent implements OnInit {
   allFiles: any;
   fileExplorerData: any;
   allFolders:any
+  logged:any
 
   constructor(
     private folderService: FolderServiceService,
@@ -72,7 +75,8 @@ export class FileExplorerComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private elRef: ElementRef,
     public clickTrackerService: ClickTrackerServiceService,
-    public dialog: MatDialog
+    public dialog: MatDialog, 
+    private service:AuthenticationService
   ) {}
 
   ngOnInit(): void {
@@ -139,6 +143,7 @@ export class FileExplorerComponent implements OnInit {
               );
           }
           return combineLatest([
+            
             this.folderService
               .searchFolder(searchQuery, this.selectedFolder?.id)
               .pipe(catchError(() => of([]))), //if an error i retun empty array and not crash the search
@@ -190,7 +195,11 @@ export class FileExplorerComponent implements OnInit {
     //   }
     // });
 
+    this.logged= this.service.getData()
+    console.log(this.logged, "logged")
+
     }
+
 
 
     displayResults(results: { folders: any[]; files: any[] }) {
@@ -204,7 +213,7 @@ export class FileExplorerComponent implements OnInit {
         this.allFiles = results.files; 
         this.folderService.setSelectedFolder(null)
       }
-      this.cdr.detectChanges();
+      
     }
     
   search(): void {
@@ -601,6 +610,23 @@ export class FileExplorerComponent implements OnInit {
     }
   }
 
+  getIconClass(action: string): string {
+    switch (action) {
+      case 'Change Version':
+        return 'fa-solid fa-exchange-alt'; 
+      case 'Move':
+        return 'fa-solid fa-arrows-alt';
+      case 'Properties':
+        return 'fa-solid fa-info-circle'; 
+      case 'Zip':
+        return 'fa-solid fa-file-archive'; 
+      case 'Unzip':
+        return 'fa-solid fa-file-archive'; 
+      default:
+        return ''; 
+    }
+  }
+  
 
   openMoveDialog() {
     if (this.selectedItem) {
@@ -741,6 +767,16 @@ export class FileExplorerComponent implements OnInit {
       console.error(' path empty.');
     }
   }
+
+  clicked=false
+
+  viewMode: 'grid' | 'list' = 'grid'; 
+  setViewMode(mode: 'grid' | 'list') {
+    this.viewMode = mode;
+    this.clicked=true
+  }
+
+
 }
 
 

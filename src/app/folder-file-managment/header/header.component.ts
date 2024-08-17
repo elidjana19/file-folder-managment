@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -10,16 +9,15 @@ import { CommonModule } from '@angular/common';
 import { CreateComponent } from '../../dialogs/create/create.component';
 import { RenameComponent } from '../../dialogs/rename/rename.component';
 import { DeleteComponent } from '../../dialogs/delete/delete.component';
-import { Router } from '@angular/router';
+
 import { FilePreviewComponent } from '../file-preview/file-preview.component';
 import { UploadComponent } from '../../dialogs/upload/upload.component';
 import { FolderServiceService } from '../../folder-service.service';
-import { ToastrService } from 'ngx-toastr'
+import { ToastrService } from 'ngx-toastr';
 import { ClickTrackerServiceService } from '../../click-tracker-service.service';
 
 import { FormsModule } from '@angular/forms';
 import { AuthenticationService } from '../../authentication.service';
-import { RegisterComponent } from '../../authentication/register/register.component';
 import { LogoutConfirmComponent } from '../../dialogs/logout-confirm/logout-confirm.component';
 
 @Component({
@@ -40,19 +38,18 @@ export class HeaderComponent {
   folderChangesSub: any;
   selectedItem: any;
 
- 
-  searchQuery:any
+  searchQuery: any;
 
-  isAdmin!:boolean
+  isAdmin!: boolean;
 
-  logged:any
+  logged: any;
 
   constructor(
     public dialog: MatDialog,
     private folderService: FolderServiceService,
     private toastr: ToastrService,
     public elRef: ElementRef,
-    private clickTrackerService: ClickTrackerServiceService, 
+    private clickTrackerService: ClickTrackerServiceService,
     private service: AuthenticationService
   ) {}
 
@@ -84,19 +81,17 @@ export class HeaderComponent {
       console.log('Selected Items:', this.selectedItems);
     });
 
-    this.folderService.selectedItem$.subscribe((item)=>{
-      this.selectedItem=item
+    this.folderService.selectedItem$.subscribe((item) => {
+      this.selectedItem = item;
       console.log('Selected Item:', this.selectedItem);
-    })
+    });
 
     // this.isAdmin = this.service.isAdmin();
     // console.log(this.isAdmin)
-   
 
     // the logged user
-    this.logged= this.service.getData()
-    console.log(this.logged, "logged")
-
+    this.logged = this.service.getData();
+    console.log(this.logged, 'logged');
   }
 
   // create is OK
@@ -308,7 +303,6 @@ export class HeaderComponent {
     }
   }
 
-
   isDisabled() {
     return this.folderService.getStackLength() === 0;
   }
@@ -372,7 +366,6 @@ export class HeaderComponent {
     );
   }
 
-
   onPathClick(index: number): void {
     // array that contains from the start of path to the clicked folder
     const newPath = this.path.slice(0, index + 1);
@@ -404,33 +397,33 @@ export class HeaderComponent {
     return this.selectedItems.length > 1;
   }
 
-  isZip(){
-    return this.selectedItem?.type === 'zipfolder'
+  isZip() {
+    return this.selectedItem?.type === 'zipfolder';
   }
 
-
-  logout(){
-    this.service.logout()
-    console.log("here")
-
+  logout() {
+    this.service.logout();
+    console.log('here');
+    this.folderService.setSelectedFile(null);
+    this.folderService.setSelectedFolder(null);
+    this.folderService.clearPath();
   }
 
-  openLogout(){
-    const dialogRef=this.dialog.open(LogoutConfirmComponent,{
-      disableClose:true, 
-      data:{name: this.logged.unique_name}
-    })
-    
-    dialogRef.afterClosed().subscribe(res=>{
-      if(res){
-        this.logout()
+  openLogout() {
+    const dialogRef = this.dialog.open(LogoutConfirmComponent, {
+      disableClose: true,
+      data: { name: this.logged.unique_name , role:this.logged.role},
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.logout();
       }
-    })
-
+    });
   }
 
   selectAll() {
-    this.selectedItem=null //diselect the selected item, so i can do select all immediately
+    this.selectedItem = null; //diselect the selected item, so i can do select all immediately
 
     if (this.selectedFolder) {
       this.folderService.updateSelection([]);
@@ -446,4 +439,6 @@ export class HeaderComponent {
       this.folderService.updateSelection(this.selectedItems);
     }
   }
+
+ 
 }
