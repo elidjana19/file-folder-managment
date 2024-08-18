@@ -20,3 +20,12 @@ summary.active{
 .fa-folder{
   color:rgb(65, 65, 65)
 }
+
+@media(max-width:480px){
+  summary{
+padding:0px;
+width:50%;
+font-size: 10px;
+
+  }
+}

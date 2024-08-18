@@ -154,7 +154,7 @@ export class FileExplorerComponent implements OnInit {
         })
       )
           .subscribe((results) => {
-        console.log(results , "serach here ")
+        console.log(results , "search here ")
         // if (this.selectedFolder) {
         //   this.selectedFolder.childFolders = results.folders;
         //   this.selectedFolder.files = results.files;
@@ -204,7 +204,6 @@ export class FileExplorerComponent implements OnInit {
 
     displayResults(results: { folders: any[]; files: any[] }) {
       this.fileExplorerData = results; 
-    
       if (this.selectedFolder) {
         this.selectedFolder.childFolders = results.folders;
         this.selectedFolder.files = results.files;
@@ -238,6 +237,7 @@ export class FileExplorerComponent implements OnInit {
    this.folderService.getFolderById(folder.id).subscribe((folderData) => {
     this.folderService.setSelectedFolder(folderData);
     this.folderService.addSelectedItem(folderData);
+    console.log("folder")
    })
   }
 
@@ -257,6 +257,7 @@ export class FileExplorerComponent implements OnInit {
     //set the file only as selected
     this.folderService.setSelectedFile(file);
      this.folderService.addSelectedItem(file);
+     console.log("filee")
 
     // this.folderService.getFileById(file.id).subscribe((blob) => {
     //   console.log('Blob:', blob);
@@ -338,11 +339,7 @@ export class FileExplorerComponent implements OnInit {
       // Ctrl + Click for batch selection
       this.toggleSelection({ id: item.id, type });
       this.lastSelectedItem = item;
-    }  else if(event.shiftKey){
-      if (this.lastSelectedItem) {
-        // Shift + Click 
-       
-      }
+     }  else if(event.shiftKey){
     }
     else {
       // Regular click for single selection
@@ -354,22 +351,7 @@ export class FileExplorerComponent implements OnInit {
     }
   }
 
-   shift(start:any, end:any, item:any) {
 
-    // const selection:any[]=[]
-
-    // let from, to 
-    // if(start<end ){
-    //   [from, to]=[start, end]
-    // }else{
-    //   [from,to] = [end, start]
-    // }
-    // for (let i = from; i <= to; i++) { {
-    //   selection.push({ id: item.id, type: item.type });
-    //   }
-    // }
-    // this.folderService.updateSelection(selection);
-  }
 
   toggleSelection(item: { id: number; type: string }): void {
 
@@ -483,6 +465,7 @@ export class FileExplorerComponent implements OnInit {
             this.folderService.getFolderById(folder.parentFolderId).subscribe(
               (parent) => {
                 console.log('Parent folder:', parent);
+                console.log("here")
                 this.folderService.setSelectedFolder(parent);
               },
               (error) => console.error('Error fetching parent folder:', error)
@@ -511,8 +494,11 @@ export class FileExplorerComponent implements OnInit {
     }
 
     // Clear the selected item after processing
-    this.folderService.addSelectedItem(null)
+     this.folderService.addSelectedItem(null)
    //this.folderService.addSelectedItem(null)
+   console.log(this.selectedFolder)
+   this.folderService.setSelectedFolder(this.selectedFolder)
+
   }
 
   handleSelectedFiles(files: any[]) {
@@ -776,6 +762,7 @@ export class FileExplorerComponent implements OnInit {
     this.clicked=true
   }
 
+ 
 
 }
 

@@ -54,7 +54,8 @@
 }
 
 .file-explorer{
-  margin-top:30px
+  margin-top:30px;
+
 }
 
 
@@ -116,7 +117,7 @@ span{
 .search {
 position:absolute;
 top:15px;
-left:26%;
+left:27%;
 
 }
 
@@ -186,12 +187,12 @@ left:26%;
   position: relative;
   padding:5px;
   display: flex;
-  width: 900px;
+  width: 100%;
   border-bottom: 1px solid #ddd;
 }
 .list-view .file-info {
   display: grid;
-  grid-template-columns: 300px 250px 250px;
+  grid-template-columns: repeat(3, 1fr);
   gap:30px;
   overflow: hidden;
 }
@@ -204,14 +205,14 @@ left:26%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: start;
 }
 .list-view .file:hover{
   background-color: rgb(229, 229, 229);
 }
 
 
-
-@media (max-width: 600px) {
+@media (max-width: 1199px) {
   .fa-folder,
   .fa-file,
   .fa-file-pdf,
@@ -237,7 +238,60 @@ left:26%;
   width:60vw;
   
  }
+.search input[type="search"]{
+  width:100%
+}
+.search {
+  left:50%
+}
+.search input[type="search"] {
+  padding: 5px;
+  font-size: 10px;
 
+}
 
+}
+
+@media(max-width:480px){
+  .fa-folder,
+  .fa-file,
+  .fa-file-pdf,
+  .fa-file-word,
+  .fa-file-powerpoint , 
+  .fa-image, 
+  .fa-file-zipper{
+    font-size: 30px;
+  }
+  span{
+    font-size:15px
+  }
+  .display button{
+    padding:0px 5px;
+    right:5px
+  }
+  .search {
+    left:10px
+  }
+  .search input[type="search"] {
+    padding: 5px;
+    font-size: 10px;
+    width:100%
+ 
+  }
+  .list-view .file{
+    width:100%;
+  }
+  .list-view .file-info {
+    grid-template-columns: auto auto auto;
+    gap:10px;
+   
+  }
+  .list-view .file i, .list-view span, .list-view .file img{
+    font-size:8px;
+  }
+  .container{
+    padding:0;
+    justify-content: start;
+  }
 }
 

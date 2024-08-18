@@ -49,25 +49,36 @@
 
 
 
- <header>
-  <div class="header">
-    <div class="icon">
-      <i class="fa-solid fa-folder-open"> <span> FileFolderManager</span></i>
-      <button (click)="openLogout()" class="logout"> <i (click)="openLogout()" class="fa-solid fa-user"></i></button>
-    </div>
-  </div>
-    <div class="all-actions" >
-      <button class="create" (click)="openCreateFolderDialog()"><i class="fa-solid fa-plus"></i>Create folder </button> 
-      <div class="actions" *ngIf="selectedFolder || selectedFile" >
-        <button [class.disabled]="(!selectedFolder && !selectedFile) || disableOtherActions()" (click)="openRenameFolderDialog()"><i class="fa-solid fa-file-signature"></i></button>
-          <button [class.disabled]="!selectedFolder || disableOtherActions() || isZip()"  (click)="openUploadDialog()"><i class="fa-solid fa-upload"></i></button>
-          <button [class.disabled]="!selectedFile || disableOtherActions()" (click)="downloadFile(selectedFile)"><i class="fa-solid fa-download"></i></button>
-        <button  [class.disabled]="!selectedFile || disableOtherActions()"  (click)="openPreviewDialog()"><i class="fa-solid fa-magnifying-glass"></i></button>
-          <button [class.disabled]="!selectedFolder && !selectedFile" (click)="openDeleteFolderDialog($event)" ><i class="fa-solid fa-trash"></i></button>
-        <button  [class.disabled]="!selectedFolder && !selectedFile" (click)="selectAll()" class="selectAll">
-              <i class="fa-solid fa-border-all"></i> Select all
-            </button>
-  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <header>
+    <div class="header">
+      <div class="icon">
+        <i class="fa-solid fa-folder-open"> <span> FileFolderManager</span></i>
+        <button (click)="openLogout()" class="logout"> <i (click)="openLogout()" class="fa-solid fa-user"></i></button>
       </div>
     </div>
-  </header>
+      <div class="all-actions row" >
+        <div class="col-3">
+          <button class="create" (click)="openCreateFolderDialog()"><i class="fa-solid fa-plus"></i>Create folder </button> 
+        </div>
+        <div class="actions col-3" *ngIf="selectedFolder || selectedFile || disableOtherActions()" >
+          <button [class.disabled]="(!selectedFolder && !selectedFile) || disableOtherActions()" (click)="openRenameFolderDialog()"><i class="fa-solid fa-file-signature"></i></button>
+            <button [class.disabled]="!selectedFolder || disableOtherActions() || isZip()"  (click)="openUploadDialog()"><i class="fa-solid fa-upload"></i></button>
+            <button [class.disabled]="!selectedFile || disableOtherActions()" (click)="downloadFile(selectedFile)"><i class="fa-solid fa-download"></i></button>
+          <button  [class.disabled]="!selectedFile || disableOtherActions()"  (click)="openPreviewDialog()"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button [class.disabled]="!selectedFolder && !selectedFile" (click)="openDeleteFolderDialog($event)" ><i class="fa-solid fa-trash"></i></button>
+          <button  [class.disabled]="!selectedFolder && !selectedFile" (click)="selectAll()" class="selectAll">
+          <i class="fa-solid fa-border-all"></i> </button>
+    
+        </div>
+      </div>
+    </header>
+</body>
+</html>

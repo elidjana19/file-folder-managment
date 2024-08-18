@@ -1,5 +1,5 @@
 header{
-  margin:10px 20px 40px 20px;
+  margin:10px 20px 20px 20px;
 }
 
 .header {
@@ -38,7 +38,6 @@ header{
 .all-actions{
   display: flex;
   align-items: center;
-  gap:210px;
   margin-top:40px
   
 }
@@ -47,6 +46,7 @@ header{
   background-color: rgb(194, 215, 245);
   display: flex;
   font-size: 15px;
+  margin-right:25px;
   gap:25px;
   flex-wrap: nowrap;
   padding:10px 15px;
@@ -109,4 +109,84 @@ header{
 
 .logout .fa-user{
   color:white;
+}
+
+
+
+@media (max-width:3000px){
+  .all-actions{
+    gap:20px
+  }
+}
+@media (max-width:1400px){
+ 
+}
+
+@media(min-width:992px )and (max-width:1199px){
+}
+@media (max-width: 900px) {
+  .header {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+
+
+  .create {
+    font-size: 12px;
+    padding: 10px 14px;
+  }
+
+  .actions {
+    gap: 10px;
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+  .icon i, .icon span{
+    font-size:10px;
+    position:absolute;
+    left:0
+  }
+  .icon{
+    margin-bottom: 20px;
+  }
+
+}
+ @media(min-width:481px) and (max-width:767px) {
+  .icon i, .icon span{
+    font-size:10px;
+    position:absolute;
+    left:0
+  }
+
+ }
+
+@media (max-width: 480px) {
+  .icon{
+    margin-bottom:30px
+  }
+ span{
+    font-size: 10px;
+    display:block;
+
+  }
+  .fa-folder-open{
+    display:none
+  }
+ 
+  .create {
+    font-size: 8px;
+    padding: 6px;
+   
+  }
+
+
+  .actions {
+    gap:20px;
+    font-size: 10px;
+    padding: 6px 8px;
+  }
+.logout{
+  height:20px
+}
 }

@@ -401,25 +401,19 @@ export class HeaderComponent {
     return this.selectedItem?.type === 'zipfolder';
   }
 
-  logout() {
-    this.service.logout();
-    console.log('here');
-    this.folderService.setSelectedFile(null);
-    this.folderService.setSelectedFolder(null);
-    this.folderService.clearPath();
-  }
+  // logout() {
+  //   this.service.logout();
+  //   console.log('here');
+  //   this.folderService.setSelectedFile(null);
+  //   this.folderService.setSelectedFolder(null);
+  //   this.folderService.clearPath();
+  // }
 
   openLogout() {
     const dialogRef = this.dialog.open(LogoutConfirmComponent, {
       disableClose: true,
       data: { name: this.logged.unique_name , role:this.logged.role},
-    });
-
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res) {
-        this.logout();
-      }
-    });
+    })
   }
 
   selectAll() {

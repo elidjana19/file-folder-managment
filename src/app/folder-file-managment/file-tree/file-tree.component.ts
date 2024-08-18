@@ -107,7 +107,7 @@ export class FileTreeComponent {
     }
   }
 
-  isFolderActive(folder: any): boolean {
+  isFolderActive(folder: any) {
     //console.log(this.selectedFolder)
     return this.selectedFolder && this.selectedFolder.id === folder.id;
   

@@ -146,6 +146,7 @@
       *ngIf="!hasZipExtension(child.name)"
       class="fas fa-folder"
       (click)="handleClick(child, child.type, $event)"
+  
       (dblclick)="doubleClickFolder(child)"
     ></i>
     <i
@@ -170,7 +171,7 @@
       <img
         [src]="file.url"
         [class]="getFileIcon(file.name)"
-        (click)="handleClick(file, file.type, $event)"
+        (click)="handleClick(file, file.type , $event)"
       />
     </ng-container>
     <ng-template #fileIcon>

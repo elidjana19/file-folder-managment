@@ -1,8 +1,42 @@
-.row{
-    margin-top:60px
+.row {
+    margin-top: 60px;
+    display: flex;
+    flex-wrap: wrap;
 }
-.col-9{
-    display:flex;
+
+.col-3, .col-9 {
+    padding: 0 20px;
+}
+
+.col-9 {
+    display: flex;
     justify-content: start;
-    padding:0px 20px
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+   
+    .col-3 {
+        flex: 0 0 30%;
+        max-width: 30%;
+    }
+
+    .col-9 {
+        flex: 0 0 70%;
+        max-width: 70%;
+    }
+}
+
+@media(max-width: 767px) {
+   
+    .col-3 {
+        flex: 0 0 30%;
+        max-width: 30%;
+        padding:0px
+    }
+
+    .col-9 {
+        flex: 0 0 70%;
+        max-width: 70%;
+        padding:0px
+    }
 }
