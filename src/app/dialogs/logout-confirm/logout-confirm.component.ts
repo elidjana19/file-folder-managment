@@ -16,18 +16,14 @@ export class LogoutConfirmComponent {
   name!:string
   role!:string
 
-  constructor(private service:AuthenticationService, private folderService:FolderServiceService, public dialogRef: MatDialogRef<LogoutConfirmComponent>, @Inject(MAT_DIALOG_DATA)
-  public data: {
-    name: string;
-    role:string
-  },
+  constructor(private service:AuthenticationService, private folderService:FolderServiceService, private dialogRef: MatDialogRef<LogoutConfirmComponent>, @Inject(MAT_DIALOG_DATA) public data: { name: string; role: string }
 ) {
-this.name=data.name
-this.role=data.role
-  }
+  this.name = data.name;
+  this.role = data.role;
+}
 
   onConfirm(): void {
-    this.dialogRef.close(true)
+       this.dialogRef.close(true)
       this.service.logout();
       console.log('here');
       this.folderService.setSelectedFile(null);
@@ -35,9 +31,7 @@ this.role=data.role
       this.folderService.clearPath();
     }
 
-
   onCancel(): void {
     this.dialogRef.close(false);
-    console.log("h")
   }
 }

@@ -1,6 +1,5 @@
 .login {
   padding: 20px;
-  max-width: 400px;
   margin: 0 auto;
   border-radius: 12px;
   background: linear-gradient(145deg, #e6eaf2, #ffffff);
@@ -24,6 +23,7 @@ mat-form-field {
   font-weight: bold;
   background-color: #3f51b5;
   color: #fff;
+  width:100%;
   border-radius: 10px;
   padding: 10px 20px;
   transition: background-color 0.3s;
@@ -36,33 +36,4 @@ mat-form-field {
 .actions button[disabled] {
   background-color: #b0bec5;
   cursor: not-allowed;
-}
-
-.register-link {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 14px;
-  color: #757575;
-}
-
-.register-link a {
-  color: #3f51b5;
-  text-decoration: none;
-  font-weight: 500;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.register-link a:hover {
-  color: #303f9f;
-}
-
-
-.mat-form-field-wrapper {
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 4px;
-}
-
-.mat-form-field-wrapper mat-label {
-  color: #757575;
 }

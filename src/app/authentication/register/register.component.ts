@@ -51,7 +51,7 @@ export class RegisterComponent {
   }
 
 onCancel(){
-  this.dialogRef.close()
+  this.dialogRef.close(false)
 }
 
 onSubmit(){
@@ -62,14 +62,18 @@ onSubmit(){
     const user = this.registerForm.value;
     this.service.createUser(user).subscribe({
       next: response => {
-        this.toastr.success(response.message)
+        this.toastr.success(response.message, '', {
+          timeOut: 800, 
+        });
         this.registerForm.reset()
-        this.dialogRef.close();
+        this.dialogRef.close(user);
 
       },
       error: err => {
         console.log(err, "errorrrrrrrr")
-        this.toastr.error(err.message)
+        this.toastr.error(err.message, '', {
+          timeOut: 800, 
+        });
       }
     });
 }

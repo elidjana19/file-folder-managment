@@ -179,5 +179,8 @@ export class AuthenticationService {
 
  
 
+  isFirstUser():Observable<boolean>{
+    return this.http.get<boolean>(`${this.apiUrl}/is-empty`)
+  }
 
 }

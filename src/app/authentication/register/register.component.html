@@ -1,18 +1,18 @@
 <div class="register">
-<h2 mat-dialog-title>Register</h2>
+<h2 mat-dialog-title class="title">Register</h2>
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <mat-form-field>
     <mat-label>Username</mat-label>
     <input matInput formControlName="username">
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class="pass">
     <mat-label>Password</mat-label>
-    <input matInput formControlName="password">
+    <input matInput formControlName="password" >
     <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">
         Password must be 8 characters minmun
       </mat-error>
     <mat-error *ngIf="registerForm.get('password')?.hasError('pattern')">
-        Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character. Minimum 8 characters allowed!
+        Password must contain at least one uppercase, one lowercase letter, one digit, and one special character.Minimum 8 characters!
       </mat-error>
   </mat-form-field>
   <mat-form-field>

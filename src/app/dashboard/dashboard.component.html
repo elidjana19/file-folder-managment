@@ -15,9 +15,9 @@
           <li *ngFor="let user of users" class="user-item">
             <span class="username">{{ user.username }}</span>
             <div class="action-buttons">
-              <button class="btn btn-danger" (click)="delete(user.id)"><i class="fa-solid fa-trash"></i></button>
               <button class="btn warning" (click)="showRoleDialog(user.id, user.role)">Change Role</button>
               <button class="btn success" (click)="showPasswordDialog(user.id)">Change Password</button>
+              <button class="btn btn-danger" (click)="delete(user.id)"><i class="fa-solid fa-trash"></i></button>
             </div>
           </li>
         </ul>
@@ -31,9 +31,9 @@
           <li *ngFor="let admin of admins" class="admin-item">
             <span class="username">{{ admin.username }}</span>
             <div class="action-buttons">
-              <button class="btn btn-danger" (click)="delete(admin.id)"><i class="fa-solid fa-trash"></i></button>
               <button class="btn warning" (click)="showRoleDialog(admin.id, admin.role)">Change Role</button>
               <button class="btn success" (click)="showPasswordDialog(admin.id)">Change Password</button>
+              <button class="btn btn-danger" (click)="delete(admin.id)"><i class="fa-solid fa-trash"></i></button>
             </div>
           </li>
         </ul>

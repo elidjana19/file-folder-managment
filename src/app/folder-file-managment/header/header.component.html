@@ -61,7 +61,7 @@
     <div class="header">
       <div class="icon">
         <i class="fa-solid fa-folder-open"> <span> FileFolderManager</span></i>
-        <button (click)="openLogout()" class="logout"> <i (click)="openLogout()" class="fa-solid fa-user"></i></button>
+        <button (click)="openLogout()" class="logout"> <i class="fa-solid fa-user"></i></button>
       </div>
     </div>
       <div class="all-actions row" >
@@ -74,9 +74,6 @@
             <button [class.disabled]="!selectedFile || disableOtherActions()" (click)="downloadFile(selectedFile)"><i class="fa-solid fa-download"></i></button>
           <button  [class.disabled]="!selectedFile || disableOtherActions()"  (click)="openPreviewDialog()"><i class="fa-solid fa-magnifying-glass"></i></button>
             <button [class.disabled]="!selectedFolder && !selectedFile" (click)="openDeleteFolderDialog($event)" ><i class="fa-solid fa-trash"></i></button>
-          <button  [class.disabled]="!selectedFolder && !selectedFile" (click)="selectAll()" class="selectAll">
-          <i class="fa-solid fa-border-all"></i> </button>
-    
         </div>
       </div>
     </header>

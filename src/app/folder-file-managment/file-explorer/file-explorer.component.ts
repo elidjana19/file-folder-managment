@@ -352,6 +352,24 @@ export class FileExplorerComponent implements OnInit {
   }
 
 
+  selectAll() {
+    this.selectedItem = null; //diselect the selected item, so i can do select all immediately
+
+    if (this.selectedFolder) {
+      this.folderService.updateSelection([]);
+
+      this.selectedFolder.childFolders.forEach((folder: any) => {
+        this.selectedItems.push({ id: folder.id, type: folder.type });
+      });
+
+      this.selectedFolder.files.forEach((file: any) => {
+        this.selectedItems.push({ id: file.id, type: file.type });
+      });
+      console.log('All items selected:', this.selectedItems);
+      this.folderService.updateSelection(this.selectedItems);
+    }
+  }
+
 
   toggleSelection(item: { id: number; type: string }): void {
 
@@ -763,6 +781,18 @@ export class FileExplorerComponent implements OnInit {
   }
 
  
+   formatFileSize(size: bigint): string {
+    const units = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    let i = 0;
+    let sizeInNumber = Number(size); // Convert bigint to number for easier handling
+    
+    while (sizeInNumber >= 1024 && i < units.length - 1) {
+      sizeInNumber /= 1024;
+      i++;
+    }
+    return `${sizeInNumber.toFixed(2)} ${units[i]}`;
+  }
+  
 
 }
 

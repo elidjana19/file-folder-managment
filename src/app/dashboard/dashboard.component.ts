@@ -51,6 +51,33 @@ export class DashboardComponent {
   }
 
 
+  create() {
+    const dialogRef=this.dialog.open(RegisterComponent, {
+       disableClose: true,
+     });
+     dialogRef.afterClosed().subscribe(res=>{
+      console.log(res, "ressss")
+      if(res.role.toLowerCase() === 'user'){
+       this.users.push(res)
+      }else{
+       this.admins.push(res)   
+       }
+       this.refreshUsers();
+     })
+   }
+
+   private refreshUsers(): void {
+    this.service.getUsers().subscribe({
+      next: (data) => {
+        this.users = data.filter(user => user.role === 'User');
+        this.admins = data.filter(user => user.role === 'Admin');
+      },
+      error: (err) => {
+        console.error('Failed to fetch users', err);
+      }
+    });
+  }
+
   deleteUser(userId: number): void {
     this.service.deleteUser(userId).subscribe({
       next: () => {
@@ -72,6 +99,9 @@ export class DashboardComponent {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result) {  
+        console.log(result, "result ")
+        console.log(id)
+
         this.service.deleteUser(id).subscribe({
           next: () => {
             // Remove user from its array
@@ -95,12 +125,6 @@ export class DashboardComponent {
     this.service.logout();
   }
 
-  create() {
-    this.dialog.open(RegisterComponent, {
-      disableClose: true,
-      width: '400px'
-    });
-  }
 
 
   updateRole(id: number, newRole: string) {
@@ -113,7 +137,9 @@ export class DashboardComponent {
       return;
     }
     if(userOrAdmin.role.toLowerCase() === newRole.toLowerCase()){
-      this.toastr.info("This is the current role")
+      this.toastr.info('This is the current role!', '', {
+        timeOut: 800, 
+      });
       return;
     }
 
@@ -135,15 +161,21 @@ export class DashboardComponent {
             this.admins.push(user);
           }
         }
-        this.toastr.success("Role changed ")
+        this.toastr.error('Role changed', '', {
+          timeOut: 800, 
+        });
       },
       error: (err) => {
         console.error('Failed to update user role', err);
-        this.toastr.error('Failed to update user role.');
+        this.toastr.error('Failed to update the role', '', {
+          timeOut: 800, 
+        });
       }
     });
     } else {
-      this.toastr.error("You cannot change your own role.");
+      this.toastr.error('You cannot change your own role!', '', {
+        timeOut: 800, 
+      });
     }
   }
   

@@ -4,6 +4,7 @@
     [(ngModel)]="searchQuery"
     (ngModelChange)="search()"
     placeholder="Search folders and files"
+    
   />
 </div>
 <div class="navigation-container">
@@ -26,6 +27,9 @@
     <button class="btn2" [ngClass]="{'active': viewMode === 'list'}" (click)="setViewMode('list')"><i class="fa-solid fa-list"></i></button>
   </div>
 </div>
+<div class="all">
+  <button class="selectAll" (click)="selectAll()" *ngIf="selectedFolder">Select all</button>
+</div>
 
 <div class="file-explorer">
   <div [ngClass]="{'container': viewMode === 'grid', 'list-view': viewMode === 'list'}">
@@ -42,21 +46,21 @@
         (drop)="onDrop($event, child.id, child.type)"
         (dragleave)="onDragLeave($event)"
         (contextmenu)="onRightClick($event, child, child.type)"
+        (click)="handleClick(child, child.type, $event)"
       >
         <i
           *ngIf="!hasZipExtension(child.name)"
           class="fas fa-folder"
-          (click)="handleClick(child, child.type, $event)"
+          
           (dblclick)="doubleClickFolder(child)"
         ></i>
         <i
           *ngIf="hasZipExtension(child.name)"
           class="fa-solid fa-file-zipper"
-          (click)="handleClick(child, child.type, $event)"
         ></i>
         <ng-container *ngIf="viewMode === 'list'">
           <div class="file-info">
-            <span class="">  {{ child.name }}</span>
+            <span class="name">  {{ child.name }}</span>
             <span class="details">Owner: {{ logged.unique_name }}</span>
             <span class="details">Size: -</span>
           </div>
@@ -78,25 +82,24 @@
         (drop)="onDrop($event, file.id, file.type)"
         (dragleave)="onDragLeave($event)"
         (contextmenu)="onRightClick($event, file, file.type)"
+        (click)="handleClick(file, file.type, $event)"
       >
         <ng-container *ngIf="isImage(file.name); else fileIcon">
           <img
             [src]="file.url"
             [class]="getFileIcon(file.name)"
-            (click)="handleClick(file, file.type, $event)"
           />
         </ng-container>
         <ng-template #fileIcon>
           <i
             [class]="getFileIcon(file.name)"
-            (click)="handleClick(file, file.type, $event)"
           ></i>
         </ng-template>
         <ng-container *ngIf="viewMode === 'list'">
-          <div class="file-info">
+          <div class="file-info ">
             <span class="name">{{ file.name }}</span>
             <span class="details">Owner: {{ logged.unique_name  }}</span>
-            <span class="details">Size: {{ file.size }}</span>
+            <span class="details">Size:{{ formatFileSize(file.size) }} </span> 
           </div>
         </ng-container>
         <ng-container *ngIf="viewMode === 'grid'">

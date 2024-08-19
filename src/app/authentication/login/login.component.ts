@@ -10,16 +10,19 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthenticationService } from '../../authentication.service';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MatDialogModule, MatInputModule, MatButtonModule, FormsModule, ReactiveFormsModule, ToastrModule],
+  imports: [MatDialogModule, MatInputModule, MatButtonModule, FormsModule, ReactiveFormsModule, ToastrModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
 
   loginForm!:FormGroup
+  users:any
+  isFirstUser: boolean = false;
 
   constructor(private dialog:MatDialog, private dialogRef:MatDialogRef<LoginComponent>,
     private fb:FormBuilder, private router:Router, private toastr:ToastrService, 
@@ -29,22 +32,49 @@ export class LoginComponent {
   ngOnInit(){
     this.loginForm= new FormGroup({
       username:new FormControl('', Validators.required),
-      password:new FormControl('', Validators.required)
+      password:new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.*\s).{8,}$/) // Password pattern
+      ])
     })
+
+    this.service.isFirstUser().subscribe(res=>{
+      if(res){
+        this.isFirstUser=res
+        this.toastr.info("No users are registered. First admin is created...", '',{
+          timeOut:900
+        }
+        )
+      }
+      console.log(res, "resss")
+    })
+
   }
 
-
+ 
 
   onCancel(){
     this.dialogRef.close()
   }
 
   onSubmit(): void {
+    if (this.isFirstUser) {
+  
+  
+          this.toastr.success('Admin created successfully!', '', {
+            timeOut: 900,
+          });
+                this.dialogRef.close(); 
+        }
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value;
       this.service.login(username, password).subscribe({
-        next: () => {
-          this.toastr.success("Successful loggin")
+        next: (res) => {
+          console.log(res, "res")
+          this.toastr.success('Successful login', '', {
+            timeOut: 800, 
+          });
           const role = this.service.getRole();
           console.log(role, "roleeee")
           if (role === 'Admin') {
@@ -55,11 +85,14 @@ export class LoginComponent {
           this.dialogRef.close()
         },
         error: err => {
-          this.toastr.error('Username or password is wrong!')
+          this.toastr.error('Username or password is incorrect!', '', {
+            timeOut: 800, 
+          });
           console.error('Login failed', err);
         }
       });  
     }
+    this.isFirstUser= false;
   }
 
   

@@ -21,9 +21,9 @@ export class FileTreeComponent {
 
   selectedFolder: any = null;
   childFolders: any[] = [];
- 
-
   currentPath: any;
+
+  folderStates: { [key: string]: boolean } = {};
 
   ngOnInit(): void {
     // Subscribe to folder changes
@@ -58,6 +58,7 @@ export class FileTreeComponent {
         this.childFolders = folder.childFolders || [];
         this.folderService.setSelectedFolder(folder);
         this.findParent(this.selectedFolder)
+        this.folderStates[folder.id] = true;
 
         this.folderService.buildPathFromFolder(folder)
       }, error => {
@@ -67,6 +68,7 @@ export class FileTreeComponent {
 
     //dont close the seleted folder from sidebar
     else { 
+      this.folderStates[folder.id] = !this.folderStates[folder.id];
       this.folderService.clearPath()   //for the root folder 
       this.selectedFolder = null;
       this.childFolders = [];
@@ -74,10 +76,6 @@ export class FileTreeComponent {
       console.log("HEREEEE")
       this.folderService.buildPathFromFolder(this.parentFolder)
     } 
-
-    // this.folderService.setSelectedFolder(folder)
-    // this.folderService.buildPathFromFolder(folder)
-    // console.log(folder.childFolders, "children")
   }
 
   // Find parent folder
@@ -109,7 +107,10 @@ export class FileTreeComponent {
 
   isFolderActive(folder: any) {
     //console.log(this.selectedFolder)
-    return this.selectedFolder && this.selectedFolder.id === folder.id;
-  
+      return this.selectedFolder && this.selectedFolder.id === folder.id;
+  }
+
+  isFolderOpen(folder: any): boolean {
+    return !!this.folderStates[folder.id];
   }
 }

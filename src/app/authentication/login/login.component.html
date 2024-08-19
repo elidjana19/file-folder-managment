@@ -1,5 +1,5 @@
 <div class="login">
-  <h2 mat-dialog-title>Login</h2>
+  <h2 mat-dialog-title class="title">{{ isFirstUser ? 'Create First Admin' : 'Login' }}</h2>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
       <mat-label>Username</mat-label>
@@ -9,9 +9,12 @@
       <mat-label>Password</mat-label>
       <input matInput formControlName="password" type="password">
     </mat-form-field>
+    <mat-error *ngIf="loginForm.get('password')?.hasError('pattern')&& isFirstUser">
+      Password must contain at least one uppercase, one lowercase letter, one digit, and one special character.Minimum 8 characters!
+    </mat-error>
     <div mat-dialog-actions class="actions">
-      <button mat-button (click)="onCancel()">Cancel</button>
-      <button mat-button type="submit" [disabled]="!loginForm.valid">Login</button>
+      <!-- <button mat-button (click)="onCancel()">Cancel</button> -->
+      <button mat-button type="submit" [disabled]="!loginForm.valid">{{ isFirstUser ? 'Create' : 'Login' }}</button>
     </div>
   </form>
 </div>

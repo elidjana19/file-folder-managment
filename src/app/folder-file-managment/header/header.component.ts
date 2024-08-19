@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthenticationService } from '../../authentication.service';
 import { LogoutConfirmComponent } from '../../dialogs/logout-confirm/logout-confirm.component';
 
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -206,7 +207,7 @@ export class HeaderComponent {
       this.selectedItems.forEach((item: { id: number; type: string }) => {
         if (item.type === 'file') {
           fileIds.push(item.id);
-        } else if (item.type === 'folder') {
+        } else if (item.type === 'folder' || item.type === 'zipfolder') {
           folderIds.push(item.id);
         }
       });
@@ -414,25 +415,14 @@ export class HeaderComponent {
       disableClose: true,
       data: { name: this.logged.unique_name , role:this.logged.role},
     })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('User confirmed logout');
+      } else {
+        console.log('User canceled logout');
+      }
+    });
   }
 
-  selectAll() {
-    this.selectedItem = null; //diselect the selected item, so i can do select all immediately
 
-    if (this.selectedFolder) {
-      this.folderService.updateSelection([]);
-
-      this.selectedFolder.childFolders.forEach((folder: any) => {
-        this.selectedItems.push({ id: folder.id, type: 'folder' });
-      });
-
-      this.selectedFolder.files.forEach((file: any) => {
-        this.selectedItems.push({ id: file.id, type: 'file' });
-      });
-      console.log('All items selected:', this.selectedItems);
-      this.folderService.updateSelection(this.selectedItems);
-    }
-  }
-
- 
 }

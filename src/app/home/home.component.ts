@@ -18,16 +18,10 @@ export class HomeComponent {
 
   openLoginModal(){
     this.dialog.open(LoginComponent,{
-      disableClose:true,
-      width:'400px'
+      width:'300px'
     })
   }
-  openRegisterModal(){
-    this.dialog.open(RegisterComponent,{
-      disableClose:true,
-      width:'400px'
-    })
-  }
+
 
 
 }
