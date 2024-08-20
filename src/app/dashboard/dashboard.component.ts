@@ -2,19 +2,22 @@ import { Component } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterComponent } from '../authentication/register/register.component';
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { CommonModule, UpperCasePipe } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { ConfirmationComponent } from '../dialogs/confirmation/confirmation.component';
 import { RoleComponent } from '../dialogs/role/role.component';
 import { ChangePasswordComponent } from '../dialogs/change-password/change-password.component';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../interfaces/user';
+import Swiper from 'swiper';
+import 'swiper/swiper-bundle.css';
+
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, UpperCasePipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -47,6 +50,13 @@ export class DashboardComponent {
         console.error("Failed to fetch users", err);
       }
     });
+
+    const swiper = new Swiper('.swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 10,
+      freeMode: true,
+    });
+  
 
   }
 

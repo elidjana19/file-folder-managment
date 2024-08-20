@@ -1,4 +1,4 @@
-<div class="dashboard-container">
+<!-- <div class="dashboard-container">
   <header class="dashboard-header">
     <h1>Admin Dashboard</h1>
     <div class="button-group">
@@ -38,6 +38,62 @@
           </li>
         </ul>
       </section>
+    </div>
+  </main>
+</div> -->
+
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <div class="button-group">
+      <button class="btn create" (click)="create()">Create <i class="fa-solid fa-user"></i></button>
+      <button class="btn btn-primary" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="dashboard-main swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide column">
+        <section class="user-section">
+          <h6>Users</h6>
+          <ul class="user-list">
+            <li *ngFor="let user of users" class="user-item">
+              <div class="title">
+              <div class="user-avatar">
+                <span>{{ user.username[0] | uppercase }}</span>
+              </div>
+              <span class="username">{{ user.username }}</span>
+            </div>
+              <div class="action-buttons">
+                <button class="btn warning" (click)="showRoleDialog(user.id, user.role)">Change Role</button>
+                <button class="btn success" (click)="showPasswordDialog(user.id)">Change Password</button>
+                <button class="btn btn-danger" (click)="delete(user.id)"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="swiper-slide column">
+        <section class="admin-section">
+          <h6>Admins</h6>
+          <ul class="admin-list">
+            <li *ngFor="let admin of admins" class="admin-item">
+              <div class="title">
+              <div class="user-avatar">
+                <span>{{ admin.username[0] | uppercase }}</span>
+              </div>
+              <span class="username">{{ admin.username }}</span>
+            </div>
+              <div class="action-buttons">
+                <button class="btn warning" (click)="showRoleDialog(admin.id, admin.role)">Change Role</button>
+                <button class="btn success" (click)="showPasswordDialog(admin.id)">Change Password</button>
+                <button class="btn btn-danger" (click)="delete(admin.id)"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
     </div>
   </main>
 </div>
