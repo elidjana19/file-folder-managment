@@ -107,7 +107,9 @@ export class DashboardComponent {
             // Remove user from its array
             this.users = this.users.filter(user => user.id !== id);
             this.admins = this.admins.filter(admin => admin.id !== id);
-            this.toastr.success("Deletion done!")
+            this.toastr.success("Deletion done!", '',{
+              timeOut:800
+            })
 
             if(id === Number(this.currentLoggedIn?.nameid) )
               this.logout()

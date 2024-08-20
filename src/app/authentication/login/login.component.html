@@ -1,5 +1,5 @@
-<div class="login">
-  <h2 mat-dialog-title class="title">{{ isFirstUser ? 'Create First Admin' : 'Login' }}</h2>
+<div class="login" >
+  <h2 mat-dialog-title class="title">Login</h2>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
       <mat-label>Username</mat-label>
@@ -14,7 +14,8 @@
     </mat-error>
     <div mat-dialog-actions class="actions">
       <!-- <button mat-button (click)="onCancel()">Cancel</button> -->
-      <button mat-button type="submit" [disabled]="!loginForm.valid">{{ isFirstUser ? 'Create' : 'Login' }}</button>
+      <button mat-button type="submit" [disabled]="!loginForm.valid" >Login</button>
     </div>
   </form>
 </div>
+

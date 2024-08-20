@@ -116,7 +116,7 @@ export class AuthenticationService {
   //register
 
   private handleError(error: HttpErrorResponse) {
-    return throwError(() => new Error(error.error.message || 'Server Error'));
+    return throwError(() => new Error(error.error.message ));
   }
 
   createUser(user: any): Observable<any> {
@@ -182,5 +182,11 @@ export class AuthenticationService {
   isFirstUser():Observable<boolean>{
     return this.http.get<boolean>(`${this.apiUrl}/is-empty`)
   }
+
+
+  createFirstAdmin(username: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/CreateFirstUser`, { Username: username, Password: password }, { responseType: 'text' as 'json' });
+  }
+  
 
 }
