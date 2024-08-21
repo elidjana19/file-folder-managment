@@ -6,9 +6,6 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: 15px;
-padding-left:0
-
-
 }
 
 .file {
@@ -125,7 +122,7 @@ span{
 .search {
 position:absolute;
 top:15px;
-left:27%;
+left:28%;
 
 }
 
@@ -220,19 +217,28 @@ left:27%;
 
 .no-results{
   background-image: url(../../../assets/Screenshot\ 2024-08-21\ 145946.png);
-  width:300px;
-  height:300px;
+  width:30vw;
+  height:30vh;
   background-position: center; 
   background-repeat: no-repeat;
   background-size: contain;
-  margin-left:200px
+  margin-left:30%
 
 }
+
+.results{
+  display:flex;
+  gap:20px
+}
+
 
 @media(max-width:1200px){
   .search input[type="search"]{
     width:600px
   }
+ 
+  
+  
 }
 
 @media (max-width: 992px) {
@@ -275,7 +281,8 @@ left:27%;
   
  }
 .search input[type="search"]{
-  width:400px
+  width:400px;
+  margin-left:10%
 }
 
 .search input[type="search"] {
@@ -284,6 +291,11 @@ left:27%;
 
 }
 
+.no-results{
+  margin-left:20%
+}
+
+
 }
 
 
@@ -291,25 +303,30 @@ left:27%;
   .search input[type="search"]{
     width:300px
   }
+  .display{
+    top:270px
+  }
 }
 
 @media(max-width:600px){
   .search input[type="search"]{
     width:250px;
-    margin-left:20px
   }
-
-
 }
 
 
 @media(max-width:500px){
   .search input[type="search"]{
-    width:250px;
-    margin-left:20px
+    width:200px;
   }
-}
 
+ 
+  
+
+
+
+
+}
 @media(max-width:480px){
   .fa-folder,
   .fa-file,
@@ -325,7 +342,7 @@ left:27%;
   }
 
   .search {
-    left:10px
+    left:0px
   }
   .search input[type="search"] {
     padding: 5px;
@@ -347,8 +364,12 @@ left:27%;
   
 @media(max-width:400px){
   .search input[type="search"]{
-    width:200px;
-
+    width:250px;
+  }
+  .search{
+    margin-left:0;
+    padding-left:0;
+    left:0px
   }
 }
 

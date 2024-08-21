@@ -201,8 +201,7 @@ export class FileExplorerComponent implements OnInit {
     this.fileExplorerData = results;
 
     this.noresult = false;
-
-    // Delay setting showNoResults to handle timing issues
+    
     setTimeout(() => {
       if (this.searchQuery && results.folders.length === 0 && results.files.length === 0) {
         this.noresult = true;
@@ -372,6 +371,7 @@ export class FileExplorerComponent implements OnInit {
       console.log('All items selected:', this.selectedItems);
       this.folderService.updateSelection(this.selectedItems);
     }
+    console.log("all")
   }
 
   toggleSelection(item: { id: number; type: string }): void {
@@ -443,10 +443,12 @@ export class FileExplorerComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
+    const bigContainer = this.elRef.nativeElement.querySelector('.bigContainer');
 
-    // Check if the click target is inside the FileExplorerComponent or HeaderComponent and delete button in delete dialog
+    // Check if the click target is inside the FileExplorerComponent or HeaderCompon and delete button in delete dialog
     if (
-      !this.elRef.nativeElement.contains(target) &&
+     !bigContainer.contains(target) &&
+     //!this.elRef.nativeElement.contains(target) &&
       !this.clickTrackerService.isInside()
     ) {
       this.deselectItems();
@@ -472,6 +474,7 @@ export class FileExplorerComponent implements OnInit {
         console.log('Deselect operation completed');
       } else {
         this.handleMultipleItems(this.selectedItems);
+        console.log("here")
       }
     }
     this.folderService.buildPathFromFolder(this.selectedItem);
@@ -502,6 +505,7 @@ export class FileExplorerComponent implements OnInit {
           if (file.folderId) {
             this.folderService.getFolderById(file.folderId).subscribe(
               (folder) => {
+                console.log(folder , "folllllllll")
                 this.folderService.setSelectedFolder(folder);
               },
               (error) =>
@@ -532,13 +536,13 @@ export class FileExplorerComponent implements OnInit {
       this.folderService.getFolderById(file.folderId).subscribe(
         (folder) => {
           this.folderService.setSelectedFolder(folder);
-          console.log(folder);
+          console.log(folder, "folder of file ");
         },
         (error) => console.error('Error fetching folder:', error)
       );
     });
-
     this.selectedItems = [];
+    this.folderService.updateSelection([])
   }
 
   handleMultipleItems(items: any[]) {
@@ -561,7 +565,6 @@ export class FileExplorerComponent implements OnInit {
         (error) => console.error('Error fetching first folder:', error)
       );
     }
-    // this.folderService.updateSelection(items);
     this.folderService.updateSelection([]);
     this.selectedItems = [];
   }
