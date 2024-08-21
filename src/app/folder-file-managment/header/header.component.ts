@@ -21,6 +21,7 @@ import { AuthenticationService } from '../../authentication.service';
 import { LogoutConfirmComponent } from '../../dialogs/logout-confirm/logout-confirm.component';
 
 
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -423,6 +424,5 @@ export class HeaderComponent {
       }
     });
   }
-
 
 }

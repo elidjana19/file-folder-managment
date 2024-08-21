@@ -41,7 +41,6 @@
           <summary [class.active]="isFolderActive(folder)">
             <i class="fa-solid fa-folder" (click)="onFolderClick(folder)"></i> {{folder.name}}
           </summary>
-          <!-- Recursively display child folders -->
           <app-file-tree *ngIf="folder.childFolders && folder.childFolders.length" [folders]="folder.childFolders"></app-file-tree>
         </details>
       </li>

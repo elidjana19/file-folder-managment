@@ -173,7 +173,7 @@ export class DashboardComponent {
             this.admins.push(user);
           }
         }
-        this.toastr.error('Role changed', '', {
+        this.toastr.success('Role changed', '', {
           timeOut: 800, 
         });
       },

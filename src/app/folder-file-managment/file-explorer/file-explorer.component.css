@@ -1,9 +1,13 @@
-
+.bigContainer{
+  padding-left:20px
+}
 .container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 15px;
+padding-left:0
+
 
 }
 
@@ -13,6 +17,7 @@
   display: flex;
   flex-direction: column;
   text-align: center;
+
 }
 
 .file:hover{
@@ -209,9 +214,41 @@ left:27%;
   background-color: rgb(229, 229, 229);
 }
 
+.container .noFolder{
+  display: flex;
+}
 
+.no-results{
+  background-image: url(../../../assets/Screenshot\ 2024-08-21\ 145946.png);
+  width:300px;
+  height:300px;
+  background-position: center; 
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-left:200px
 
-@media (max-width: 1199px) {
+}
+
+@media(max-width:1200px){
+  .search input[type="search"]{
+    width:600px
+  }
+}
+
+@media (max-width: 992px) {
+  .list-view .file{
+    width:100%;
+    padding-left:0
+  }
+  .list-view .file-info {
+    grid-template-columns: auto auto auto;
+    gap:10px;
+   
+  }
+  .list-view .file i, .list-view span, .list-view .file img{
+    font-size:8px;
+  }
+
   .fa-folder,
   .fa-file,
   .fa-file-pdf,
@@ -238,17 +275,39 @@ left:27%;
   
  }
 .search input[type="search"]{
-  width:100%
+  width:400px
 }
-.search {
-  left:50%
-}
+
 .search input[type="search"] {
   padding: 5px;
   font-size: 10px;
 
 }
 
+}
+
+
+@media(max-width:768px){
+  .search input[type="search"]{
+    width:300px
+  }
+}
+
+@media(max-width:600px){
+  .search input[type="search"]{
+    width:250px;
+    margin-left:20px
+  }
+
+
+}
+
+
+@media(max-width:500px){
+  .search input[type="search"]{
+    width:250px;
+    margin-left:20px
+  }
 }
 
 @media(max-width:480px){
@@ -264,33 +323,34 @@ left:27%;
   span{
     font-size:15px
   }
-  .display button{
-    padding:0px 5px;
-    right:5px
-  }
+
   .search {
     left:10px
   }
   .search input[type="search"] {
     padding: 5px;
     font-size: 10px;
-    width:100%
+    width:300px
  
   }
-  .list-view .file{
-    width:100%;
-  }
-  .list-view .file-info {
-    grid-template-columns: auto auto auto;
-    gap:10px;
-   
-  }
-  .list-view .file i, .list-view span, .list-view .file img{
-    font-size:8px;
-  }
+  
   .container{
     padding:0;
     justify-content: start;
   }
+
+  .display button{
+    padding:0px 5px;
+    font-size:10px
+  }
+
+  
+@media(max-width:400px){
+  .search input[type="search"]{
+    width:200px;
+
+  }
+}
+
 }
 

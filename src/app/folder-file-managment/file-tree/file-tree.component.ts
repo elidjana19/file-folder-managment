@@ -113,4 +113,6 @@ export class FileTreeComponent {
   isFolderOpen(folder: any): boolean {
     return !!this.folderStates[folder.id];
   }
+
+  
 }

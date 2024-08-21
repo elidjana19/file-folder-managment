@@ -3,10 +3,10 @@
     type="search"
     [(ngModel)]="searchQuery"
     (ngModelChange)="search()"
-    placeholder="Search folders and files"
-    
-  />
+    placeholder="Search folders and files"/>
 </div>
+
+<div class="bigContainer">
 <div class="navigation-container">
   <div class="breadcrumb-container">
     <ng-container *ngFor="let segment of path; let i = index">
@@ -33,7 +33,7 @@
 
 <div class="file-explorer">
   <div [ngClass]="{'container': viewMode === 'grid', 'list-view': viewMode === 'list'}">
-  <div *ngIf="selectedFolder">
+  <div *ngIf="selectedFolder; else noFolderSelected"> 
     <div class="container">
       <!-- folders -->
       <div
@@ -108,9 +108,53 @@
       </div>
     </div>
   </div>
-</div>
-</div>
+  <ng-template #noFolderSelected class="noFolder">
+    <!-- Folders not inside any selected folder -->
+    <div
+      *ngFor="let folder of allFolders"
+      class="file"
+      [ngClass]="{ 'selected-item': isSelected(folder, folder.type) }"
+      [attr.draggable]="true"
+      (dragstart)="onDragStart($event, folder.id, folder.type)"
+      (dragover)="onDragOver($event)"
+      (drop)="onDrop($event, folder.id, folder.type)"
+      (dragleave)="onDragLeave($event)"
+      (contextmenu)="onRightClick($event, folder, folder.type)"
+      (click)="handleClick(folder, folder.type, $event)"
+    >
+      <i *ngIf="!hasZipExtension(folder.name)" class="fas fa-folder" (dblclick)="doubleClickFolder(folder)"></i>
+      <i *ngIf="hasZipExtension(folder.name)" class="fa-solid fa-file-zipper"></i>
+      <ng-container *ngIf="viewMode === 'grid'">
+        {{ folder.name }}
+      </ng-container>
+    </div>
 
+    <!-- Files not inside any selected folder -->
+    <div
+      *ngFor="let file of allFiles"
+      class="file"
+      [ngClass]="{ 'selected-item': isSelected(file, file.type) }"
+      [attr.draggable]="true"
+      (dragstart)="onDragStart($event, file.id, file.type)"
+      (dragover)="onDragOver($event)"
+      (drop)="onDrop($event, file.id, file.type)"
+      (dragleave)="onDragLeave($event)"
+      (contextmenu)="onRightClick($event, file, file.type)"
+      (click)="handleClick(file, file.type, $event)"
+    >
+      <ng-container *ngIf="isImage(file.name); else fileIcon">
+        <img [src]="file.url" [class]="getFileIcon(file.name)" />
+      </ng-container>
+      <ng-template #fileIcon>
+        <i [class]="getFileIcon(file.name)"></i>
+      </ng-template>
+      <ng-container *ngIf="viewMode === 'grid'">
+        {{ file.name }}
+      </ng-container>
+    </div>
+  </ng-template>
+</div>
+</div>
 <div
   class="context-menu"
   *ngIf="showContextMenu"
@@ -130,9 +174,17 @@
   </ul>
 </div>
 
+<div *ngIf="noresult && searchQuery" class="no-results">
+</div>
+</div>
+
+
+
+
+
 
 <!-- for search since root -->
-<div *ngIf="!selectedFolder" class="container">
+<!-- <div *ngIf="!selectedFolder" class="container">
   <div
     *ngFor="let child of allFolders"
     class="file"
@@ -186,3 +238,4 @@
     {{ file.name }}
   </div>
 </div>
+</div> -->

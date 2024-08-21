@@ -1,9 +1,10 @@
-import { Component, Inject } from '@angular/core';
+import { Component, HostListener, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MAT_DIALOG_DATA,  MatDialogRef } from '@angular/material/dialog';
 
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ClickTrackerServiceService } from '../../click-tracker-service.service';
 
 @Component({
   selector: 'app-file-preview',
@@ -19,7 +20,7 @@ export class FilePreviewComponent {
   name!:string
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef:MatDialogRef<FilePreviewComponent>, private sanitizer: DomSanitizer) { 
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef:MatDialogRef<FilePreviewComponent>, private clickTrackerService:ClickTrackerServiceService, private sanitizer: DomSanitizer) { 
     this.decodeBase64(data);
     if (data.contentType === 'application/pdf') {
       this.createPdfUrl(data.base64Data);
@@ -29,6 +30,11 @@ export class FilePreviewComponent {
    
   }
 
+  @HostListener('click')
+  onClick() {
+    this.clickTrackerService.setInside(true);
+  }
+  
   decodeBase64(data: any): void {
     if (data.contentType === 'text/plain') {
       const base64Data = data.base64Data.split(',')[1]; 

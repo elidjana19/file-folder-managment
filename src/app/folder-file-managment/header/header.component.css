@@ -1,5 +1,5 @@
-header{
-  margin:10px 20px 20px 20px;
+header {
+  margin: 10px 20px 20px 20px;
 }
 
 .header {
@@ -7,97 +7,102 @@ header{
   align-items: center;
   padding: 10px;
   position: relative;
-  gap:340px;
+  gap: 340px;
 
- .fa-folder-open, span{
+  .fa-folder-open,
+  span {
     color: #007bff;
   }
-  span{
-    margin-left:5px
+  span {
+    margin-left: 5px;
   }
-
 }
-.create{
-  border:none;
-  padding:20px;
+.create {
+  border: none;
+  padding: 20px;
   border-radius: 20px;
   background-color: white;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
-.create:hover{
+.create:hover {
   background-color: #d3d3d3;
 }
-.fa-plus{
-  margin-left:5px
+.fa-plus {
+  margin-left: 5px;
 }
 
-.all-actions{
+.all-actions {
   display: flex;
-  align-items: center;
-  margin-top:40px
-  
+  align-items: start;
+  margin-top: 40px;
+  gap:30px
 }
 
-.actions{
+.actions {
   background-color: rgb(194, 215, 245);
   display: flex;
+ justify-self: start;
   font-size: 15px;
-  margin-right:25px;
-  gap:25px;
+  margin-right: 25px;
+  gap: 25px;
   flex-wrap: nowrap;
-  padding:10px 15px;
+  padding: 10px 15px;
   border-radius: 20px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease;
 
-  button{
-    border:none;
+  button {
+    border: none;
     background-color: rgb(194, 215, 245);
-
   }
-  button:hover{
+  button:hover {
     border-radius: 50%;
-    background-color:  rgb(233, 233, 233); 
+    background-color: rgb(233, 233, 233);
   }
-  .fa-xmark{
-    margin-right:10px
+  .fa-xmark {
+    margin-right: 10px;
   }
-
 }
 
 .disabled {
-  background-color: #e0e0e0; 
-  color: #a0a0a0;           
-  border: 1px solid #c0c0c0; 
-  cursor: not-allowed;      
-  pointer-events: none;      
+  background-color: #e0e0e0;
+  color: #a0a0a0;
+  border: 1px solid #c0c0c0;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
-.logout{
+.logout {
   position: absolute;
-  right:10px;
-  top:5px;
+  right: 10px;
+  top: 5px;
   align-items: center;
-  background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+  background-image: radial-gradient(
+    100% 100% at 100% 0,
+    #5adaff 0,
+    #5468ff 100%
+  );
   border: 0;
   border-radius: 50%;
   cursor: pointer;
   height: 48px;
   padding-left: 16px;
   padding-right: 16px;
-  transition: box-shadow .15s,transform .15s;
+  transition: box-shadow 0.15s, transform 0.15s;
   font-size: 18px;
 }
 
 .logout:focus {
-  box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+  box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
 }
 
 .logout:hover {
-  box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
   transform: translateY(-2px);
 }
 
@@ -106,31 +111,16 @@ header{
   transform: translateY(2px);
 }
 
-.logout .fa-user{
-  color:white;
+.logout .fa-user {
+  color: white;
 }
 
 
-
-@media (max-width:3000px){
-  .all-actions{
-    gap:20px
-  }
-}
-@media (max-width:1400px){
- 
-}
-
-@media(min-width:992px )and (max-width:1199px){
-}
 @media (max-width: 900px) {
   .header {
     flex-direction: column;
     gap: 20px;
   }
-
-
-
   .create {
     font-size: 12px;
     padding: 10px 14px;
@@ -141,51 +131,49 @@ header{
     font-size: 12px;
     padding: 8px 10px;
   }
-  .icon i, .icon span{
-    font-size:10px;
-    position:absolute;
-    left:0
+  .icon i,
+  .icon span {
+    font-size: 10px;
+    position: absolute;
+    left: 0;
   }
-  .icon{
+  .icon {
     margin-bottom: 20px;
   }
-
-}
- @media(min-width:481px) and (max-width:767px) {
-  .icon i, .icon span{
-    font-size:10px;
-    position:absolute;
-    left:0
+  .logout {
+    right: 0;
+    height: 30px;
+    padding: 15px;
   }
-
- }
+  .fa-user {
+    top: 10px;
+    right: 6%;
+  }
+}
+@media (max-width: 767px) {
+  .icon i,
+  .icon span {
+    font-size: 10px;
+    position: absolute;
+    left: 0;
+  }
+}
 
 @media (max-width: 480px) {
-  .icon{
-    margin-bottom:30px
+  .header {
+    margin: 0;
   }
- span{
-    font-size: 10px;
-    display:block;
+  .icon {
+    margin-bottom: 30px;
+  }
 
+  .fa-folder-open {
+    display: none;
   }
-  .fa-folder-open{
-    display:none
-  }
- 
+
   .create {
     font-size: 8px;
-    padding: 6px;
-   
+    padding:5px 5px 5px 1px
   }
-
-
-  .actions {
-    gap:20px;
-    font-size: 10px;
-    padding: 6px 8px;
-  }
-.logout{
-  height:20px
-}
+ 
 }
