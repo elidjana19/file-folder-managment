@@ -34,7 +34,7 @@
   </div>
    -->
 
-   <ul>
+   <!-- <ul>
     <ng-container *ngFor="let folder of folders">
       <li>
         <details [open]="isFolderOpen(folder)">
@@ -46,4 +46,45 @@
       </li>
     </ng-container>
   </ul>
+   -->
+
+   <button class="toggle-tree" (click)="toggleFileTree()">
+    <i class="fa-solid" [ngClass]="{'fa-bars': !isFileTreeVisible, 'fa-times': isFileTreeVisible}"></i>
+    {{ isFileTreeVisible ? 'Hide Tree View' : 'Show Tree View' }}
+  </button>
   
+<!-- Large screens file tree -->
+<ng-container *ngIf="!isMobileView else mobile">
+  <div>
+    <ul>
+      <ng-container *ngFor="let folder of folders">
+        <li>
+          <details [open]="isFolderOpen(folder)">
+            <summary [class.active]="isFolderActive(folder)">
+              <i class="fa-solid fa-folder" (click)="onFolderClick(folder)"></i> {{folder.name}}
+            </summary>
+            <app-file-tree *ngIf="folder.childFolders && folder.childFolders.length" [folders]="folder.childFolders"></app-file-tree>
+          </details>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+</ng-container>
+
+<!-- Mobile file tree -->
+<ng-template #mobile>
+<div class="file-tree-overlay"  *ngIf="isFileTreeVisible" (click)="closeFileTree()">
+  <ul *ngIf="(isFileTreeVisible || !isMobileView)" >
+    <ng-container *ngFor="let folder of folders">
+      <li>
+        <details [open]="isFolderOpen(folder)">
+          <summary [class.active]="isFolderActive(folder)" (click)="onFolderClick(folder)">
+            <i class="fa-solid fa-folder"></i> {{folder.name}}
+          </summary>
+          <app-file-tree *ngIf="(folder.childFolders && folder.childFolders.length) && !isMobileView" [folders]="folder.childFolders"></app-file-tree>
+        </details>
+      </li>
+    </ng-container>
+  </ul>
+  </div>
+</ng-template>

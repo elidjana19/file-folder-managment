@@ -188,5 +188,18 @@ Qe ne nje vector shton veten, me pas me unshift shton ne fillim te vektorit prin
 Dhe kete vektor qe perfaqeson pathin e shtoj tek subject path qe ruan pathin aktual.
 
 Kam krijuar nje service te ri authentication.ts per metodat e nevojshme per login/register. Perderisa logjika eshte qe admini
-mund te regjistroje usera, tu ndryshoje atyre rolet apo ti fshije ata une kam ktijuar nje admin dashboard ku afishoj userat dhe adminet.
+mund te regjistroje usera, tu ndryshoje atyre rolet apo ti fshije ata une kam krijuar nje admin dashboard ku afishoj userat dhe adminet.
 Admini aktual pra ai qe eshte i loguar nuk mund ti ndryshohet roli dhe nese fhsihet une bej logout pasi nuk mund te jem me ne dashboard.
+Sifiilim nepemjet api IsFirstUser une kontrolloj nese kam usera apo jo ne databaze nese jo une hap formen e krijimit te adminit te pare. Ne kete menyre
+pasi te kem krijuar adminin e pare, une logohem tek adminDashboard dhe ketu mund te krijoj usera te tjere, te fshij, ndryshoj rolin apo
+passwordin. PEr ndryshimin e rolit dhe passwordit kam krijuar format perkatese dhe per passwordin kam perdorur nje patter ku nuk lejohet 
+qe userat te krijohen me password qe nuk i permbahen atij passwordi apo tu ndryshohet passwordi pa ju permbajtur patternit.
+Per tu siguruar qe te mos kaloj tek dashboardi apo aplikacioni pa u loguar kam krijuar edhe guard. Ne kete guard kontrolloj nese kam token
+nese po kthej true dhe lejoj navigimin, perndryshe e detyroj userin te kthehet tek /login, pra tek forma e loginit.
+Gjithashtu duhet qe useri i loguar te shohe dhe veproje vetem mbi folderat dhe filet e veta prandaj tek secila metode qe une kisha 
+vendos headers tokenin e userit te loguar.
+
+Gjithashtu aplikacionin e kam responsive ne menyre qe te perdoret ne pajisje te ndryshme. Rightclick apo double click nuk mund te realozihen
+ne mobile devices, prandaj une kam perdorur touch eevents. Pra ne momentin qe nje folder e mbaj te klikuar per disa sekonda une e selektoj, ndersa nese e klikoj une e hap folderin.
+
+

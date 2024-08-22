@@ -102,6 +102,14 @@ export class DashboardComponent {
   }
 
   delete(id: number) {
+
+    if (id === Number(this.currentLoggedIn?.nameid)) {
+      this.toastr.warning("You cannot delete the currently logged-in admin.", '', {
+        timeOut: 800
+      });
+      return;
+    }
+    
     const dialogRef = this.dialog.open(ConfirmationComponent, {
       width: '300px',
       height: '300px'

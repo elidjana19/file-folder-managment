@@ -27,18 +27,21 @@ header {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
+
 .create:hover {
   background-color: #d3d3d3;
 }
 .fa-plus {
   margin-left: 5px;
 }
-
+.col-3{
+  padding-right:0
+}
 .all-actions {
   display: flex;
   align-items: start;
   margin-top: 40px;
-  gap:30px
+  /* gap:30px */
 }
 
 .actions {
@@ -149,6 +152,9 @@ header {
     top: 10px;
     right: 6%;
   }
+  .actions{
+    margin-left:10%
+  }
 }
 @media (max-width: 767px) {
   .icon i,
@@ -157,6 +163,9 @@ header {
     position: absolute;
     left: 0;
   }
+
+ 
+
 }
 
 @media (max-width: 480px) {
@@ -173,7 +182,11 @@ header {
 
   .create {
     font-size: 8px;
-    padding:5px 5px 5px 1px
+    padding:10px 5px
+  }
+
+  .actions{
+    margin-left:5%
   }
  
 }

@@ -6,6 +6,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: 15px;
+  /* padding-left:0 */
 }
 
 .file {
@@ -122,7 +123,7 @@ span{
 .search {
 position:absolute;
 top:15px;
-left:28%;
+/* left:28%; */
 
 }
 
@@ -134,16 +135,11 @@ left:28%;
   font-size: 16px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: border-color 0.3s, box-shadow 0.3s, width 0.4s ease; 
-}
-
-
-.search input[type="search"] {
   border-color: #007bff;
   box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
   outline: none;
   width: 700px; 
 }
-
 
 .search input[type="search"]::placeholder {
   color: #aaa;
@@ -222,7 +218,7 @@ left:28%;
   background-position: center; 
   background-repeat: no-repeat;
   background-size: contain;
-  margin-left:30%
+  margin-left:15%
 
 }
 
@@ -231,6 +227,51 @@ left:28%;
   gap:20px
 }
 
+
+.no-folder-files {
+  background-image: url(../../../assets/initial.png);
+  width: 30vw;
+  height: 30vh;
+  background-position: center; 
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-left: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; 
+  align-items: center; 
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.no-folder-files p {
+  margin: 0;
+}
+
+.initial-title{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin:0 auto;
+  align-items: center;
+  text-align: center;
+  margin-left:70px
+}
+.initial-title h3{
+  color: #006bde;
+}
+.initial-title span{
+  font-style: italic;
+  font-size: 22px;
+}
+
+/* @media(max-width:9000px){
+
+  .search{
+    left:26%
+  }
+ 
+} */
 
 @media(max-width:1200px){
   .search input[type="search"]{
@@ -296,15 +337,23 @@ left:28%;
 }
 
 
+
 }
 
 
 @media(max-width:768px){
   .search input[type="search"]{
-    width:300px
+    width:300px;
   }
+  .search{
+    left:30%
+  }
+
   .display{
     top:270px
+  }
+  .no-results{
+    margin-left:30%
   }
 }
 
@@ -312,6 +361,15 @@ left:28%;
   .search input[type="search"]{
     width:250px;
   }
+ 
+  .display{
+    top:340px
+  }
+  .display button{
+    padding:0px 5px;
+    font-size:10px
+  }
+
 }
 
 
@@ -321,11 +379,6 @@ left:28%;
   }
 
  
-  
-
-
-
-
 }
 @media(max-width:480px){
   .fa-folder,
@@ -356,10 +409,6 @@ left:28%;
     justify-content: start;
   }
 
-  .display button{
-    padding:0px 5px;
-    font-size:10px
-  }
 
   
 @media(max-width:400px){
@@ -370,6 +419,15 @@ left:28%;
     margin-left:0;
     padding-left:0;
     left:0px
+  }
+  .initial-title{
+    justify-content: start;
+    margin-left:0;
+    font-size:10px;
+    align-items: start;
+  }
+  .display{
+
   }
 }
 

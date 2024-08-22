@@ -64,11 +64,6 @@
     .register {
       padding: 15px;
     }
-  
-    .actions {
-      flex-direction: column; 
-      gap:10px
-    }
   }
  
   

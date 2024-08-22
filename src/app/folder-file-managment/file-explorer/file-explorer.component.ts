@@ -30,6 +30,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { VersionComponent } from '../../dialogs/version/version.component';
 import { PropertiesComponent } from '../../dialogs/properties/properties.component';
 import { AuthenticationService } from '../../authentication.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Folder } from '../../interfaces/folder';
 
 @Component({
   selector: 'app-file-explorer',
@@ -58,14 +60,16 @@ export class FileExplorerComponent implements OnInit {
   files: any;
   path: any;
   selectedItem: any;
+  isMobile: boolean = false;
 
-  private searchQuery$ = new Subject<string>();
-  private subscription: any;
   allFiles: any;
   fileExplorerData: any;
   allFolders: any;
   logged: any;
   noresult:boolean=false
+
+  touchStartTime: number | null = null;
+  longPressDuration = 500;
 
   constructor(
     private folderService: FolderServiceService,
@@ -74,9 +78,16 @@ export class FileExplorerComponent implements OnInit {
     private elRef: ElementRef,
     public clickTrackerService: ClickTrackerServiceService,
     public dialog: MatDialog,
-    private service: AuthenticationService
+    private service: AuthenticationService,
+    private renderer: Renderer2,
+    private breakpointObserver: BreakpointObserver
    
-  ) {}
+  ) {
+    this.breakpointObserver.observe([Breakpoints.Handset])
+    .subscribe(result => {
+      this.isMobile = result.matches;
+    });
+  }
 
   ngOnInit(): void {
     this.folderService.selectedFolder$.subscribe((folder) => {
@@ -195,19 +206,40 @@ export class FileExplorerComponent implements OnInit {
 
     this.logged = this.service.getData();
     console.log(this.logged, 'logged');
+    }
+
+
+  onFolderTouchStart(event: TouchEvent, folder: Folder) {
+    this.touchStartTime = new Date().getTime();
   }
+
+    onFolderTouchEnd(event: TouchEvent, folder: Folder) {
+      console.log("start")
+      if (this.touchStartTime) {
+        const touchDuration = new Date().getTime() - this.touchStartTime;
+        if (touchDuration >= this.longPressDuration) {
+          // Long press detected - select the folder
+          console.log("herrerererre")
+        this.clickFolder(folder)
+          
+        } else {
+          // Short press - open the folder
+          this.doubleClickFolder(folder);
+        }
+        this.touchStartTime = null;
+      }
+    }
 
   displayResults(results: { folders: any[]; files: any[] }) {
     this.fileExplorerData = results;
 
     this.noresult = false;
-    
+   
     setTimeout(() => {
       if (this.searchQuery && results.folders.length === 0 && results.files.length === 0) {
         this.noresult = true;
       }
     }, 200); 
-    
     if (this.selectedFolder) {
       this.selectedFolder.childFolders = results.folders;
       this.selectedFolder.files = results.files;
@@ -222,6 +254,13 @@ export class FileExplorerComponent implements OnInit {
     this.searchSubject.next(this.searchQuery);
   }
 
+  clearSearch(){
+    this.searchQuery=''
+    this.allFiles=[]
+    this.allFolders=[]
+  }
+
+
   //i fetch the latest data for the currently selected folder
   updateFolderContent(): void {
     if (this.selectedFolder) {
@@ -233,6 +272,16 @@ export class FileExplorerComponent implements OnInit {
         });
     }
   }
+
+
+  onFolderClick(folder:Folder){
+    if(this.isMobile){
+      this.doubleClickFolder(folder)
+    }else{
+      this.clickFolder(folder)
+    }
+  }
+
 
   clickFolder(folder: any) {
     // set the folder only as selected
@@ -270,6 +319,7 @@ export class FileExplorerComponent implements OnInit {
     this.folderService.getFile(file.id).subscribe((blob) => {
       console.log('File:', blob);
     });
+    
   }
 
   isImage(fileName: string): boolean {
@@ -348,7 +398,8 @@ export class FileExplorerComponent implements OnInit {
     } else {
       // Regular click for single selection
       if (type === 'folder' || type === 'zipfolder') {
-        this.clickFolder(item);
+        this.onFolderClick(item)
+        //this.clickFolder(item);
       } else if (type === 'file') {
         this.getFile(item);
       }
@@ -453,6 +504,7 @@ export class FileExplorerComponent implements OnInit {
     ) {
       this.deselectItems();
       this.showContextMenu = false;
+      this.clearSearch()
     }
 
     // Reset the click state
@@ -490,6 +542,7 @@ export class FileExplorerComponent implements OnInit {
                 console.log('Parent folder:', parent);
                 console.log('here');
                 this.folderService.setSelectedFolder(parent);
+                this.folderService.buildPathFromFolder(parent)
               },
               (error) => console.error('Error fetching parent folder:', error)
             );
@@ -507,6 +560,7 @@ export class FileExplorerComponent implements OnInit {
               (folder) => {
                 console.log(folder , "folllllllll")
                 this.folderService.setSelectedFolder(folder);
+                this.folderService.buildPathFromFolder(folder)
               },
               (error) =>
                 console.error('Error fetching folder by file ID:', error)
@@ -788,4 +842,6 @@ export class FileExplorerComponent implements OnInit {
     }
     return `${sizeInNumber.toFixed(2)} ${units[i]}`;
   }
+
+ 
 }

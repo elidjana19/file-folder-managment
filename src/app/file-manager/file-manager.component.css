@@ -4,13 +4,13 @@
     flex-wrap: wrap;
 }
 
-.col-3, .col-9 {
+.col-3{
     padding: 0 20px;
 }
 
 .col-9 {
     display: flex;
-    justify-content: start;
+    justify-content: start;   
 }
 
 @media (min-width: 768px) and (max-width: 991px) {

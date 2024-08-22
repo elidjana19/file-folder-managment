@@ -14,8 +14,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 })
 export class FileTreeComponent {
 
-  constructor(private folderService:FolderServiceService, public elRef: ElementRef){}
-
+  constructor(private folderService:FolderServiceService, public elRef: ElementRef){
+    this.checkScreenSize();
+    window.addEventListener('resize', () => this.checkIfMobile());
+  }
   @Input() folders: any[] = []; 
   @Input() parentId: string = '';
 
@@ -24,6 +26,11 @@ export class FileTreeComponent {
   currentPath: any;
 
   folderStates: { [key: string]: boolean } = {};
+
+  isMobileView: boolean = false;
+  isFileTreeVisible: boolean = true;
+  display:boolean=false
+
 
   ngOnInit(): void {
     // Subscribe to folder changes
@@ -52,6 +59,9 @@ export class FileTreeComponent {
 
   // on click i open only one root folder
   onFolderClick(folder: any): void {
+    if(this.isMobileView){
+      this.isFileTreeVisible=false
+    }
     if (this.selectedFolder?.id !== folder.id) {
       this.folderService.getFolderById(folder.id).subscribe(folder => {
         this.selectedFolder = folder;  // Set the entire folder object
@@ -105,6 +115,10 @@ export class FileTreeComponent {
     }
   }
 
+  checkIfMobile() {
+    this.isMobileView = window.innerWidth < 768; // Adjust breakpoint as needed
+  }
+
   isFolderActive(folder: any) {
     //console.log(this.selectedFolder)
       return this.selectedFolder && this.selectedFolder.id === folder.id;
@@ -114,5 +128,17 @@ export class FileTreeComponent {
     return !!this.folderStates[folder.id];
   }
 
+  toggleFileTree() {
+    this.isFileTreeVisible = !this.isFileTreeVisible;
+  }
+
+  checkScreenSize() {
+    this.isMobileView = window.innerWidth <= 768; 
+    this.isFileTreeVisible = !this.isMobileView;  
+  }
+  closeFileTree() {
+    this.isFileTreeVisible = false;
+  }
+  
   
 }

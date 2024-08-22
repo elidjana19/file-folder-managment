@@ -27,10 +27,49 @@ summary.active{
   color:rgb(65, 65, 65)
 }
 
+.toggle-tree {
+  display: none; 
+}
+.file-tree-overlay {
+  position: absolute;
+  left: 23px;
+  width: 200px; 
+  height: 10%;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  z-index: 1000; 
+}
+
+
+@media screen and (max-width: 768px) {
+  .toggle-tree {
+    display: block; 
+    margin: 10px;
+    padding: 10px;
+    background-color: #f4f5f7;
+    color: #314cd6;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size:12px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  ul {
+    padding: 10px;
+    background-color: #f8f9fa;
+  }
+}
 @media(max-width:480px){
   summary{
 width:50%;
 font-size: 10px;
 
   }
+
+  .above{
+    z-index: 1000;
+  }
+  
 }
