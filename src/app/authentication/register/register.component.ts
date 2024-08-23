@@ -35,7 +35,10 @@ export class RegisterComponent {
   ngOnInit(){
     this.registerForm= new FormGroup({
       role: new FormControl('', Validators.required),
-      username: new FormControl('', Validators.required),
+      username: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9_]{3,15}$/)
+      ]),
       password: new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.*\s).{8,}$/)
       ])
     })

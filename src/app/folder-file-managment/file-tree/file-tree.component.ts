@@ -140,5 +140,9 @@ export class FileTreeComponent {
     this.isFileTreeVisible = false;
   }
   
+  isZipFolder(folder: any): boolean {
+    return folder.name.endsWith('.zip');
+  }
+  
   
 }

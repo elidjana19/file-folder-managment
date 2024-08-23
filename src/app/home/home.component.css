@@ -27,7 +27,7 @@
   }
   
 .btn {
-  background-color: #be342a;
+  background-color:  rgb(12, 173, 223);
   border: 0;
   border-radius: 56px;
   color: #fefdfd;
@@ -47,7 +47,7 @@
 
 .btn:hover {
   box-shadow: rgba(255, 255, 255, .2) 0 3px 15px inset, rgba(0, 0, 0, .1) 0 3px 5px, rgba(0, 0, 0, .1) 0 10px 13px;
-  background-color: red;
+  background-color: rgb(0, 124, 162);
   transform: scale(1.05);
 }
 

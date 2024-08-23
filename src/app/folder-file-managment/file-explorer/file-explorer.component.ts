@@ -273,18 +273,20 @@ export class FileExplorerComponent implements OnInit {
     }
   }
 
-
-  onFolderClick(folder:Folder){
-    if(this.isMobile){
-      this.doubleClickFolder(folder)
-    }else{
-      this.clickFolder(folder)
+  isZipFolder(folder: any): boolean {
+    return folder.name.endsWith('.zip');
+  }
+  
+  onFolderClick(folder: Folder) {
+    if (this.isMobile) {
+      this.doubleClickFolder(folder);
+    } else {
+      this.clickFolder(folder);
     }
   }
-
-
+  
   clickFolder(folder: any) {
-    // set the folder only as selected
+   //select zip but not open
     this.isSelectingFolder = true;
     this.folderService.getFolderById(folder.id).subscribe((folderData) => {
       this.folderService.setSelectedFolder(folderData);
@@ -292,20 +294,23 @@ export class FileExplorerComponent implements OnInit {
       console.log('folder');
     });
   }
-
+  
   doubleClickFolder(folder: any) {
-    // open the folder content
+    if (this.isZipFolder(folder)) {
+      return; // not open
+    }
+  
     this.isSelectingFolder = false;
     this.folderService.getFolderById(folder.id).subscribe((folderData) => {
       this.selectedFolder = folderData;
       this.updateFolderContent();
-      // build path also
       this.folderService.buildPathFromFolder(this.selectedFolder);
     });
     this.searchQuery = '';
     this.allFolders = [];
     this.allFiles = [];
   }
+  
 
   getFile(file: any) {
     //set the file only as selected
@@ -682,6 +687,8 @@ export class FileExplorerComponent implements OnInit {
         return 'fa-solid fa-file-archive';
       case 'Unzip':
         return 'fa-solid fa-file-archive';
+        case 'Download':
+        return 'fa-solid fa-download';
       default:
         return '';
     }

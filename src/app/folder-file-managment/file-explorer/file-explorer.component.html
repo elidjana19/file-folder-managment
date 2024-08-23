@@ -180,7 +180,7 @@
           (click)="handleClick(child, child.type, $event)"
         >
           <i *ngIf="!hasZipExtension(child.name)" class="fas fa-folder" (dblclick)="doubleClickFolder(child)"></i>
-          <i *ngIf="hasZipExtension(child.name)" class="fa-solid fa-file-zipper"></i>
+          <i *ngIf="hasZipExtension(child.name)" class="fa-solid fa-file-zipper" ></i>
           <ng-container *ngIf="viewMode === 'list'">
             <div class="file-info">
               <span class="name">{{ child.name }}</span>
@@ -228,7 +228,7 @@
     <ng-template #noFolderSelected>
       <div *ngIf="!searchQuery && !selectedFolder && (!allFolders?.length && !allFiles?.length)" class="initial-title">
         <h3>Welcome to FolderFileManager</h3>
-      <span>Here to make your process easier</span>
+      <span>Here to make your life easier</span>
     </div>
       <div  class="res">
       <!-- <h3 *ngIf="allFolders?.length > 0 || allFiles?.length > 0" >Search Results</h3> -->

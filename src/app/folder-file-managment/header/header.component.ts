@@ -327,7 +327,7 @@ export class HeaderComponent {
   // DOWNLOAD IS OKK
 
   downloadFile(file: any): void {
-    this.folderService.downloadFile(file.id).subscribe(
+    this.folderService.downloadFile(file?.id).subscribe(
       (blob) => {
         let fileType: string;
 
@@ -345,7 +345,8 @@ export class HeaderComponent {
           fileType = 'image/jpeg';
         } else if (file.name.endsWith('.txt')) {
           fileType = 'application/json';
-        } else {
+        }
+         else {
           this.toastr.error('Unsupported file type');
           return;
         }
