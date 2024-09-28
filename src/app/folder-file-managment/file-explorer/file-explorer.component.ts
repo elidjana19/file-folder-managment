@@ -3,10 +3,8 @@ import {
   Component,
   ElementRef,
   HostListener,
-  OnDestroy,
   OnInit,
   Renderer2,
-  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FolderServiceService } from '../../folder-service.service';
@@ -164,46 +162,8 @@ export class FileExplorerComponent implements OnInit {
       )
       .subscribe((results) => {
         console.log(results, 'search here ');
-        // if (this.selectedFolder) {
-        //   this.selectedFolder.childFolders = results.folders;
-        //   this.selectedFolder.files = results.files;
-        //   console.log(this.selectedFolder.files, 'hereee'); //file i searched is here
-        //   this.cdr.detectChanges();
-        // }
         this.displayResults(results);
       });
-
-    // this.subscription = this.folderService.search$.pipe(
-    //   debounceTime(300),
-    //   switchMap((searchQuery) => {
-    //     if (searchQuery === '') {
-    //       // Fetch all content if query is empty
-    //       return this.folderService.getFolderById(this.selectedFolder?.id).pipe(
-    //         map((folder) => ({
-    //           folders: folder.childFolders,
-    //           files: folder.files,
-    //         }))
-    //       );
-    //     }
-
-    //     return combineLatest([
-    //       this.folderService.searchFolder(this.selectedFolder?.id, searchQuery).pipe(
-    //         catchError(() => of([])) // Return empty array on error
-    //       ),
-    //       this.folderService.searchFile(this.selectedFolder?.id, searchQuery).pipe(
-    //         catchError(() => of([])) // Return empty array on error
-    //       ),
-    //     ]).pipe(map(([folders, files]) => ({ folders, files })));
-    //   })
-    // ).subscribe((results) => {
-    //   if (this.selectedFolder) {
-    //     this.selectedFolder.childFolders = results.folders;
-    //     this.selectedFolder.files = results.files;
-    //     console.log(this.selectedFolder.files, 'hereee');
-    //     this.cdr.detectChanges();
-    //   }
-    // });
-
     this.logged = this.service.getData();
     console.log(this.logged, 'logged');
     }
@@ -219,7 +179,7 @@ export class FileExplorerComponent implements OnInit {
         const touchDuration = new Date().getTime() - this.touchStartTime;
         if (touchDuration >= this.longPressDuration) {
           // Long press detected - select the folder
-          console.log("herrerererre")
+          console.log("here")
         this.clickFolder(folder)
           
         } else {
@@ -390,7 +350,6 @@ export class FileExplorerComponent implements OnInit {
   }
 
   // Batch selection
-
   private lastSelectedItem: any = null;
 
   // i used Set to store the selected items: folder/ files
@@ -778,7 +737,18 @@ export class FileExplorerComponent implements OnInit {
     this.showContextMenu = false;
     this.folderService.zip(folderId).subscribe(
       (response) => {
-        console.log(response);
+        console.log(response, "responseee ");
+        const url = window.URL.createObjectURL(
+          new Blob([response], {type: "application/zip"})
+        );
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', "name");
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+        this.toastr.success('Download done');
       },
       (error) => {
         console.log(error);
@@ -850,5 +820,4 @@ export class FileExplorerComponent implements OnInit {
     return `${sizeInNumber.toFixed(2)} ${units[i]}`;
   }
 
- 
 }

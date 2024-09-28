@@ -5,7 +5,6 @@
     (ngModelChange)="search()"
     placeholder="Search folders and files"/>
 </div>
-
 <div class="bigContainer">
 <div class="navigation-container">
   <div class="breadcrumb-container">
@@ -161,9 +160,6 @@
   <div [ngClass]="{'container': viewMode === 'grid', 'list-view': viewMode === 'list' && selectedFolder}">
     <div *ngIf="selectedFolder; else noFolderSelected"> 
       <div class="container">
-        <!-- <div *ngIf="selectedFolder && (selectedFolder.childFolders.length === 0 && selectedFolder.files.length === 0 ) && !searchQuery;" class="no-folder-files">
-          <p>Create folder or upload files</p>
-        </div> -->
         <!-- folders -->
         <div
           *ngFor="let child of selectedFolder.childFolders"

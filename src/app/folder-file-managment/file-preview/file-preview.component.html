@@ -1,28 +1,41 @@
-
 <div class="container">
-  <button class="cancel" (click)="onClose()"><i class="fa-solid fa-xmark "></i></button>
-  <h2 mat-dialog-title>{{name}}</h2>
-  
+  <button class="cancel" (click)="onClose()">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+  <h2 mat-dialog-title>{{ name }}</h2>
+
   <mat-dialog-content>
     <ng-container [ngSwitch]="data.contentType">
-      <img *ngSwitchCase="'image/jpeg'" [src]="data.base64Data" alt="Image Preview" class="image-preview" />
-      <img *ngSwitchCase="'image/png'" [src]="data.base64Data" alt="Image Preview" class="image-preview" />
-      <img *ngSwitchCase="'image/gif'" [src]="data.base64Data" alt="Image Preview" class="image-preview" />
-  
-      <iframe *ngSwitchCase="'application/pdf'" [src]="safePdfUrl" class="pdf-preview"></iframe>
-      <!-- <object *ngSwitchCase="'application/pdf'" [data]="safePdfUrl" type="application/pdf" width="100%" height="500px">
-      </object>  -->
-      
-      <pre *ngSwitchCase="'text/plain'" class="text-preview">{{decodedText}}</pre>
-  
+      <img
+        *ngSwitchCase="'image/jpeg'"
+        [src]="data.base64Data"
+        alt="Image Preview"
+        class="image-preview"
+      />
+      <img
+        *ngSwitchCase="'image/png'"
+        [src]="data.base64Data"
+        alt="Image Preview"
+        class="image-preview"
+      />
+      <img
+        *ngSwitchCase="'image/gif'"
+        [src]="data.base64Data"
+        alt="Image Preview"
+        class="image-preview"
+      />
+
+      <iframe
+        *ngSwitchCase="'application/pdf'"
+        [attr.src]="safePdfUrl"
+        class="pdf-preview"
+      ></iframe>
+
+      <pre *ngSwitchCase="'text/plain'" class="text-preview">{{
+        decodedText
+      }}</pre>
+
       <p *ngSwitchDefault>Preview not supported for this file type.</p>
     </ng-container>
   </mat-dialog-content>
-  </div>
-  
-
-
-
-
-
-
+</div>

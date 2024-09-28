@@ -236,7 +236,7 @@ export class FolderServiceService {
   }
 
   async buildPathFromFolder(folder: any): Promise<void> {
-    let path = [{ id: folder.id, name: folder.name }];
+    let path = [{ id: folder?.id, name: folder?.name }];
     let currentFolder = folder;
 
     while (currentFolder.parentFolderId) {
@@ -305,22 +305,6 @@ clearSelectedItem(): void {
   this.selectedItemSubject.next(null);
 }
 
-  // search
-  // searchFolder(parentId:number, name:string):Observable<any>{
-  //   const url = `${this.apiUrl}/search/${parentId}?name=${name}`
-  //   const headers = new HttpHeaders({
-  //     'Accept': '*/*'
-  //   });
-  //   return this.http.get<any>(url, {headers})
-  // }
-
-  // searchFile(parentId:number, name:string):Observable<any>{
-  //   const url = `${this.fileUrl}/files/searchByName/${parentId}?name=${name}`
-  //   const headers = new HttpHeaders({
-  //     'Accept': '*/*'
-  //   });
-  //   return this.http.get<any>(url, {headers})
-  // }
 
   searchFolder(name: string, parentId?: number): Observable<any> {
     let url = `${this.apiUrl}/search?name=${name}`;
@@ -376,7 +360,7 @@ clearSelectedItem(): void {
       responseType: 'blob',   headers: this.getAuthHeaders(),
     }).pipe(
       tap(() => this.folderChangeSubject.next()),
-      catchError(this.handleError));
+      catchError(this.handleError))
   }
 
   unzip(folderId:number){

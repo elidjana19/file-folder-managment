@@ -290,9 +290,12 @@ export class HeaderComponent {
 
   openPreviewDialog() {
     if (this.selectedFile) {
-      this.folderService.preview(this.selectedFile.id).subscribe((response) => {
-        const base64Data = `data:${response.contentType};base64,${response.base64}`;
-        console.log(base64Data);
+      this.folderService.preview(this.selectedFile?.id).subscribe((response) => {
+        const base64Data = `data:${response.contentType},base64:${response.base64}`;
+        console.log(this.selectedFile.name, "name")
+        console.log(response.contentType, "content type")
+        console.log(base64Data, "base64");
+
         this.dialog.open(FilePreviewComponent, {
           data: {
             name: this.selectedFile.name,
@@ -368,6 +371,26 @@ export class HeaderComponent {
       }
     );
   }
+
+  downloadZip(zipfolder:any){
+//api call
+if(zipfolder.type==='zipfolder'){
+  const blob = new Blob([zipfolder['_body']], { type: 'application/zip' });
+
+    const a: any = document.createElement('a');
+    document.body.appendChild(a);
+
+    a.style = 'display: none';    
+    const url = window.URL.createObjectURL(blob);
+   // a.href = url;
+   // a.download = test.zip;
+   // a.click();
+    //window.URL.revokeObjectURL(url);
+
+  }
+}
+  
+
 
   onPathClick(index: number): void {
     // array that contains from the start of path to the clicked folder

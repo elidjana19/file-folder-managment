@@ -1,8 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
-import jwtDecode from 'jwt-decode';
-import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
 
 interface AuthResponse {
@@ -11,7 +9,6 @@ interface AuthResponse {
 }
 interface DecodedToken {
   role: string;
-  // Add other fields from the token if necessary
 }
 
 @Injectable({
